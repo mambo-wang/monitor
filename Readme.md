@@ -17,11 +17,14 @@
 - Filebeat  日志采集
 - Kibana  ES可视化
 - ClickHouse(待实现) 列数据库
-- TDengine(待实现)  时序数据库
+- TDengine或InfluxDB(待实现)  时序数据库
+- Promethus （待实现）
+- Grafana （待实现）开源报表
 - Logstash(待实现)
 
 ## 代码架构
 
+### agent单体多模块服务
 - watcher-agent：程序主入口/资源管理/定时任务执行
 - watcher-log：日志收集策略下发/日志实时收集/全文检索
 - watcher-builder：打包, 注意此代码库已将各个依赖的安装包删除，因此部署时不会自动安装jdk mongo kafka es 等依赖
