@@ -1,0 +1,154 @@
+[
+  {
+    "frequency": 1,
+    "hash": "desktop_pool_basic_0524",
+    "metric": "desktop_pool_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "desktop_pool_vm_relation_0524",
+    "metric": "desktop_pool_vm_relation",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "terminal_basic_0524",
+    "metric": "terminal_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "cluster_basic_0524",
+    "metric": "cluster_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "host_basic_0524",
+    "metric": "host_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "domain_basic_0524",
+    "metric": "domain_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "storage_pool_basic_0524",
+    "metric": "storage_pool_basic",
+    "platform": "workspace",
+    "tags": "resourceId=134;hostId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "cluster_basic_0525",
+    "metric": "cluster_basic",
+    "platform": "cas",
+    "tags": "resourceId=128",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "host_basic_0525",
+    "metric": "host_basic",
+    "platform": "cas",
+    "tags": "resourceId=128",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "domain_basic_0525",
+    "metric": "domain_basic",
+    "platform": "cas",
+    "tags": "resourceId=128",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "storage_pool_basic_0525",
+    "metric": "storage_pool_basic",
+    "platform": "cas",
+    "tags": "resourceId=128;hostId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "share_file_basic_0525",
+    "metric": "share_file_basic",
+    "platform": "cas",
+    "tags": "resourceId=128;clusterId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "share_file_host_basic_0525",
+    "metric": "share_file_host_basic",
+    "platform": "cas",
+    "tags": "resourceId=128;clusterId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "cluster_basic_0525",
+    "metric": "cluster_basic",
+    "platform": "uis",
+    "tags": "resourceId=173",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "host_basic_0525",
+    "metric": "host_basic",
+    "platform": "uis",
+    "tags": "resourceId=173",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "domain_basic_0525",
+    "metric": "domain_basic",
+    "platform": "uis",
+    "tags": "resourceId=173",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "storage_pool_basic_0525",
+    "metric": "storage_pool_basic",
+    "platform": "uis",
+    "tags": "resourceId=173;hostId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "share_file_basic_0525",
+    "metric": "share_file_basic",
+    "platform": "uis",
+    "tags": "resourceId=173;clusterId=1",
+    "unit": "minute"
+  },
+  {
+    "frequency": 1,
+    "hash": "share_file_host_basic_0525",
+    "metric": "share_file_host_basic",
+    "platform": "uis",
+    "tags": "resourceId=173;clusterId=1",
+    "unit": "minute"
+  }
+]

@@ -1,0 +1,31 @@
+package com.virtual.cloud.om.log.entity;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
+import java.util.Set;
+
+/**
+ * @Author: w22798
+ * @Date: 2022/5/10 14:50
+ */
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Document(collection = "RealTimeLogStrategy")//相当于数据库里的表名
+public class RealTimeLogStrategy {
+
+    private String resourceId;
+
+    private String platform;
+
+    private Set<String> targets;
+
+    private Set<String> logPaths;
+}

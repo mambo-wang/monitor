@@ -1,0 +1,13 @@
+[Unit]
+Description=oad-watcher-agent-nginx
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=WATCHER_HOME/components/nginx/startup.sh
+ExecReload=WATCHER_HOME/components/nginx/restart.sh
+ExecStop=WATCHER_HOME/components/nginx/shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

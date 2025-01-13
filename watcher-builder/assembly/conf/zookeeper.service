@@ -1,0 +1,13 @@
+[Unit]
+Description=oad-watcher-agent-zookeeper
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=WATCHER_HOME/components/zookeeper/startup.sh
+ExecReload=WATCHER_HOME/components/zookeeper/restart.sh
+ExecStop=WATCHER_HOME/components/zookeeper/shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,13 @@
+[Unit]
+Description=oad-watcher-agent-keepalived
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=WATCHER_HOME/components/keepalived/startup.sh
+ExecReload=WATCHER_HOME/components/keepalived/restart.sh
+ExecStop=WATCHER_HOME/components/keepalived/shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>oad-watcher</artifactId>
+        <groupId>com.virtual.cloud.om</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>watcher-builder</artifactId>
+    <packaging>pom</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.0.0</version>
+
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <configuration>
+                            <target name="package">
+                                <echo>Begin oad-watcher assembly project!</echo>
+
+                                <!--脚本目录-->
+                                <copy todir="${project.build.directory}/watcher/" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/assembly"></fileset>
+                                </copy>
+
+                                <!--Agent Jar包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/bin" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-agent/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Agent 默认配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/application.properties">
+                                </copy>
+
+                                <!--Agent 生产环境配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/application-prod.properties">
+                                </copy>
+
+                                <!--Agent 日志配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/logback-prod.xml">
+                                </copy>
+
+                                <!--Agent 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-agent/target/lib"></fileset>
+                                </copy>
+
+                                <!-- 采集器jar包删除 -->
+                                <delete file="${project.build.directory}/watcher/lib/watcher-workspace-1.0.0.jar"></delete>
+                                <delete file="${project.build.directory}/watcher/lib/watcher-uis-1.0.0.jar"></delete>
+                                <delete file="${project.build.directory}/watcher/lib/watcher-cas-1.0.0.jar"></delete>
+                                <delete file="${project.build.directory}/watcher/lib/watcher-log-1.0.0.jar"></delete>
+                                <delete file="${project.build.directory}/watcher/lib/watcher-onestor-1.0.0.jar"></delete>
+                                <delete file="${project.build.directory}/watcher/lib/watcher-self-1.0.0.jar"></delete>
+
+                                <!--Agent 配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-agent/target/conf">
+                                        <include name="*"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Workspace Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-workspace/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--CAS Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-cas/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--UIS Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-uis/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--LOG Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-log/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Onestor Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-onestor/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Self Plugin包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../watcher-self/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Workspace Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-workspace/target/lib"></fileset>
+                                </copy>
+
+                                <!--CAS Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-cas/target/lib"></fileset>
+                                </copy>
+
+                                <!--UIS Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-uis/target/lib"></fileset>
+                                </copy>
+
+                                <!--LOG Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-log/target/lib"></fileset>
+                                </copy>
+
+                                <!--Onestor Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-onestor/target/lib"></fileset>
+                                </copy>
+
+                                <!--Self Plugin 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../watcher-self/target/lib"></fileset>
+                                </copy>
+
+                            </target>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+
+    </build>
+</project>

@@ -1,0 +1,28 @@
+[
+  {
+    "ac": "admin",
+    "ci": "zr5V0CX44QdJeiVgNDZoMg==",
+    "ipAddress": "10.99.224.131",
+    "serverUsername": "root",
+    "serverPort": 22,
+    "platform": "workspace",
+    "serverPassword": "pmiCdJgUMWojit+jzcyWfw==",
+    "protocol": "http",
+    "port": 8083,
+    "id": "131",
+    "authType": "Digest"
+  },
+  {
+    "ac": "admin",
+    "ci": "zr5V0CX44QdJeiVgNDZoMg==",
+    "ipAddress": "10.99.224.137",
+    "serverUsername": "root",
+    "serverPassword": "pmiCdJgUMWojit+jzcyWfw==",
+    "serverPort": 22,
+    "platform": "workspace",
+    "protocol": "http",
+    "port": 8083,
+    "id": "137",
+    "authType": "Digest"
+  }
+]

@@ -1,0 +1,24 @@
+{
+  "nodes": [
+    {
+      "ip": "10.99.224.224",
+      "username": "root",
+      "password": "6vUv7hBytR8pqW3PY+zW1A==",
+      "isMaster": true
+    },
+    {
+      "ip": "10.99.224.225",
+      "username": "root",
+      "password": "6vUv7hBytR8pqW3PY+zW1A==",
+      "isMaster": false
+    },
+    {
+      "ip": "10.99.224.226",
+      "username": "root",
+      "password": "6vUv7hBytR8pqW3PY+zW1A==",
+      "isMaster": false
+    }
+  ],
+  "mask": "255.255.255.0",
+  "vip": "10.99.224.231"
+}

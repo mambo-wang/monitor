@@ -1,0 +1,13 @@
+[Unit]
+Description=oad-watcher-agent-mongodb
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=WATCHER_HOME/components/mongodb/startup.sh
+ExecReload=WATCHER_HOME/components/mongodb/restart.sh
+ExecStop=WATCHER_HOME/components/mongodb/shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

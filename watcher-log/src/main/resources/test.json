@@ -1,0 +1,68 @@
+[
+  {
+    "logs": [
+      {
+        "logPath": "/var/log/vdi/controller/controller.log",
+        "logType": "workspace_controller",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/vdi/workspace-server/workspace.log",
+        "logType": "workspace_server",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/tomcat/cas.log",
+        "logType": "cas_server",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/uis-core/uis.log",
+        "logType": "uis_server",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/vdi/controller/grpc.log",
+        "logType": "workspace_grpc",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/vdi/controller/grpc-client.log",
+        "logType": "workspace_grpc_client",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/lib/casserver/logs/casserver.log",
+        "logType": "cas_casserver",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/tomcat/catalina.out",
+        "logType": "cas_catalina",
+        "targetType": "server"
+      },
+      {
+        "logPath": "/var/log/libvirt/qemu/*.log",
+        "logType": "cas_qemu",
+        "targetType": "vm"
+      },
+      {
+        "logPath": "/var/log/message",
+        "logType": "cas_message",
+        "targetType": "host"
+      },
+      {
+        "logPath": "/var/log/message",
+        "logType": "cas_message",
+        "targetType": "host"
+      },
+      {
+        "logPath": "/var/log/libvirt/libvirt.log",
+        "logType": "cas_libvirt",
+        "targetType": "host"
+      }
+    ],
+    "platform": "workspace",
+    "tags": "resourceId=131"
+  }
+]

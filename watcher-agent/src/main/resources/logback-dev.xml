@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="300 seconds">
+    <!-- 日志目录   -->
+    <property name="LOG_HOME" value="../logs"/>
+    <!--    日志文件名-->
+    <property name="APP_NAME" value="watcher-agent"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_HOME}/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>
+                %date{yyyy-MM-dd HH:mm:ss.SSS}[%-5level][%thread][%X{request.uuid}][%X{remote.addr}]%logger{96}.%method [%line] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--注意这个路径会在编译脚本里替换为系统变量，不要随便改-->
+            <fileNamePattern>${LOG_HOME}/${APP_NAME}%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- 单个日志文件最多500MB -->
+            <MaxFileSize>500MB</MaxFileSize>
+            <maxHistory>20</maxHistory>
+            <!--真实系统里，log分区最大只有20G-->
+            <totalSizeCap>5GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!-- Console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %date{yyyy-MM-dd HH:mm:ss}[%-5level][%thread][%X{request.uuid}]%logger{96}.%method [%line] - %msg%n
+            </pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="FILE"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <logger name="com.novemberain.quartz" level="WARN"></logger>
+</configuration>

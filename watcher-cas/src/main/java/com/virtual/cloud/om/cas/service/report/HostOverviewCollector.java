@@ -1,0 +1,67 @@
+package com.virtual.cloud.om.cas.service.report;
+
+import cn.hutool.core.collection.CollectionUtil;
+import com.virtual.cloud.om.sdk.api.DataReportCollector;
+import com.virtual.cloud.om.sdk.config.rest.cas.CasRestConnection;
+import com.virtual.cloud.om.sdk.constant.DataReportTypeByMetricEnum;
+import com.virtual.cloud.om.sdk.constant.report.ReportDataTypeEnum;
+import com.virtual.cloud.om.sdk.constant.uri.CasUriConstants;
+import com.virtual.cloud.om.sdk.dto.dataReport.DataValueAndTagsDTO;
+import com.virtual.cloud.om.sdk.dto.dataReport.cas.HostOverviewDTO;
+import com.virtual.cloud.om.sdk.exception.AppException;
+import com.virtual.cloud.om.sdk.exception.ErrorCodes;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.List;
+
+/**
+ * @author:XK
+ * @Date:2022/5/21 15:07
+ */
+
+/**
+ * 查询指定主机的概要信息
+ */
+@Service
+@RequiredArgsConstructor
+@Slf4j
+public class HostOverviewCollector extends DataReportCollector {
+    private final CasRestConnection casRestConnection;
+
+    @Override
+    protected List<DataValueAndTagsDTO> collect(String platform, String host, String protocol, Integer port, String username, String password, String tags, String resourceId) {
+        String goal = "hostIds";
+        List<String> hostIds = getId(goal, tags);
+        if (CollectionUtil.isNotEmpty(hostIds)) {
+            String hostId = hostIds.get(0);
+            String url = String.format(CasUriConstants.Host.QUERY_HOST_OVERVIEW, hostId);
+            HostOverviewDTO hostOverviewDTO = null;
+            try {
+                hostOverviewDTO = this.casRestConnection.get(platform, host, protocol, port,
+                        username, password, url, new ParameterizedTypeReference<HostOverviewDTO>() {
+                        });
+            } catch (Exception e) {
+                log.error("cas rest fail: " + e);
+                throw new AppException(ErrorCodes.RESOURCE_EXCEPTION_REASION, url,e.getMessage());
+            }
+            //todo 需转换为数据中心需要的是数据结构
+            // TODO 数据上报修改
+//            return hostOverviewDTO;
+        }
+        return Collections.emptyList();
+    }
+
+    @Override
+    public DataReportTypeByMetricEnum metric() {
+        return DataReportTypeByMetricEnum.host_overview;
+    }
+
+    @Override
+    public ReportDataTypeEnum valueType() {
+        return ReportDataTypeEnum.json;
+    }
+}

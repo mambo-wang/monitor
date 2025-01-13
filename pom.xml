@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.virtual.cloud.om</groupId>
+    <artifactId>oad-watcher</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>watcher-agent</module>
+        <module>watcher-cas</module>
+        <module>watcher-sdk</module>
+        <module>watcher-uis</module>
+        <module>watcher-workspace</module>
+        <module>watcher-builder</module>
+        <module>watcher-log</module>
+        <module>watcher-onestor</module>
+        <module>watcher-self</module>
+    </modules>
+
+    <properties>
+        <spring-boot.version>2.5.12</spring-boot.version>
+        <commons-lang3.version>3.12.0</commons-lang3.version>
+        <commons-net.version>3.3</commons-net.version>
+        <commons-collections.version>3.2.2</commons-collections.version>
+        <lombok.version>1.18.22</lombok.version>
+        <httpclient.version>4.5.13</httpclient.version>
+        <java.version>1.8</java.version>
+        <swagger.version>2.9.2</swagger.version>
+        <swagger-models.version>1.5.22</swagger-models.version>
+        <knife4j.version>2.0.4</knife4j.version>
+        <jcraft.version>0.1.54</jcraft.version>
+        <watcher.version>1.0.0</watcher.version>
+        <kafka.spring.version>2.8.0</kafka.spring.version>
+        <kafka.version>3.0.0</kafka.version>
+        <spring.aop.version>5.0.8.RELEASE</spring.aop.version>
+        <aspect.version>1.8.9</aspect.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
+        <hutool.version>5.7.15</hutool.version>
+        <jwt.version>3.4.0</jwt.version>
+        <jjwt.version>0.9.0</jjwt.version>
+        <gson.version>2.5</gson.version>
+        <quartz.version>2.2.3</quartz.version>
+        <spring.context.support.version>5.3.19</spring.context.support.version>
+        <quartz-mongodb.version>2.2.0-rc2</quartz-mongodb.version>
+        <spring-tx.version>5.3.19</spring-tx.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-processor</artifactId>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>com.virtual.cloud.om</groupId>
+                <artifactId>watcher-sdk</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-collections</groupId>
+                <artifactId>commons-collections</artifactId>
+                <version>${commons-collections.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${httpclient.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-net</groupId>
+                <artifactId>commons-net</artifactId>
+                <version>${commons-net.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+
+    <build>
+
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>*</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <!-- 复制依赖 -->
+                    <executions>
+                        <execution>
+                            <id>copy-dependencies</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-dependencies</goal>
+                            </goals>
+                            <configuration>
+                                <!-- 依赖包 输出目录 -->
+                                <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <!-- 复制资源 -->
+                    <executions>
+                        <execution>
+                            <id>copy-resources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>copy-resources</goal>
+                            </goals>
+                            <configuration>
+                                <resources>
+                                    <resource>
+                                        <directory>src/main/resources</directory>
+                                    </resource>
+                                </resources>
+                                <!-- 资源文件 输出目录 -->
+                                <outputDirectory>${project.build.directory}/conf</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+</project>

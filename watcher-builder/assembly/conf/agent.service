@@ -1,0 +1,13 @@
+[Unit]
+Description=oad-watcher-agent
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=WATCHER_HOME/bin/startup.sh
+ExecReload=WATCHER_HOME/bin/restart.sh
+ExecStop=WATCHER_HOME/bin/shutdown.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
