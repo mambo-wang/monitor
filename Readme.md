@@ -9,6 +9,7 @@
 - 爬虫/知识库
 
 ## 技术栈
+![ShowTime架构图](https://gitee.com/wangman1991/fileSystem/blob/master/ShowTime/ShowTime.PNG)
 
 - SpringBoot  代码框架
 - Quartz  定时任务
