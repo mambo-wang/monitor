@@ -25,7 +25,7 @@
 
 ## 代码架构
 
-### agent单体多模块服务
+### watcher单体多模块服务
 - watcher-agent：程序主入口/资源管理/定时指标采集
 - watcher-log：日志收集策略下发/日志实时收集/全文检索
 - watcher-builder：打包, 注意此代码库已将各个依赖的安装包删除，因此部署时不会自动安装jdk mongo kafka es 等依赖
