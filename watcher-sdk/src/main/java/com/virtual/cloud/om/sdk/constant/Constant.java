@@ -214,7 +214,8 @@ public interface Constant {
         String TARGET_TYPE_HOST = "host";
         String TARGET_TYPE_VM = "vm";
         String TARGET_TYPE_CLIENT = "client";
-        String ES_INDEX_NAME_LOG="serverlognew";
+        String ES_INDEX_NAME_LOG="serverlog";
+        String ES_INDEX_NAME_LOG_ALIAS="serverlog.aliases";
 
     }
 

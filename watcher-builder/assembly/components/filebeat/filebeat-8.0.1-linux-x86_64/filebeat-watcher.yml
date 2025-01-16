@@ -1,0 +1,16 @@
+# ============================== log path ==============================
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/vdi/controller/controller.log
+
+# ============================== modules ==============================
+filebeat.config.modules:
+  path: ${path.config}/modules.d/*.yml
+  reload.enabled: false
+
+# ============================== kafka output ==============================
+output.kafka:
+  hosts: ["watcher001:9092"]
+  topic: "topic-filebeat-receiver"

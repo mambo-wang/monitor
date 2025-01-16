@@ -81,7 +81,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-websocket</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.spring4all</groupId>
             <artifactId>mongodb-plus-spring-boot-starter</artifactId>

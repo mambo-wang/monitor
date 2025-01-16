@@ -18,6 +18,7 @@ import com.virtual.cloud.om.sdk.exception.ErrorCodes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -47,6 +48,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Service("onestorRestConnection")
 @Slf4j
+@ConditionalOnProperty(name = "rest-client.onestor.enable", havingValue = "true")
 public class OnestorRestConnection {
 
     @Resource

@@ -51,12 +51,7 @@
         },
         "message" : {
           "type" : "text",
-          "fields" : {
-            "keyword" : {
-              "type" : "keyword",
-              "ignore_above" : 256
-            }
-          }
+          "analyzer": "ik_max_word"
         },
         "method" : {
           "type" : "text",

@@ -4,6 +4,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,7 @@ import java.util.Properties;
  */
 @EnableConfigurationProperties(KafkaProducerProperties.class)
 @Configuration
-@ConditionalOnMissingBean(value = KafkaProducer.class)
+@ConditionalOnProperty(prefix = "kafka", name = "enable", havingValue = "true", matchIfMissing = false)
 public class KafkaProducerConfig {
 
     @Autowired

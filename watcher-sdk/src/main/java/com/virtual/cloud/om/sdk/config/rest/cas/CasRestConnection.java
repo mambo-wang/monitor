@@ -24,7 +24,7 @@ import java.util.Optional;
  * REST连接获取MGR
  */
 @Service("casRestConnection")
-@ConditionalOnProperty(name = "rest-client.cas.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "rest-client.cas.enable", havingValue = "true", matchIfMissing = false)
 public class CasRestConnection {
     /**
      * 日志

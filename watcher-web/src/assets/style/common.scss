@@ -1,0 +1,141 @@
+@import "./transition.scss";
+@import "@/theme/index.scss";
+.layout-container {
+  background-color: var(--system-container-main-background);
+  width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  margin: 20px 25px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  &-form {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 15px 0;
+    &-handle {
+      display: flex;
+      justify-content: flex-start;
+      .export-excel-btn {
+        margin-left: 15px;
+      }
+    }
+    &-search {
+      display: flex;
+      justify-content: flex-end;
+      .search-btn {
+        margin-left: 15px;
+      }
+    }
+    .el-form-item {
+      margin-bottom: 0;
+    }
+  }
+  &-table {
+    flex: 1;
+    height: 100%;
+    padding: 15px;
+    overflow: auto;
+  }
+}
+.flex-box {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+}
+.flex {
+  display: flex;
+}
+.center {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+a {
+  text-decoration: none;
+}
+
+/** element-plus **/
+.el-icon {
+  text-align: center;
+}
+
+/** 用于提示信息 **/
+.my-tip {
+  background-color: #f1f1f1;
+  padding: 5px 10px;
+  text-align: left;
+  border-radius: 4px;
+}
+.system-scrollbar {
+  &::-webkit-scrollbar {
+    display: none;
+    width: 6px;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    background: rgba(144, 147, 153, 0.3);
+  }
+  &:hover {
+    &::-webkit-scrollbar {
+      display: block;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background: rgba(144, 147, 153, 0.3);
+      &:hover {
+        background: rgba(144, 147, 153, 0.5);
+      }
+    }
+  }
+}
+
+.div-left {
+  float: left;
+}
+.marginleft {
+  margin-left: 20px;
+}
+.el-main-box {
+  height: 100%;
+}
+.middlebtn {
+  height: 32px;
+  width: 77px;
+  border-radius: 5px;
+}
+
+.el-input--mini .el-input__inner {
+  height: 32px;
+}
+.el-range-editor--mini.el-input__inner {
+  height: 32px;
+}
+.el-range-editor.el-input__inner {
+  padding: 0px 10px;
+}
+.el-button--mini {
+  font-size: 14px;
+  height: 32px;
+}
+.unified-button {
+  min-width: 80px;
+}
+
+.el-message-box__header {
+  border-bottom: 1px solid #f0f0f0;
+}
+.el-message-box__content {
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+
+.el-tag--mini {
+  font-size: 13px;
+}
+
+.el-popper is-dark {
+  width: 300px;
+}

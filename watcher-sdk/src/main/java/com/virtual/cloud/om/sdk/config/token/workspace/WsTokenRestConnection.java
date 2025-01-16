@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service("wsTokenRestConnection")
-@ConditionalOnProperty(name = "rest-client.ws.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "rest-client.ws.enable", havingValue = "true", matchIfMissing = false)
 @SuppressWarnings("all")
 public class WsTokenRestConnection {
 

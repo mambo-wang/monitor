@@ -12,6 +12,13 @@ BIN_DIR=`dirname "$WATCHER_BIN"`
 echo "[INFO] watcher home is ${WATCHER_HOME}"
 echo "${WATCHER_HOME}" > /etc/watcher_home
 
+\cp -af ${WATCHER_HOME} /tmp
+
+bash ${WATCHER_HOME}/components/startup.sh master
+bash ${WATCHER_HOME}/components/mongodb/master.sh
+bash ${WATCHER_HOME}/bin/startup.sh
+bash ${WATCHER_HOME}/bin/register_as_system_service_and_start.sh
+
 echo "[INFO] watcher add crontab check is ${WATCHER_HOME}/bin/check.sh"
 echo "*/1 * * * * sh ${WATCHER_HOME}/bin/check.sh" >> /var/spool/cron/root
 echo "KexAlgorithms curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521" >> /etc/ssh/sshd_config

@@ -12,6 +12,7 @@ import org.apache.kafka.common.requests.DescribeLogDirsResponse;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "kafka", name = "enable", havingValue = "true", matchIfMissing = false)
 public class KafkaConsole {
 
     @Value("${spring.kafka.consumer.group-id}")

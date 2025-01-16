@@ -30,7 +30,7 @@ import java.util.Optional;
  * REST连接获取MGR
  */
 @Service("wsRestConnection")
-@ConditionalOnProperty(name = "rest-client.ws.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "rest-client.ws.enable", havingValue = "true", matchIfMissing = false)
 public class WsRestConnection {
     @Value("${vdi.ws.admin.username}")
     private String username;

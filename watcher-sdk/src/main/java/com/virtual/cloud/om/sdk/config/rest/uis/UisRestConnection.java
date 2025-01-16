@@ -42,7 +42,7 @@ import java.util.Optional;
  */
 @Slf4j
 @Service("uisRestConnection")
-@ConditionalOnProperty(name = "rest-client.uis.enable", havingValue = "true", matchIfMissing = true)
+@ConditionalOnProperty(name = "rest-client.uis.enable", havingValue = "true", matchIfMissing = false)
 public class UisRestConnection {
     @Autowired
     private RestTemplate restTemplate;
