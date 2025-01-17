@@ -26,10 +26,14 @@
 
 ## 代码架构
 
+### performer单体多模块服务
+- performer-service: 监控数据查询展示
 ### watcher单体多模块服务
-- watcher-agent：程序主入口/资源管理/定时指标采集
+- watcher-agent：采集程序主入口/资源管理/定时指标采集
+### 公共模块
 - watcher-log：日志收集策略下发/日志实时收集/全文检索
 - watcher-builder：打包, 注意此代码库已将各个依赖的安装包删除，因此部署时不会自动安装jdk mongo kafka es 等依赖
 - watcher-workspace/cas/uis/onestor：各个产品的指标收集/日志格式解析/告警上报
 - watcher-sdk：公共配置/DTO/工具类
 
+### watcher-web：采集程序前端服务

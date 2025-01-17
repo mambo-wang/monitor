@@ -18,6 +18,7 @@
         <module>watcher-log</module>
         <module>watcher-onestor</module>
         <module>watcher-self</module>
+        <module>performer-service</module>
     </modules>
 
     <properties>
