@@ -39,18 +39,26 @@
                                     </fileset>
                                 </copy>
 
+                                <!--Performer Jar包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/bin" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../performer-service/target">
+                                        <include name="*.jar"></include>
+                                    </fileset>
+                                </copy>
+
                                 <!--Agent 默认配置文件拷贝-->
-                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                <copy todir="${project.build.directory}/watcher/conf/watcher" overwrite="true" quiet="true" failonerror="false"
                                       file="${project.basedir}/../watcher-agent/target/classes/application.properties">
                                 </copy>
 
                                 <!--Agent 生产环境配置文件拷贝-->
-                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                <copy todir="${project.build.directory}/watcher/conf/watcher" overwrite="true" quiet="true" failonerror="false"
                                       file="${project.basedir}/../watcher-agent/target/classes/application-prod.properties">
                                 </copy>
 
                                 <!--Agent 日志配置文件拷贝-->
-                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true" quiet="true" failonerror="false"
+                                <copy todir="${project.build.directory}/watcher/conf/watcher" overwrite="true" quiet="true" failonerror="false"
                                       file="${project.basedir}/../watcher-agent/target/classes/logback-prod.xml">
                                 </copy>
 
@@ -58,6 +66,27 @@
                                 <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
                                       failonerror="false">
                                     <fileset dir="${project.basedir}/../watcher-agent/target/lib"></fileset>
+                                </copy>
+
+                                <!--Performer 默认配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf/performer" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/application.properties">
+                                </copy>
+
+                                <!--Performer 生产环境配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf/performer" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/application-prod.properties">
+                                </copy>
+
+                                <!--Performer 日志配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf/performer" overwrite="true" quiet="true" failonerror="false"
+                                      file="${project.basedir}/../watcher-agent/target/classes/logback-prod.xml">
+                                </copy>
+
+                                <!--Performer 依赖包拷贝-->
+                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
+                                      failonerror="false">
+                                    <fileset dir="${project.basedir}/../performer-service/target/lib"></fileset>
                                 </copy>
 
                                 <!-- 采集器jar包删除 -->
@@ -69,9 +98,17 @@
                                 <delete file="${project.build.directory}/watcher/lib/watcher-self-1.0.0.jar"></delete>
 
                                 <!--Agent 配置文件拷贝-->
-                                <copy todir="${project.build.directory}/watcher/conf" overwrite="true"
+                                <copy todir="${project.build.directory}/watcher/conf/watcher" overwrite="true"
                                       failonerror="false" quiet="true">
                                     <fileset dir="${project.basedir}/../watcher-agent/target/conf">
+                                        <include name="*"></include>
+                                    </fileset>
+                                </copy>
+
+                                <!--Performer 配置文件拷贝-->
+                                <copy todir="${project.build.directory}/watcher/conf/performer" overwrite="true"
+                                      failonerror="false" quiet="true">
+                                    <fileset dir="${project.basedir}/../performer-service/target/conf">
                                         <include name="*"></include>
                                     </fileset>
                                 </copy>

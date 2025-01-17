@@ -50,7 +50,7 @@ BIN_DIR=`dirname "$WATCHER_BIN"`
 [ -z "$PLUGIN_DIR" ] && PLUGIN_DIR=`cd "$WATCHER_ROOT/plugins" >/dev/null;pwd`
 
 # Get watcher conf
-[ -z "$CONF_DIR" ] && CONF_DIR=`cd "$WATCHER_ROOT/conf" >/dev/null;pwd`
+[ -z "$CONF_DIR" ] && CONF_DIR=`cd "$WATCHER_ROOT/conf/watcher" >/dev/null;pwd`
 
 echo -e "mkdir log path start" | tee -a ${LOGFILE}
 mkdir -p $WATCHER_ROOT/logs/gc
