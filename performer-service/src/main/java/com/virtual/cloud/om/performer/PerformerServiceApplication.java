@@ -1,10 +1,8 @@
 package com.virtual.cloud.om.performer;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 
 /**
@@ -12,6 +10,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @Date: 2025/1/16 6:16
  */
 @SpringBootApplication(scanBasePackages = {"com.virtual.cloud.om.sdk", "com.virtual.cloud.om.performer"})
+@MapperScan("com.virtual.cloud.om.performer.mapper")
 public class PerformerServiceApplication {
 
     public static String[] args;
