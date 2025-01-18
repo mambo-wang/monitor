@@ -23,3 +23,6 @@ Addition options can be passed to the application:
 - `-DchUser` - ClickHouse user name (default: default)
 - `-DchPassword` - ClickHouse user password (default: empty)
 - `-DchDatabase` - ClickHouse database name (default: default)
+
+ui
+http://192.168.233.10:8123/play?user=default#c2VsZWN0ICogZnJvbSBoYWNrZXJfbmV3c19hcnRpY2xlczs=
