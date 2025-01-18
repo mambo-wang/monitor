@@ -26,3 +26,5 @@ Addition options can be passed to the application:
 
 ui
 http://192.168.233.10:8123/play?user=default#c2VsZWN0ICogZnJvbSBoYWNrZXJfbmV3c19hcnRpY2xlczs=
+
+安装clickhouse的时候把配置文件里的倒数第5行的AmbientCapabilities那一行去掉才行
