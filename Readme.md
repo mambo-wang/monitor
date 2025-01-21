@@ -37,3 +37,8 @@
 - watcher-sdk：公共配置/DTO/工具类
 
 ### watcher-web：采集程序前端服务,vue3
+
+## 运行方式
+- 安装virtualbox软件
+- 导入虚拟机，文件链接：https://pan.quark.cn/s/f0e9824f376b
+- 分配4核8G内存
