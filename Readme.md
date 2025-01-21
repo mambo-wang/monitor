@@ -42,3 +42,4 @@
 - 安装virtualbox软件
 - 导入虚拟机，文件链接：https://pan.quark.cn/s/f0e9824f376b
 - 分配4核8G内存
+- 本地IDE运行程序连接virtualbox虚拟机里的中间件，或者本地打包替换到虚拟机中。
