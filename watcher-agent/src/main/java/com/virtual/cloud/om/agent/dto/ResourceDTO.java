@@ -10,24 +10,24 @@ import lombok.Data;
 public class ResourceDTO {
     @ApiModelProperty("资源类型")
     private ReportResourceEnum platform;
-    @ApiModelProperty("资源ID")
+    @ApiModelProperty("资源ID, 不能重复，非必填")
     private String id;
     @ApiModelProperty("IP地址")
     private String ipAddress;
-    @ApiModelProperty("端口")
+    @ApiModelProperty("HTTP端口")
     private Integer port;
-    @ApiModelProperty("rest认证用户名")
+    @ApiModelProperty("HTTP接口认证用户名")
     private String ac;
-    @ApiModelProperty("rest认证用户密码")
+    @ApiModelProperty("HTTP接口认证用户密码")
     private String ci;
     @ApiModelProperty("访问协议HTTP/HTTPS")
     private String protocol;
-    @ApiModelProperty("认证类型，目前默认统一为Digest")
+    @ApiModelProperty("HTTP接口认证类型，目前默认统一为Digest")
     private String authType;
-    @ApiModelProperty("管理节点用户一般为root")
+    @ApiModelProperty("服务器后台账号一般为root")
     private String serverUsername;
-    @ApiModelProperty("管理节点密码")
+    @ApiModelProperty("服务器后台密码")
     private String serverPassword;
-    @ApiModelProperty("管理节点端口号")
+    @ApiModelProperty("服务器后台SSH端口号")
     private Integer serverPort;
 }

@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.agent.repository;
 
 import com.virtual.cloud.om.agent.entity.ResourceEntity;
-import com.virtual.cloud.om.agent.entity.ResourceRemote;
 import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

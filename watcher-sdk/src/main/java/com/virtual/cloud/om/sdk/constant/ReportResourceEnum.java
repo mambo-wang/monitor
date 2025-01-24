@@ -4,6 +4,6 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum ReportResourceEnum {
-    cas,uis,workspace,onestor, hccAgent,
+    cas,uis,workspace,onestor, hccAgent,normal_host, redis, kafka, mysql, nginx,opengauss,rabbitmq
     ;
 }

@@ -16,8 +16,6 @@ public class JobClassFactory {
             return WarnReportJob.class;
         }else if (StringUtils.equals(Task.TASK_WARN_PULL, taskType)) {
             return PullWarnStrategyJob.class;
-        }else if (StringUtils.equals(Task.TASK_SSH_CLOSE, taskType)){
-            return SshAuthCloseTask.class;
         }else {
             return WatcherJob.class;
         }
