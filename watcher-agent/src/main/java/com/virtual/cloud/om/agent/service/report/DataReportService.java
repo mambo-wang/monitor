@@ -215,6 +215,8 @@ public class DataReportService {
                     String uri = DataCenterUriConstants.REPORT_METRIC;
                     try {
                         //todo wb
+
+
                     } catch (AppException e) {
                         // 数据中心返回了这个code，需要重新上报一次
                         if (e.getErrorCode().equals(ErrorCodes.report_data_error_need_report_again)) {
