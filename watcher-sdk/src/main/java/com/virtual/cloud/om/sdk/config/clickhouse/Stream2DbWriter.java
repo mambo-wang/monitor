@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.performer.clickhouse;
+package com.virtual.cloud.om.sdk.config.clickhouse;
 
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.insert.InsertResponse;
@@ -8,6 +8,7 @@ import com.clickhouse.data.ClickHouseFormat;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
 public class Stream2DbWriter {
 
     private static final String TABLE_NAME = "hacker_news_articles";

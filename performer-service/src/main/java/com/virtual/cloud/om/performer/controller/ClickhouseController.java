@@ -4,19 +4,15 @@ package com.virtual.cloud.om.performer.controller;
 import com.clickhouse.client.api.Client;
 import com.virtual.cloud.om.performer.PerformerServiceApplication;
 import com.virtual.cloud.om.performer.clickhouse.*;
-import com.virtual.cloud.om.performer.clickhouse.data.ArticleViewEvent;
+import com.virtual.cloud.om.sdk.config.clickhouse.POJO2DbWriter;
+import com.virtual.cloud.om.sdk.config.clickhouse.SimpleReader;
+import com.virtual.cloud.om.sdk.config.clickhouse.Stream2DbWriter;
+import com.virtual.cloud.om.sdk.config.clickhouse.TextFormatsReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.time.LocalDateTime;
-import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController

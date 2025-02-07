@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.performer.clickhouse.data;
+package com.virtual.cloud.om.sdk.dto.clickhouse;
 
 import java.util.Objects;
 

@@ -1,12 +1,14 @@
-package com.virtual.cloud.om.performer.config;
+package com.virtual.cloud.om.sdk.config.clickhouse;
 
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.internal.ServerSettings;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
 public class ClickHouseClientConfig {
 
     @Value("${chEndpoint}")
@@ -15,7 +17,7 @@ public class ClickHouseClientConfig {
     private String user;
     @Value("${chPassword}")
     private String password;
-    @Value("${hDatabase}")
+    @Value("${chDatabase}")
     private String hDatabase;
 
     @Bean

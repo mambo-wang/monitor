@@ -7,7 +7,7 @@ import com.clickhouse.client.api.insert.InsertResponse;
 import com.clickhouse.client.api.insert.InsertSettings;
 import com.clickhouse.client.api.internal.ServerSettings;
 import com.clickhouse.client.api.query.QueryResponse;
-import com.virtual.cloud.om.performer.clickhouse.data.PojoWithJSON;
+import com.virtual.cloud.om.sdk.dto.clickhouse.PojoWithJSON;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
