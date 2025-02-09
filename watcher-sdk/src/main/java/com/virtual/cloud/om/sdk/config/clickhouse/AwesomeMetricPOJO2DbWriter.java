@@ -34,7 +34,7 @@ public class AwesomeMetricPOJO2DbWriter {
     @Value("${chEndpoint}")
     String database;
 
-    ArrayList<AwesomeMetric> events;
+    ArrayList<AwesomeMetric> events = new ArrayList<>();
 
     private AtomicBoolean classRegistered = new AtomicBoolean(false);
 
@@ -82,6 +82,7 @@ public class AwesomeMetricPOJO2DbWriter {
 
         if (events.size() >= EVENTS_BATCH_SIZE) {
             flush();
+            events.clear();
         }
     }
 
