@@ -3,13 +3,14 @@ package com.virtual.cloud.om.sdk.config.clickhouse;
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.insert.InsertSettings;
 import com.clickhouse.client.api.query.QueryResponse;
-import com.virtual.cloud.om.sdk.entity.clickhouse.ArticleViewEvent;
+import com.virtual.cloud.om.sdk.entity.clickhouse.AwesomeMetric;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -21,9 +22,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 @ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
-public class POJO2DbWriter {
+public class AwesomeMetricPOJO2DbWriter {
 
-    private static final String TABLE_NAME = "article_view_events";
+    private static final String TABLE_NAME = "awesome_metrics";
 
     private static final int EVENTS_BATCH_SIZE = 10;
 
@@ -33,7 +34,7 @@ public class POJO2DbWriter {
     @Value("${chEndpoint}")
     String database;
 
-    ArrayList<ArticleViewEvent> events;
+    ArrayList<AwesomeMetric> events;
 
     private AtomicBoolean classRegistered = new AtomicBoolean(false);
 
@@ -41,10 +42,11 @@ public class POJO2DbWriter {
         return client.ping();
     }
 
+    @PostConstruct
     public void resetTable() {
-        try (InputStream initSql = POJO2DbWriter.class.getResourceAsStream("/article_view_event_init.sql")) {
+        try (InputStream initSql = AwesomeMetricPOJO2DbWriter.class.getResourceAsStream("/database/init.sql")) {
             // Sending a simple query - no settings required
-            client.query("drop table if exists " + TABLE_NAME).get(3, TimeUnit.SECONDS);
+//            client.query("drop table if exists " + TABLE_NAME).get(3, TimeUnit.SECONDS);
 
             // Reading the SQL file and executing it
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(initSql))) {
@@ -52,7 +54,7 @@ public class POJO2DbWriter {
                 log.debug("Executing Create Table: {}", sql);
                 client.query(sql).get(10, TimeUnit.SECONDS);
                 log.info("Table initialized. Registering class.");
-                client.register(ArticleViewEvent.class, client.getTableSchema(TABLE_NAME));
+                client.register(AwesomeMetric.class, client.getTableSchema(TABLE_NAME));
             }
         } catch (Exception e) {
             log.error("Failed to initialize table", e);
@@ -60,7 +62,7 @@ public class POJO2DbWriter {
     }
 
     public void printLastEvents() {
-        try (QueryResponse response = client.query("select * from " + TABLE_NAME + " order by viewTime desc limit 10 format CSV")
+        try (QueryResponse response = client.query("select * from " + TABLE_NAME + " order by createTime desc limit 10 format CSV")
                 .get(10, TimeUnit.SECONDS)) {
 
             log.info("Last 10 events:");
@@ -75,7 +77,7 @@ public class POJO2DbWriter {
         }
     }
 
-    public synchronized void submit(ArticleViewEvent event) {
+    public synchronized void submit(AwesomeMetric event) {
         events.add(event);
 
         if (events.size() >= EVENTS_BATCH_SIZE) {

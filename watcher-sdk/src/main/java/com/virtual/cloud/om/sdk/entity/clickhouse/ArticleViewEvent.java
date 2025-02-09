@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.sdk.dto.clickhouse;
+package com.virtual.cloud.om.sdk.entity.clickhouse;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

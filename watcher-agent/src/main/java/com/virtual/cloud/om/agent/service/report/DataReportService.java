@@ -7,16 +7,17 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.virtual.cloud.om.agent.dto.DataReportDTO;
 import com.virtual.cloud.om.agent.dto.MandatoryDTO;
 import com.virtual.cloud.om.agent.entity.LastReportStaticDataTime;
 import com.virtual.cloud.om.agent.entity.ResourceEntity;
 import com.virtual.cloud.om.agent.entity.Task;
 import com.virtual.cloud.om.agent.repository.TaskRepository;
 import com.virtual.cloud.om.sdk.api.*;
+import com.virtual.cloud.om.sdk.config.clickhouse.AwesomeMetricPOJO2DbWriter;
 import com.virtual.cloud.om.sdk.constant.Constant;
 import com.virtual.cloud.om.sdk.constant.DataReportTypeByMetricEnum;
 import com.virtual.cloud.om.sdk.constant.ReportResourceEnum;
+import com.virtual.cloud.om.sdk.constant.report.ReportDataTypeEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportErrorTypeEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportMetricEnum;
 import com.virtual.cloud.om.sdk.constant.uri.DataCenterUriConstants;
@@ -24,6 +25,7 @@ import com.virtual.cloud.om.sdk.dto.RestHost;
 import com.virtual.cloud.om.sdk.dto.TaskDTO;
 import com.virtual.cloud.om.sdk.dto.dataReport.ReportErrorDTO;
 import com.virtual.cloud.om.sdk.dto.dataReport.workspace.ReportDTO;
+import com.virtual.cloud.om.sdk.entity.clickhouse.AwesomeMetric;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
 import com.virtual.cloud.om.agent.service.strategy.StrategyService;
@@ -58,6 +60,9 @@ public class DataReportService {
     private StrategyService strategyService;
     private final DataReportCollector[] dataReportCollectors;
     private Map<String, DataReportCollector> collectApiMap = Maps.newConcurrentMap();
+
+    @Autowired
+    private AwesomeMetricPOJO2DbWriter awesomeMetricPOJO2DbWriter;
 
     @Autowired
     public void setStrategyService(StrategyService strategyService) {
@@ -175,8 +180,6 @@ public class DataReportService {
         List<ReportError> reportErrorList = Lists.newCopyOnWriteArrayList();
         CompletableFuture[] completableFutures = Arrays.stream(metrics).map(metric ->
                 CompletableFuture.runAsync(() -> {
-                    DataReportDTO dto = new DataReportDTO();
-                    dto.setPlatform(platform);
                     final List<DataReportTypeByMetricEnum> types =DataReportTypeByMetricEnum.getTypesByMetricAndPlatform(metric, platform);
                     final String traceId = UUID.fastUUID().toString();
                     List<ReportDTO> data = Lists.newCopyOnWriteArrayList();
@@ -209,23 +212,24 @@ public class DataReportService {
                     if(CollUtil.isEmpty(data)){
                         return;
                     }
-                    dto.setData(data);
-                    dto.setReportTimestamp(System.currentTimeMillis());
-                    dto.setTraceId(traceId);
-                    String uri = DataCenterUriConstants.REPORT_METRIC;
                     try {
-                        //todo wb
-
-
-                    } catch (AppException e) {
-                        // 数据中心返回了这个code，需要重新上报一次
-                        if (e.getErrorCode().equals(ErrorCodes.report_data_error_need_report_again)) {
-                            try {
-//todo wb
-                            } catch (Exception e1) {
+                        for (ReportDTO da : data) {
+                            log.info("save data {}", da);
+                            //暂时先处理数字格式的指标
+                            if(da.getType() == ReportDataTypeEnum.gauge){
+                                AwesomeMetric awesomeMetric = new AwesomeMetric();
+                                awesomeMetric.setMetric(da.getMetric().toString());
+                                awesomeMetric.setBatchNum(batchNum);
+                                awesomeMetric.setPlatform(platform.toString());
+                                awesomeMetric.setTraceId(traceId);
+                                awesomeMetric.setCreateTime(da.getTimestamp());
+                                awesomeMetric.setTags(da.getTags());
+                                awesomeMetric.setValue(Double.valueOf(String.valueOf(da.getValue())));
+                                awesomeMetricPOJO2DbWriter.submit(awesomeMetric);
                             }
                         }
-                    } catch (Exception e) {
+                    } catch (AppException e) {
+                        log.error("collect error", e);
                     }
                 })
         ).toArray(CompletableFuture[]::new);
