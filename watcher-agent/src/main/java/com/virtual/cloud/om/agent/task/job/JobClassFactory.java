@@ -10,13 +10,7 @@ public class JobClassFactory {
             return WatcherJob.class;
         } else if (StringUtils.equals(Task.TASK_FILEBEAT_CHECK, taskType)) {
             return FilebeatCheckJob.class;
-        } else if (StringUtils.equals(Task.TASK_STRATEGY_PULL, taskType)) {
-            return PullStrategyJob.class;
-        } else if (StringUtils.equals(Task.TASK_WARN_STRATEGY_ISSUE, taskType)) {
-            return WarnReportJob.class;
-        }else if (StringUtils.equals(Task.TASK_WARN_PULL, taskType)) {
-            return PullWarnStrategyJob.class;
-        }else {
+        } else {
             return WatcherJob.class;
         }
     }

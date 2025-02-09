@@ -33,6 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -224,7 +225,8 @@ public class DataReportService {
                                 awesomeMetric.setTraceId(traceId);
                                 awesomeMetric.setCreateTime(da.getTimestamp());
                                 awesomeMetric.setTags(da.getTags());
-                                awesomeMetric.setValue(Double.valueOf(String.valueOf(da.getValue())));
+                                String value = String.valueOf(da.getValue());
+                                awesomeMetric.setValue(StringUtils.isNumeric(value) ? Double.valueOf(value) : 0.00);
                                 awesomeMetricPOJO2DbWriter.submit(awesomeMetric);
                             }
                         }

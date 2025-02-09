@@ -24,7 +24,7 @@ public class WatcherJob extends AbstractJob{
 
     @Override
     void doJob(Task task) {
-        StrategyDTO StrategyDTO = (StrategyDTO)task.getData();
+        StrategyDTO StrategyDTO = task.getData();
         if (Objects.nonNull(StrategyDTO)){
             String tags = StrategyDTO.getTags();
             String metric = StrategyDTO.getMetric();
