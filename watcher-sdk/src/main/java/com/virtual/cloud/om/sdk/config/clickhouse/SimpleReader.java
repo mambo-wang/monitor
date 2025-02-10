@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.performer.clickhouse;
+package com.virtual.cloud.om.sdk.config.clickhouse;
 
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.data_formats.ClickHouseBinaryFormatReader;
@@ -10,6 +10,7 @@ import com.clickhouse.client.api.query.QuerySettings;
 import com.clickhouse.client.api.query.Records;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.util.concurrent.Future;
@@ -32,6 +33,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
 public class SimpleReader {
 
     private static final String TABLE_NAME = "hacker_news_articles";

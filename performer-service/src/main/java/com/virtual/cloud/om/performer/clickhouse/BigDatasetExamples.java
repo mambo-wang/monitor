@@ -4,7 +4,7 @@ import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.data_formats.ClickHouseBinaryFormatReader;
 import com.clickhouse.client.api.metrics.ClientMetrics;
 import com.clickhouse.client.api.query.QueryResponse;
-import com.virtual.cloud.om.performer.clickhouse.data.NumbersRecord;
+import com.virtual.cloud.om.sdk.entity.clickhouse.NumbersRecord;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;

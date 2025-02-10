@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.performer.clickhouse;
+package com.virtual.cloud.om.sdk.config.clickhouse;
 
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.query.QueryResponse;
@@ -21,6 +21,7 @@ import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -30,6 +31,7 @@ import java.util.concurrent.Future;
 
 @Slf4j
 @Service
+@ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
 public class TextFormatsReader {
 
     private static final String TABLE_NAME = "hacker_news_articles";

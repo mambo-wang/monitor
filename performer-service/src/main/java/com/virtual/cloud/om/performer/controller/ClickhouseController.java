@@ -4,19 +4,18 @@ package com.virtual.cloud.om.performer.controller;
 import com.clickhouse.client.api.Client;
 import com.virtual.cloud.om.performer.PerformerServiceApplication;
 import com.virtual.cloud.om.performer.clickhouse.*;
-import com.virtual.cloud.om.performer.clickhouse.data.ArticleViewEvent;
+import com.virtual.cloud.om.sdk.config.clickhouse.POJO2DbWriter;
+import com.virtual.cloud.om.sdk.config.clickhouse.SimpleReader;
+import com.virtual.cloud.om.sdk.config.clickhouse.Stream2DbWriter;
+import com.virtual.cloud.om.sdk.config.clickhouse.TextFormatsReader;
+import com.virtual.cloud.om.sdk.entity.clickhouse.ArticleViewEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.io.BufferedReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
@@ -54,29 +53,30 @@ public class ClickhouseController {
         }
 
         // Read data back
-        return simpleReader.readDataUsingBinaryFormat();
-//        simpleReader.readDataAll();
-//        simpleReader.readData();
-//
-//        // Read as Text format
-//        textFormatsReader.readAsJsonEachRow();
-//        textFormatsReader.readAsJsonEachRowButGSon();
-//        textFormatsReader.readJSONEachRowIntoArrayOfObject();
-//        textFormatsReader.readJSONEachRowIntoArrayOfObjectGson();
-//        textFormatsReader.readAsCSV();
-//        textFormatsReader.readAsTSV();
-//
-//        // Insert data using POJO
-//        pojo2DbWriter.resetTable();
-//        for (int i = 0; i < 10; i++) {
-//            pojo2DbWriter.submit(new ArticleViewEvent(11132929d, LocalDateTime.now(), UUID.randomUUID().toString()));
-//        }
-//
-//        pojo2DbWriter.printLastEvents();
-//
-//        // Insert data using POJO with JSON
-//        experimentalJSONExample.writeData();
-//        return experimentalJSONExample.readData();
+        simpleReader.readDataUsingBinaryFormat();
+        //
+        simpleReader.readDataAll();
+        simpleReader.readData();
+
+        // Read as Text format
+        textFormatsReader.readAsJsonEachRow();
+        textFormatsReader.readAsJsonEachRowButGSon();
+        textFormatsReader.readJSONEachRowIntoArrayOfObject();
+        textFormatsReader.readJSONEachRowIntoArrayOfObjectGson();
+        textFormatsReader.readAsCSV();
+        textFormatsReader.readAsTSV();
+
+        // Insert data using POJO
+        pojo2DbWriter.resetTable();
+        for (int i = 0; i < 10; i++) {
+            pojo2DbWriter.submit(new ArticleViewEvent(11132929d, LocalDateTime.now(), UUID.randomUUID().toString()));
+        }
+
+        pojo2DbWriter.printLastEvents();
+
+        // Insert data using POJO with JSON
+        experimentalJSONExample.writeData();
+        return experimentalJSONExample.readData();
     }
 
 }

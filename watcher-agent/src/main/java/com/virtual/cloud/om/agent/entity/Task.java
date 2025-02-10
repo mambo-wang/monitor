@@ -1,5 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
+import com.virtual.cloud.om.agent.dto.StrategyDTO;
 import com.virtual.cloud.om.sdk.dto.TaskDTO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -133,7 +134,7 @@ public class Task implements Serializable {
     @ApiModelProperty(value="策略的hash")
     private String hash;
     @ApiModelProperty(value="传递数据")
-    private Object data;
+    private StrategyDTO data;
 
     private String resourceId;
 
