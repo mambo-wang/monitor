@@ -8,15 +8,16 @@ import org.apache.flink.runtime.state.filesystem.FsStateBackend;
 import org.apache.flink.streaming.api.CheckpointingMode;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
+import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.environment.CheckpointConfig;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.functions.timestamps.AscendingTimestampExtractor;
 import org.apache.flink.streaming.api.windowing.assigners.TumblingEventTimeWindows;
 import org.apache.flink.streaming.api.windowing.time.Time;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer011;
-import org.apache.flink.streaming.connectors.kafka.FlinkKafkaProducer011;
-import org.apache.flink.streaming.connectors.kafka.internals.KeyedSerializationSchemaWrapper;
+import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
@@ -26,12 +27,14 @@ import java.util.Properties;
 //$bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic ip_count_source
 //$bin/kafka-topics.sh --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic ip_count_sink
 
+@Component
 public class ExactlyOnceIpCount {
-    public static void main(String[] args) throws Exception {
+
+    @PostConstruct
+    public static void init() throws Exception {
 
         // 设置输入和输出
-        FlinkKafkaConsumer011<IpAndCount> sourceConsumer = setupSource();
-        FlinkKafkaProducer011<String> sinkProducer = setupSink();
+        FlinkKafkaConsumer<IpAndCount> sourceConsumer = setupSource();
 
         // 设置运行时环境
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
@@ -42,7 +45,7 @@ public class ExactlyOnceIpCount {
         config.setCheckpointingMode(CheckpointingMode.EXACTLY_ONCE); // 设置CheckPoint模式为EXACTLY_ONCE
         config.enableExternalizedCheckpoints(
                 CheckpointConfig.ExternalizedCheckpointCleanup.RETAIN_ON_CANCELLATION); // 取消任务时保留CheckPoint
-        config.setPreferCheckpointForRecovery(true); // 启动时从CheckPoint恢复任务
+        config.enableApproximateLocalRecovery(true); // 启动时从CheckPoint恢复任务
 
         // 设置CheckPoint的StateBackend，在这里CheckPoint保存在本地临时目录中。
         // 只适合单节点做实验，在生产环境应该使用分布式文件系统，例如HDFS。
@@ -55,7 +58,7 @@ public class ExactlyOnceIpCount {
         ));
 
         // 定义输入：从Kafka中获取数据
-        DataStream<IpAndCount> input = env
+        DataStreamSource<IpAndCount> input = env
                 .addSource(sourceConsumer);
 
         // 计算：每5秒钟按照ip对count求和
@@ -67,37 +70,21 @@ public class ExactlyOnceIpCount {
                 .sum("count"); // 对count字段求和
 
         // 输出到kafka topic
-//        output.print();
-        output.map(IpAndCount::toString).addSink(sinkProducer);
+        output.addSink(new LogSink());
 
         // execute program
         env.execute("Exactly-once IpCount");
     }
 
-    private static FlinkKafkaProducer011<String> setupSink() {
-        // 设置Kafka Producer属性
-        Properties producerProperties = new Properties();
-        producerProperties.put("bootstrap.servers", "localhost:9092");
-        // 事务超时时间设置为1分钟
-        producerProperties.put("transaction.timeout.ms", "60000");
-
-        // 创建 FlinkKafkaProducer，指定语义为EXACTLY_ONCE
-        return new FlinkKafkaProducer011<>(
-                "ip_count_sink",
-                new KeyedSerializationSchemaWrapper<>(new SimpleStringSchema()),
-                producerProperties,
-                FlinkKafkaProducer011.Semantic.EXACTLY_ONCE);
-    }
-
-    private static FlinkKafkaConsumer011<IpAndCount> setupSource() {
+    private static FlinkKafkaConsumer<IpAndCount> setupSource() {
         // 设置Kafka Consumer属性
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "localhost:9092");
+        properties.setProperty("bootstrap.servers", "10.99.234.15:9092");
         properties.setProperty("group.id", "IpCount");
 
         // 创建 FlinkKafkaConsumer
-        FlinkKafkaConsumer011<IpAndCount> sourceConsumer =
-                new FlinkKafkaConsumer011<>("ip_count_source",
+        FlinkKafkaConsumer<IpAndCount> sourceConsumer =
+                new FlinkKafkaConsumer<>("ip_count_source",
                         new AbstractDeserializationSchema<IpAndCount>() {
             // 自定义反序列化消息的方法：将非结构化的以空格分隔的文本直接转成结构化数据IpAndCount
             @Override

@@ -1,11 +1,16 @@
 package com.virtual.cloud.om.log.service.flink;
 
+import com.virtual.cloud.om.sdk.config.kafka.KafkaConsole;
+import com.virtual.cloud.om.sdk.constant.Constant;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
@@ -19,13 +24,23 @@ import java.util.concurrent.TimeUnit;
  * @author LiYue
  * Date: 2019-09-15
  */
+@Component
 public class NginxLogProducer {
     private static final Logger logger = LoggerFactory.getLogger(NginxLogProducer.class);
     private final static List<String> ipList = Arrays.asList("192.168.1.1","192.168.1.2","192.168.1.3","192.168.1.4");
     private final static String topic = "ip_count_source";
-    public static void main(String [] args) {
+
+
+    @Autowired
+    private KafkaConsole kafkaConsole;
+
+    @PostConstruct
+    public void init() {
+
+        kafkaConsole.createTopic(topic, 2, (short) 1);
+
         Properties props = new Properties();
-        props.put("bootstrap.servers", "localhost:9092");
+        props.put("bootstrap.servers", "10.99.234.15:9092");
         props.put("key.serializer",
                 "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer",
