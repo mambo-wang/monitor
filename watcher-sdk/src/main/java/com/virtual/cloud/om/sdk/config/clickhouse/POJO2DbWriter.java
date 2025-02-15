@@ -1,6 +1,7 @@
 package com.virtual.cloud.om.sdk.config.clickhouse;
 
 import com.clickhouse.client.api.Client;
+import com.clickhouse.client.api.insert.InsertResponse;
 import com.clickhouse.client.api.insert.InsertSettings;
 import com.clickhouse.client.api.query.QueryResponse;
 import com.virtual.cloud.om.sdk.entity.clickhouse.ArticleViewEvent;
@@ -14,6 +15,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
@@ -84,6 +86,12 @@ public class POJO2DbWriter {
     }
 
     private void flush() {
-        client.insert(TABLE_NAME, events, new InsertSettings());
+        try (InsertResponse response = client.insert(TABLE_NAME, events).get()) {
+            // handle response, then it will be closed and connection that served request will be released.
+        } catch (ExecutionException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

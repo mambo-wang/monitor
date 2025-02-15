@@ -47,6 +47,8 @@
         <spring.context.support.version>5.3.19</spring.context.support.version>
         <quartz-mongodb.version>2.2.0-rc2</quartz-mongodb.version>
         <spring-tx.version>5.3.19</spring-tx.version>
+        <flink.version>1.20.0</flink.version>
+        <scala.binary.version>2.12</scala.binary.version>
     </properties>
 
     <dependencyManagement>
