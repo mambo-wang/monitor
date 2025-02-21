@@ -9,7 +9,7 @@
 - 爬虫/知识库
 
 ## 技术栈
-![架构图](https://gitee.com/wangman1991/fileSystem/raw/61a6e1a1d06a0105b91171a15b453862db404024/ShowTime/ShowTime.PNG)
+![架构图](https://gitee.com/wangman1991/fileSystem/raw/master/ShowTime/ShowTime0221.PNG)
 
 - SpringBoot  代码框架
 - Quartz  定时任务
