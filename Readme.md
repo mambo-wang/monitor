@@ -20,8 +20,8 @@
 - Kibana  ES可视化
 - Clickhouse 列数据库
 - TDengine或InfluxDB(待实现)  时序数据库
-- Promethus （待实现）
-- Grafana （待实现）开源报表
+- Promethus SDK埋点 （待实现）
+- Grafana 开源报表
 - Logstash(待实现)
 
 ## 代码架构
