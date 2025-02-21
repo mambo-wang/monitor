@@ -20,7 +20,7 @@
 - Kibana  ES可视化
 - Clickhouse 列数据库
 - TDengine或InfluxDB(待实现)  时序数据库
-- Promethus SDK埋点 （待实现）
+- Promethus SDK/elastic-apm-agent埋点 （待实现）
 - Grafana 开源报表
 - Logstash(待实现)
 
