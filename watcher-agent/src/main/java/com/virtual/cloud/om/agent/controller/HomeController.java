@@ -1,8 +1,8 @@
 package com.virtual.cloud.om.agent.controller;
 
 import com.virtual.cloud.om.agent.entity.Parameter;
-import com.virtual.cloud.om.log.entity.OperationLog;
-import com.virtual.cloud.om.log.service.LogService;
+import com.virtual.cloud.om.agent.entity.OperationLog;
+import com.virtual.cloud.om.agent.service.logs.LogService;
 import com.virtual.cloud.om.sdk.config.rest.cas.CasRestConnection;
 import com.virtual.cloud.om.sdk.config.rest.common.RestType;
 import com.virtual.cloud.om.sdk.config.rest.workspace.WsRestConnection;

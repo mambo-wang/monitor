@@ -41,13 +41,6 @@
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
-            <artifactId>watcher-log</artifactId>
-            <scope>provided</scope>
-            <version>${watcher.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-onestor</artifactId>
             <scope>provided</scope>
             <version>${watcher.version}</version>
@@ -157,6 +150,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring-tx.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.yaml</groupId>
+            <artifactId>snakeyaml</artifactId>
+            <version>${snakeyaml.version}</version>
         </dependency>
 
     </dependencies>

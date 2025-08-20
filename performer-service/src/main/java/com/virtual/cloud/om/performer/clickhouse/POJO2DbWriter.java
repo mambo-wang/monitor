@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.sdk.config.clickhouse;
+package com.virtual.cloud.om.performer.clickhouse;
 
 import com.clickhouse.client.api.Client;
 import com.clickhouse.client.api.insert.InsertSettings;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@ConditionalOnProperty(prefix = "clickhouse", name = "enable", havingValue = "true", matchIfMissing = false)
 public class POJO2DbWriter {
 
     private static final String TABLE_NAME = "article_view_events";

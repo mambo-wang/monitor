@@ -13,7 +13,6 @@ import com.virtual.cloud.om.agent.entity.ResourceEntity;
 import com.virtual.cloud.om.agent.entity.Task;
 import com.virtual.cloud.om.agent.repository.TaskRepository;
 import com.virtual.cloud.om.sdk.api.*;
-import com.virtual.cloud.om.sdk.config.clickhouse.AwesomeMetricPOJO2DbWriter;
 import com.virtual.cloud.om.sdk.constant.Constant;
 import com.virtual.cloud.om.sdk.constant.DataReportTypeByMetricEnum;
 import com.virtual.cloud.om.sdk.constant.ReportResourceEnum;
@@ -61,9 +60,6 @@ public class DataReportService {
     private StrategyService strategyService;
     private final DataReportCollector[] dataReportCollectors;
     private Map<String, DataReportCollector> collectApiMap = Maps.newConcurrentMap();
-
-    @Autowired
-    private AwesomeMetricPOJO2DbWriter awesomeMetricPOJO2DbWriter;
 
     @Autowired
     public void setStrategyService(StrategyService strategyService) {
@@ -227,7 +223,7 @@ public class DataReportService {
                                 awesomeMetric.setTags(da.getTags());
                                 String value = String.valueOf(da.getValue());
                                 awesomeMetric.setValue(StringUtils.isNumeric(value) ? Double.valueOf(value) : 0.00);
-                                awesomeMetricPOJO2DbWriter.submit(awesomeMetric);
+                                //写入时序数据库
                             }
                         }
                     } catch (AppException e) {

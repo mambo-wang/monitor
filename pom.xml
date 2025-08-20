@@ -15,7 +15,6 @@
         <module>watcher-uis</module>
         <module>watcher-workspace</module>
         <module>watcher-builder</module>
-        <module>watcher-log</module>
         <module>watcher-onestor</module>
         <module>watcher-self</module>
         <module>performer-service</module>

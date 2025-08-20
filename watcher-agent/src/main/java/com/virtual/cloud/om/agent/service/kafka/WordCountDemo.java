@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.log.service.kafka;
+package com.virtual.cloud.om.agent.service.kafka;
 
 
 import com.virtual.cloud.om.sdk.dto.FileBeatRaw;

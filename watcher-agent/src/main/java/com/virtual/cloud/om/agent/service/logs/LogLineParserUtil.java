@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.log.service;
+package com.virtual.cloud.om.agent.service.logs;
 
 import com.virtual.cloud.om.sdk.dto.LogLine;
 import org.apache.commons.lang3.StringUtils;
