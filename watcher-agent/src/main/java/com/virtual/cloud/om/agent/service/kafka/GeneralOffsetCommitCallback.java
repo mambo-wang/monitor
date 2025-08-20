@@ -1,6 +1,6 @@
-package com.virtual.cloud.om.log.service.kafka;
+package com.virtual.cloud.om.agent.service.kafka;
 
-import com.virtual.cloud.om.log.service.LogService;
+import com.virtual.cloud.om.agent.service.logs.LogService;
 import com.virtual.cloud.om.sdk.utils.SpringContextsUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;

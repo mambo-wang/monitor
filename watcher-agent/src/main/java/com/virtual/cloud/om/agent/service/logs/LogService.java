@@ -1,7 +1,7 @@
-package com.virtual.cloud.om.log.service;
+package com.virtual.cloud.om.agent.service.logs;
 
-import com.virtual.cloud.om.log.entity.KafkaConsumerOffsetLog;
-import com.virtual.cloud.om.log.entity.OperationLog;
+import com.virtual.cloud.om.agent.entity.KafkaConsumerOffsetLog;
+import com.virtual.cloud.om.agent.entity.OperationLog;
 import com.virtual.cloud.om.sdk.config.kafka.KafkaConsole;
 import com.virtual.cloud.om.sdk.constant.Constant;
 import com.virtual.cloud.om.sdk.dto.OperationLogVO;

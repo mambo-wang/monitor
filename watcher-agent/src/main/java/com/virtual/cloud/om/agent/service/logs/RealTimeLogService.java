@@ -1,8 +1,8 @@
-package com.virtual.cloud.om.log.service;
+package com.virtual.cloud.om.agent.service.logs;
 
-import com.virtual.cloud.om.log.entity.LogMetaData;
-import com.virtual.cloud.om.log.entity.RealTimeLogStrategy;
-import com.virtual.cloud.om.log.service.kafka.KafkaConsumers;
+import com.virtual.cloud.om.agent.entity.LogMetaData;
+import com.virtual.cloud.om.agent.entity.RealTimeLogStrategy;
+import com.virtual.cloud.om.agent.service.kafka.KafkaConsumers;
 import com.virtual.cloud.om.sdk.api.*;
 import com.virtual.cloud.om.sdk.concurrent.CloudExecutorServices;
 import com.virtual.cloud.om.sdk.config.elasticsearch.EsOperation;
@@ -18,7 +18,6 @@ import com.virtual.cloud.om.sdk.utils.SerializeUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;

@@ -1,4 +1,4 @@
-package com.virtual.cloud.om.log.entity;
+package com.virtual.cloud.om.agent.entity;
 
 import com.virtual.cloud.om.sdk.dto.RealTimeLogStrategyLogs;
 import lombok.AllArgsConstructor;
