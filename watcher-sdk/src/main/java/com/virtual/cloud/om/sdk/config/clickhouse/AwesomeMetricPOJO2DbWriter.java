@@ -42,7 +42,7 @@ public class AwesomeMetricPOJO2DbWriter {
         return client.ping();
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void resetTable() {
         try (InputStream initSql = AwesomeMetricPOJO2DbWriter.class.getResourceAsStream("/database/init.sql")) {
             // Sending a simple query - no settings required

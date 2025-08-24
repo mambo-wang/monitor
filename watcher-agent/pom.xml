@@ -21,42 +21,36 @@
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-workspace</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-uis</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-cas</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-log</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-onestor</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-self</artifactId>
-            <scope>provided</scope>
             <version>${watcher.version}</version>
         </dependency>
 
@@ -157,6 +151,11 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring-tx.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>5.2.5.RELEASE</version>
         </dependency>
     </dependencies>
 
