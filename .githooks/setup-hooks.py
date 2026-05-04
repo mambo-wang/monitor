@@ -42,7 +42,8 @@ def ask(prompt: str, default: str = "") -> str:
 
 
 def configure(enable_size: bool, threshold: str,
-              enable_test: bool, enable_merge: bool, merge_branch: str):
+              enable_test: bool, enable_merge: bool, merge_branch: str,
+              enable_msg_check: bool = False):
     # 配置 core.hooksPath
     result = run(
         ["git", "config", "core.hooksPath", str(GITHOOKS_DIR)],
@@ -81,6 +82,14 @@ def configure(enable_size: bool, threshold: str,
         run(["git", "config", "--local", "--unset", "autoMerge.branch"], cwd=REPO_ROOT)
         print(f"⏭️  自动合并分支 [跳过]")
 
+    # 提交信息格式检查
+    if enable_msg_check:
+        run(["git", "config", "--local", "commitMsg.check", "true"], cwd=REPO_ROOT)
+        print(f"✅ 提交信息格式检查 [已启用，必须以 story/bugfix 开头]")
+    else:
+        run(["git", "config", "--local", "--unset", "commitMsg.check"], cwd=REPO_ROOT)
+        print(f"⏭️  提交信息格式检查 [跳过]")
+
     print(f"""
 📋 当前配置：""")
     show_config()
@@ -91,6 +100,7 @@ def show_config():
         "commitSize.threshold": "提交量检查阈值",
         "autoTest.enabled": "单元测试",
         "autoMerge.branch": "自动合并分支",
+        "commitMsg.check": "提交信息格式检查",
     }
     for key, label in configs.items():
         val = run(["git", "config", "--local", "--get", key], cwd=REPO_ROOT, capture_output=True, text=True)
@@ -111,6 +121,7 @@ def interactive_setup():
     merge_branch = "main"
     if enable_merge:
         merge_branch = ask("     合并到哪个分支（默认 main）: ", "main")
+    enable_msg_check = ask("  📝 是否启用提交信息格式检查? (y/N): ", "n").lower() == "y"
 
     try:
         int(threshold)
@@ -123,6 +134,7 @@ def interactive_setup():
         enable_test=enable_test,
         enable_merge=enable_merge,
         merge_branch=merge_branch,
+        enable_msg_check=enable_msg_check,
     )
 
 
@@ -135,7 +147,7 @@ def main():
         return
 
     if "--disable" in args:
-        for key in ["commitSize.threshold", "autoTest.enabled", "autoMerge.branch"]:
+        for key in ["commitSize.threshold", "autoTest.enabled", "autoMerge.branch", "commitMsg.check"]:
             run(["git", "config", "--local", "--unset", key], cwd=REPO_ROOT)
         print("✅ 已禁用所有 hook 配置")
         return
@@ -143,6 +155,7 @@ def main():
     enable_test = "--test" in args
     enable_merge = "--merge" in args
     enable_size = "--size" in args or "--all" in args
+    enable_msg_check = "--msg" in args
 
     threshold = "1000"
     merge_branch = "main"
@@ -162,6 +175,7 @@ def main():
             enable_test=enable_test,
             enable_merge=enable_merge,
             merge_branch=merge_branch,
+            enable_msg_check=enable_msg_check,
         )
 
     print(f"""
@@ -170,6 +184,7 @@ def main():
   禁用功能：python3 .githooks/setup-hooks.py --disable
   修改阈值：git config --local commitSize.threshold 800
   启用测试：git config --local autoTest.enabled true
+  启用提交信息检查：git config --local commitMsg.check true
 """)
 
 

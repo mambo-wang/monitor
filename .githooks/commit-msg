@@ -1,0 +1,17 @@
+#!/bin/sh
+# commit-msg hook: 检查提交信息格式
+
+GIT_ROOT="$(git rev-parse --show-toplevel)"
+GITHOOKS_DIR="$GIT_ROOT/.githooks"
+PYTHON="$(command -v python3 || command -v python)"
+
+COMMIT_MSG_FILE="$1"
+
+# 检查是否启用（通过 git config 或 marker 文件）
+ENABLED=$(git config --get commitMsg.check 2>/dev/null)
+if [ "$ENABLED" != "true" ] && [ ! -f "$GITHOOKS_DIR/.commit-msg-enabled" ]; then
+    exit 0
+fi
+
+"$PYTHON" "$GITHOOKS_DIR/check_commit_msg.py" "$COMMIT_MSG_FILE"
+exit $?
