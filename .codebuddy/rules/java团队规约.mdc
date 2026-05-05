@@ -1,0 +1,11 @@
+---
+description: 
+alwaysApply: true
+enabled: true
+updatedAt: 2026-05-05T02:06:15.248Z
+provider: 
+---
+
+1 不要在循环中请求数据库或者调用接口
+2 需要遍历集合时，优先使用for循环，尽量不使用while/foreach/stream/iterator
+3 方法不要返回null，可以用抛异常或者返回Optional代替
