@@ -1,12 +1,10 @@
 package com.virtual.cloud.om.sdk.constant.operate;
 
 import com.virtual.cloud.om.sdk.exception.AppException;
-import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
 import java.util.Optional;
 
-@AllArgsConstructor
 public enum ObjectTypeEnum {
     host(1,"服务器"),
     vm(2,"虚拟机"),
@@ -20,6 +18,11 @@ public enum ObjectTypeEnum {
 
     public final Integer type;
     public final String title;
+
+    ObjectTypeEnum(Integer type, String title) {
+        this.type = type;
+        this.title = title;
+    }
 
     public static ObjectTypeEnum getByType(Integer type){
         Optional<ObjectTypeEnum> first = Arrays.stream(values()).filter(e -> e.type.equals(type)).findFirst();

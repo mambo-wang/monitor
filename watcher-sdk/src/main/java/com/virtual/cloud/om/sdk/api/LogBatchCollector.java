@@ -2,7 +2,6 @@ package com.virtual.cloud.om.sdk.api;
 
 import com.virtual.cloud.om.sdk.constant.LogBatchCollectorTypeEnum;
 import com.virtual.cloud.om.sdk.dto.logBatch.LogBatchTargetsQueryDTO;
-import lombok.AllArgsConstructor;
 
 public interface LogBatchCollector {
     /**
@@ -18,7 +17,6 @@ public interface LogBatchCollector {
      */
     LogBatchCollectorTypeEnum logBatchType();
 
-    @AllArgsConstructor
     enum DownloadResultEnum{
         success(0),
         part_success(1),
@@ -26,5 +24,9 @@ public interface LogBatchCollector {
         ;
 
         public final Integer val;
+
+        DownloadResultEnum(Integer val) {
+            this.val = val;
+        }
     }
 }

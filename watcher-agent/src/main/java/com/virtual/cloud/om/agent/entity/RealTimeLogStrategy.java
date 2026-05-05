@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.util.Set;
 
@@ -16,7 +16,7 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "RealTimeLogStrategy")//相当于数据库里的表名
+//相当于数据库里的表名
 public class RealTimeLogStrategy {
 
     private String resourceId;

@@ -1,9 +1,7 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-@AllArgsConstructor
 @Getter
 public enum WsUserTypeEnum {
     local_user(0, "本地用户"),
@@ -11,8 +9,11 @@ public enum WsUserTypeEnum {
     ldap_user(2, "LDAP用户")
     ;
 
-
     public final Integer type;
     public final String desc;
 
+    WsUserTypeEnum(Integer type, String desc) {
+        this.type = type;
+        this.desc = desc;
+    }
 }

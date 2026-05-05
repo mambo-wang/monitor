@@ -2,8 +2,9 @@ package com.virtual.cloud.om.sdk.exception;
 
 import com.virtual.cloud.om.sdk.dto.RpcResult;
 import com.virtual.cloud.om.sdk.dto.StateResult;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -23,8 +24,9 @@ import java.util.Locale;
 
 @ControllerAdvice
 @ResponseBody
-@Slf4j
 public class ExceptionControllerAdvice extends ResponseEntityExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(ExceptionControllerAdvice.class);
 
     @Resource(name = "errorCodeMessageSource")
     private MessageSource messageSource;

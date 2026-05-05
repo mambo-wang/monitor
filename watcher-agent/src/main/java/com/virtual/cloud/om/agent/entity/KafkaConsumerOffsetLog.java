@@ -1,20 +1,20 @@
 package com.virtual.cloud.om.agent.entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 import java.util.Date;
 
 /**
  * kafka消费者消费偏移量
  */
 @Data
-@Document(collection = "KafkaConsumerOffsetLog")
+
 public class KafkaConsumerOffsetLog{
     /**
      * 主键,topic_partition_groupId
      */
-    @Id
+    
     private String id;
     /**
      * 消息主题

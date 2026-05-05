@@ -4,17 +4,17 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 import java.util.List;
 
 @Data
 @ApiModel
 @Builder
-@Document(collection = "RouteConfig")
+
 public class RouteConfig {
-    @Id
+    
     private String id;
     @ApiModelProperty("目的地址")
     private String targetIp;

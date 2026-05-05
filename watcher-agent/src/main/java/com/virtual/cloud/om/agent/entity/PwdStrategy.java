@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 import java.io.Serializable;
 
@@ -14,11 +14,11 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "PwdStrategy")
+
 public class PwdStrategy implements Serializable {
     private static final long serialVersionUID = -2868853313388553283L;
 
-    @Id
+    
     private String id;
 
     /**

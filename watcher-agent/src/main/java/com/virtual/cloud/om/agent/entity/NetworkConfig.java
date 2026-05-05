@@ -2,14 +2,14 @@ package com.virtual.cloud.om.agent.entity;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 @Data
 @Builder
-@Document(collection = "NetworkConfig")
+
 public class NetworkConfig {
-    @Id
+    
     private String nodeName;
     private String innerName;
     private String innerIp;

@@ -92,9 +92,8 @@ public class HomeController {
 
     @GetMapping("/enableKafkaDebug")
     public RpcResult<String> enableDebug(@RequestParam(value = "ip") String ip) {
-        deployService.modifyKafkaListeners(ip);
-
-        return RpcResult.success("success");
+        // Kafka 功能已禁用
+        return RpcResult.success("Kafka功能已禁用");
     }
 
 }

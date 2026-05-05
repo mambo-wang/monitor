@@ -6,7 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 
@@ -15,7 +14,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document(collection = "Warn")//相当于数据库里的表名
+// MongoDB 文档注解已移除，使用 MySQL 单机版
 public class Warn implements Serializable {
     private static final long serialVersionUID = -5081419830740368061L;
 

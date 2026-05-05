@@ -1,19 +1,19 @@
 package com.virtual.cloud.om.agent.config;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.collection.CollectionUtil;
-import com.virtual.cloud.om.agent.entity.AgentUniqueCode;
-import com.virtual.cloud.om.agent.entity.OadWatcherStatus;
-import com.virtual.cloud.om.agent.entity.PwdStrategy;
-import com.virtual.cloud.om.agent.entity.SysUser;
+import com.virtual.cloud.om.sdk.entity.mysql.AgentUniqueCode;
+import com.virtual.cloud.om.sdk.entity.mysql.OadWatcherStatus;
+import com.virtual.cloud.om.sdk.entity.mysql.PwdStrategy;
+import com.virtual.cloud.om.sdk.entity.mysql.SysUser;
 import com.virtual.cloud.om.sdk.constant.Constant;
+import com.virtual.cloud.om.sdk.mapper.AgentUniqueCodeMapper;
+import com.virtual.cloud.om.sdk.mapper.OadWatcherStatusMapper;
+import com.virtual.cloud.om.sdk.mapper.PwdStrategyMapper;
+import com.virtual.cloud.om.sdk.mapper.SysUserMapper;
 import com.virtual.cloud.om.sdk.utils.sm4.SM4Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -25,7 +25,16 @@ import java.util.UUID;
 public class ApplicationRunnerImpl implements ApplicationRunner {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private AgentUniqueCodeMapper agentUniqueCodeMapper;
+
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private OadWatcherStatusMapper oadWatcherStatusMapper;
+
+    @Autowired
+    private PwdStrategyMapper pwdStrategyMapper;
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -54,50 +63,58 @@ public class ApplicationRunnerImpl implements ApplicationRunner {
 
     /**第一次安装启动生成，后续替包升级不变,除非重装*/
     private void initAgentUniqueCode(){
-        AgentUniqueCode agentUniqueCode = mongoTemplate.findOne(new Query(), AgentUniqueCode.class);
-        if (Objects.nonNull(agentUniqueCode)){
+        List<AgentUniqueCode> list = agentUniqueCodeMapper.selectList(null);
+        if (Objects.nonNull(list) && !list.isEmpty()){
             return;
         }
         AgentUniqueCode agentUnique = new AgentUniqueCode();
         Random random = new Random();
         String uuid = UUID.randomUUID().toString().replace("-","") + random.nextInt(1000);
-        agentUnique.setUId(uuid);
-        this.mongoTemplate.save(agentUnique);
+        agentUnique.setId(UUID.randomUUID().toString());
+        agentUnique.setUid(uuid);
+        this.agentUniqueCodeMapper.insert(agentUnique);
     }
 
     private void initSysUser(){
         //根据用户名获取用户信息
-        Query query=new Query(Criteria.where("username").is(Constant.username));
-        SysUser user = mongoTemplate.findOne(query, SysUser.class);
-        if (Objects.nonNull(user)){
+        List<SysUser> users = sysUserMapper.selectList(null);
+        if (Objects.nonNull(users) && !users.isEmpty()){
             return;
         }
         SysUser sysUser = new SysUser();
+        sysUser.setId(UUID.randomUUID().toString());
         sysUser.setUsername(Constant.username);
         sysUser.setPassword(SM4Utils.webEncryptText(Constant.password));
-        this.mongoTemplate.save(sysUser);
+        this.sysUserMapper.insert(sysUser);
     }
 
     private void initStep(){
-        List<OadWatcherStatus> all = mongoTemplate.findAll(OadWatcherStatus.class);
-        if (CollectionUtil.isNotEmpty(all)){
+        List<OadWatcherStatus> all = oadWatcherStatusMapper.selectList(null);
+        if (Objects.nonNull(all) && !all.isEmpty()){
             return;
         }
         OadWatcherStatus oadWatcherStatus = new OadWatcherStatus();
+        oadWatcherStatus.setId(UUID.randomUUID().toString());
         oadWatcherStatus.setStep(Constant.DataCenter.STEP_NETWORK);
-        this.mongoTemplate.save(oadWatcherStatus);
+        this.oadWatcherStatusMapper.insert(oadWatcherStatus);
     }
 
     private void initPwdStrategy(){
-        List<PwdStrategy> pwdStrategies = mongoTemplate.findAll(PwdStrategy.class);
+        List<PwdStrategy> pwdStrategies = pwdStrategyMapper.selectList(null);
         PwdStrategy pwdStrategy = new PwdStrategy();
         if (CollUtil.isNotEmpty(pwdStrategies)){
             PwdStrategy strategy = pwdStrategies.get(0);
             pwdStrategy.setId(strategy.getId());
+        } else {
+            pwdStrategy.setId(UUID.randomUUID().toString());
         }
         pwdStrategy.setMinLength(Constant.DataCenter.MINLENGTH);
         pwdStrategy.setPwdComplex(Constant.DataCenter.PWDCOMPLEX);
         pwdStrategy.setPwdLifeTime(Constant.DataCenter.PWDLIFETIME);
-        this.mongoTemplate.save(pwdStrategy);
+        if (CollUtil.isNotEmpty(pwdStrategies)) {
+            this.pwdStrategyMapper.updateById(pwdStrategy);
+        } else {
+            this.pwdStrategyMapper.insert(pwdStrategy);
+        }
     }
 }

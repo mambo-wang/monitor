@@ -3,18 +3,15 @@ package com.virtual.cloud.om.agent.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
- * mongodb 分布式锁
+ * 分布式锁 - MongoDB 版本已禁用
+ * MySQL 单机版使用 MySQL 锁替代
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "WatcherLock")
 public class WatcherLock {
-    @Id
     private String id;
     private long expireAt;
     private String token;

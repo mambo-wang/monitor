@@ -3,8 +3,9 @@ package com.virtual.cloud.om.sdk.config.rest.common;
 import com.google.common.base.Charsets;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.http.conn.ConnectTimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.ClientHttpRequestExecution;
@@ -15,8 +16,9 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 public class AcceptHeaderInterceptor implements ClientHttpRequestInterceptor {
+
+    private static final Logger log = LoggerFactory.getLogger(AcceptHeaderInterceptor.class);
 
     @Override
     public ClientHttpResponse intercept(HttpRequest request, byte[] body, ClientHttpRequestExecution execution) {

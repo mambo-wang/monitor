@@ -2,7 +2,6 @@ package com.virtual.cloud.om.sdk.dto.operate;
 
 import com.virtual.cloud.om.sdk.dto.dataReport.cas.ShareFileHostBasicDTOCopy;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.List;
@@ -35,7 +34,6 @@ public class OperateResultDTO {
         @ApiModelProperty("采集端操作")
         private String watcherIp;
 
-        @AllArgsConstructor
         public enum ResultEnum {
             success(0, "成功"),
             part_success(1, "部分成功"),
@@ -44,6 +42,11 @@ public class OperateResultDTO {
 
             public final Integer val;
             public final String desc;
+
+            ResultEnum(Integer val, String desc) {
+                this.val = val;
+                this.desc = desc;
+            }
         }
 
         @Data

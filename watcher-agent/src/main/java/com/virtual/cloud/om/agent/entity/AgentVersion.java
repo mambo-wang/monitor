@@ -6,14 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-@Document(collection = "AgentVersion")//相当于数据库里的表名
+//相当于数据库里的表名
 public class AgentVersion {
     private String version;
     @ApiModelProperty("升级记录id")

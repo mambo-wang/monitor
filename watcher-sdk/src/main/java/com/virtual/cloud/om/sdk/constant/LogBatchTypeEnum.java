@@ -1,14 +1,10 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("all")
-@AllArgsConstructor
 public enum LogBatchTypeEnum {
     domain,
     terminal,
@@ -31,6 +27,4 @@ public enum LogBatchTypeEnum {
                 keepalived
         ));
     }
-
-
 }

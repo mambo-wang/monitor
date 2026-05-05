@@ -1,8 +1,5 @@
 package com.virtual.cloud.om.sdk.constant.report;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public enum ReportDataTypeEnum {
     json("json串"),
     text("字符串"),
@@ -13,4 +10,8 @@ public enum ReportDataTypeEnum {
     ;
 
     public final String title;
+
+    ReportDataTypeEnum(String title) {
+        this.title = title;
+    }
 }

@@ -13,6 +13,13 @@
     <version>1.0.0</version>
 
     <dependencies>
+        <!-- Lombok 依赖 -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-sdk</artifactId>

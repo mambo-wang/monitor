@@ -1,25 +1,27 @@
 package com.virtual.cloud.om.agent.service.auth;
 
 import cn.hutool.core.collection.CollUtil;
-import com.virtual.cloud.om.agent.entity.PwdStrategy;
-import com.virtual.cloud.om.agent.entity.SysUser;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.virtual.cloud.om.sdk.entity.mysql.PwdStrategy;
+import com.virtual.cloud.om.sdk.entity.mysql.SysUser;
 import com.virtual.cloud.om.sdk.constant.Constant;
 import com.virtual.cloud.om.sdk.dto.ModifyUser;
 import com.virtual.cloud.om.sdk.dto.SysUserDTO;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
+import com.virtual.cloud.om.sdk.mapper.PwdStrategyMapper;
+import com.virtual.cloud.om.sdk.mapper.SysUserMapper;
 import com.virtual.cloud.om.sdk.utils.*;
 import com.virtual.cloud.om.sdk.utils.sm4.SM4Utils;
 import com.virtual.cloud.om.agent.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Objects;
@@ -36,7 +38,10 @@ import java.util.concurrent.TimeUnit;
 public class LoginService {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private PwdStrategyMapper pwdStrategyMapper;
 
     @Autowired
     private SysUserService sysUserService;
@@ -101,7 +106,8 @@ public class LoginService {
             throw new AppException(ErrorCodes.WRONG_PASSWORD);
         }
         sysUser.setPassword(modifyUser.getNewPassword());
-        mongoTemplate.save(sysUser);
+        sysUser.setUpdateTime(LocalDateTime.now());
+        sysUserMapper.updateById(sysUser);
     }
 
     public void doLogout(){
@@ -110,12 +116,12 @@ public class LoginService {
 
     public Boolean verify(String token){
         try {
-            Date expireTime = JwtTokenUtil.getExpirationDateFromToken(token);
-            if (expireTime.before(new Date())) {
+            java.util.Date expireTime = JwtTokenUtil.getExpirationDateFromToken(token);
+            if (expireTime.before(new java.util.Date())) {
                 return false;
             }
             /** 20分钟刷新一次 */
-            if (expireTime.before(new Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(20)))) {
+            if (expireTime.before(new java.util.Date(System.currentTimeMillis() + TimeUnit.MINUTES.toMillis(20)))) {
                 String newToken = JwtTokenUtil.refreshToken(token);
                 CookieUtil.addCookie(WebUtils.response(), Constant.ACCESS_PATH, Constant.TOKEN_NAME, newToken, idleTimeout, true);
             }
@@ -150,7 +156,7 @@ public class LoginService {
 
     /**查询当前密码策略配置*/
     public Integer searchPasswordComplexity(){
-        List<PwdStrategy> pwdStrategies = mongoTemplate.findAll(PwdStrategy.class);
+        List<PwdStrategy> pwdStrategies = pwdStrategyMapper.selectList(null);
         if (CollUtil.isEmpty(pwdStrategies)){
             return Constant.DataCenter.SIMPLE_PASSWORD;
         }
@@ -166,7 +172,7 @@ public class LoginService {
      * @param password
      */
     private void validatePasswordComplexity(String password){
-        List<PwdStrategy> pwdStrategies = mongoTemplate.findAll(PwdStrategy.class);
+        List<PwdStrategy> pwdStrategies = pwdStrategyMapper.selectList(null);
         if (CollUtil.isEmpty(pwdStrategies)){
             return;
         }

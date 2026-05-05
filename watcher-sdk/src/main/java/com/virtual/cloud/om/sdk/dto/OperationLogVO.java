@@ -2,17 +2,12 @@ package com.virtual.cloud.om.sdk.dto;
 
 import com.virtual.cloud.om.sdk.utils.DateTimeTool;
 import com.virtual.cloud.om.sdk.utils.SerializeUtils;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.io.Serializable;
 
 @Data
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class OperationLogVO implements Serializable {
 
     public static final String MODULE_AGENT = "Watcher-Agent";

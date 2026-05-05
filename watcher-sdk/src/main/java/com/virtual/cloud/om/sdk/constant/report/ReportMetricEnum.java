@@ -1,13 +1,11 @@
 package com.virtual.cloud.om.sdk.constant.report;
 
 import com.virtual.cloud.om.sdk.constant.ReportResourceEnum;
-import lombok.AllArgsConstructor;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 public enum ReportMetricEnum {
     desktop_pool_basic("桌面池基本信息上报",true),
     desktop_pool_vm_relation("桌面池与虚拟机映射关系",true),
@@ -107,6 +105,11 @@ public enum ReportMetricEnum {
 
     public final String desc;
     public final Boolean staticMetric;
+
+    ReportMetricEnum(String desc, Boolean staticMetric) {
+        this.desc = desc;
+        this.staticMetric = staticMetric;
+    }
 
     public static List<ReportMetricEnum> getStaticMetrics(){
         return Arrays.stream(values()).filter(e->e.staticMetric).collect(Collectors.toList());

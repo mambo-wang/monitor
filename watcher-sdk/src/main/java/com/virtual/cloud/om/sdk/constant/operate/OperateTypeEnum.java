@@ -1,12 +1,9 @@
 package com.virtual.cloud.om.sdk.constant.operate;
 
 import com.virtual.cloud.om.sdk.exception.AppException;
-import lombok.AllArgsConstructor;
-
 import java.util.Arrays;
 import java.util.Optional;
 
-@AllArgsConstructor
 @SuppressWarnings("all")
 public enum OperateTypeEnum {
     start(1, "开机"),
@@ -22,6 +19,11 @@ public enum OperateTypeEnum {
 
     public final Integer type;
     public final String title;
+
+    OperateTypeEnum(Integer type, String title) {
+        this.type = type;
+        this.title = title;
+    }
 
     public static OperateTypeEnum getByType(Integer type){
         Optional<OperateTypeEnum> first = Arrays.stream(values()).filter(e -> e.type.equals(type)).findFirst();

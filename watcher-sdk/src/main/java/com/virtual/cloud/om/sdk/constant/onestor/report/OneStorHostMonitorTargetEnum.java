@@ -1,14 +1,9 @@
 package com.virtual.cloud.om.sdk.constant.onestor.report;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Onestor 主机 监控信息字段枚举类
  * 需传入 响应资源名称 使用
  * */
-@AllArgsConstructor
-@Getter
 public enum OneStorHostMonitorTargetEnum {
     iops_read("servers.%s.diskstat.root.iops.wr", "存储写IOPS"),
     iops_write("servers.%s.diskstat.root.iops.rd", "存储读IOPS"),
@@ -33,6 +28,15 @@ public enum OneStorHostMonitorTargetEnum {
     util_avg("servers.%s.diskstat.util.avg", "数据盘平均负载"),
     util_max("servers.%s.diskstat.util.max", "数据盘最大负载"),
     ;
+
     private final String value;
     private final String desc;
+
+    OneStorHostMonitorTargetEnum(String value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
+
+    public String getValue() { return value; }
+    public String getDesc() { return desc; }
 }

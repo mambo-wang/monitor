@@ -11,14 +11,11 @@ import com.virtual.cloud.om.sdk.dto.token.CasLoginEntityDTO;
 import com.virtual.cloud.om.sdk.dto.token.ResourceHttpClientToken;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -37,25 +34,30 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 @Service("casTokenRestConnection")
 @ConditionalOnProperty(name = "rest-client.cas.enable", havingValue = "true")
 public class CasTokenRestConnection {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    private static final Logger log = LoggerFactory.getLogger(CasTokenRestConnection.class);
+
+    // 简单的内存缓存替代 MongoDB
+    private final Map<String, ResourceHttpClientToken> tokenCache = new ConcurrentHashMap<>();
+
     @Resource
     private LockApi lockApi;
 
+    private String getCacheKey(String resource, String host) {
+        return resource + "_" + host;
+    }
 
     public String refreshToken(String host, String protocol, int port, String username, String password) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.cas.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-        if (Objects.nonNull(tokenDto) && StrUtil.isNotBlank(tokenDto.getToken())) {
-            return tokenDto.getToken();
+        String cacheKey = getCacheKey(ReportResourceEnum.cas.name(), host);
+        ResourceHttpClientToken cachedToken = tokenCache.get(cacheKey);
+        if (Objects.nonNull(cachedToken) && StrUtil.isNotBlank(cachedToken.getToken())) {
+            return cachedToken.getToken();
         }
         String key = String.format("refreshToken_%s_%s", host, ReportResourceEnum.cas.name());
         String acquire = null;
@@ -82,26 +84,19 @@ public class CasTokenRestConnection {
                 if (!restClient.isPresent()) {
                     throw new AppException(ErrorCodes.HTTP_RESPONSE_ERROR, tokenUrl);
                 }
-                //TODO:要换DTO
                 ResponseEntity<String> responseEntity = restClient.get().getRestTemplate().exchange(tokenUrl, HttpMethod.POST, requestEntity, String.class);
                 if (!Objects.requireNonNull(responseEntity.getHeaders().get("Set-Cookie")).isEmpty()) {
                     token = Objects.requireNonNull(responseEntity.getHeaders().get("Set-Cookie")).get(0).split(";")[0];
                 }
-                query = new Query();
-                query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.cas.name())
-                        .and("host").is(host));
-                Update update = new Update();
-                update.set("token", token);
-                update.set("resource", ReportResourceEnum.cas.name());
-                update.set("host", host);
-                update.setOnInsert("createTime", DateUtil.now());
-                update.set("updateTimeMs", System.currentTimeMillis());
-                try {
-                    this.mongoTemplate.upsert(query, update, ResourceHttpClientToken.class);
-                } catch (Exception e) {
-                    // 忽略
-                }
-            }finally {
+                // 保存到缓存
+                ResourceHttpClientToken tokenDto = new ResourceHttpClientToken();
+                tokenDto.setToken(token);
+                tokenDto.setResource(ReportResourceEnum.cas.name());
+                tokenDto.setHost(host);
+                tokenDto.setCreateTime(DateUtil.now());
+                tokenDto.setUpdateTimeMs(System.currentTimeMillis());
+                tokenCache.put(cacheKey, tokenDto);
+            } finally {
                 this.lockApi.release(key, acquire);
             }
         }
@@ -112,7 +107,6 @@ public class CasTokenRestConnection {
         Optional<CasTokenRestClient> restClient = CasTokenRestClientCache.get().get(ip, protocol, port, username, password);
         return restClient.<RestTemplate>map(CasTokenRestClient::getRestTemplate).orElse(null);
     }
-
 
     public <T> ResponseEntity<T> exchangeResp(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... uriVariables) {
         RestTemplate restTemplate = find(host, protocol, port, username, password);
@@ -129,12 +123,8 @@ public class CasTokenRestConnection {
                 throw new AppException(e.getErrorCode(), url);
             } else if (e.getErrorCode().equals(ErrorCodes.UNAUTHORIZED)) {
                 // 401 异常，需要重新获取token
-                Query query = new Query();
-                query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.workspace.name()).and("host").is(host));
-                ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-                if (Objects.nonNull(tokenDto)) {
-                    this.mongoTemplate.remove(tokenDto);
-                }
+                String cacheKey = getCacheKey(ReportResourceEnum.workspace.name(), host);
+                ResourceHttpClientToken tokenDto = tokenCache.remove(cacheKey);
                 HttpHeaders headers = requestEntity.getHeaders();
                 HttpHeaders newHeaders = new HttpHeaders();
                 headers.entrySet().forEach(entry -> {
@@ -166,17 +156,6 @@ public class CasTokenRestConnection {
         return result;
     }
 
-
-    /**
-     * 基础模板，直接套用restTemplate
-     *
-     * @param url
-     * @param method
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> exchange(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity,
                                           Class<T> responseType) {
         return exchangeResp(host, protocol, username, password, port, url, method, requestEntity, new ParameterizedTypeReference<T>() {
@@ -194,7 +173,6 @@ public class CasTokenRestConnection {
             Files.createDirectories(Paths.get(targetPath));
         }
         String targetFilePath = targetPath + "/" + fileName + suffix;
-        //如果文件已经存在，则删除文件
         File file = new File(targetFilePath);
         if (file.exists()) {
             file.delete();
@@ -203,7 +181,6 @@ public class CasTokenRestConnection {
         headers.add(HttpHeaders.COOKIE, refreshToken(host, protocol, port, username, password));
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         RequestCallback requestCallback = request -> request.getHeaders().putAll(headers);
-        //restTemplate会把%转义为%25,所以用自己生成的uri
         URI uri = URI.create(accessUrl(url, host, protocol, port));
 
         RestTemplate restTemplate = find(host, protocol, port, username, password);
@@ -214,16 +191,6 @@ public class CasTokenRestConnection {
         return targetFilePath;
     }
 
-
-    /**
-     * get相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> get(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.GET, requestEntity, responseType);
     }
@@ -253,15 +220,6 @@ public class CasTokenRestConnection {
         return get(host, protocol, username, password, port, url, headers, responseType);
     }
 
-    /**
-     * post相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> post(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.POST, requestEntity, responseType);
     }
@@ -288,15 +246,6 @@ public class CasTokenRestConnection {
         return post(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * put相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> put(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PUT, requestEntity, responseType);
     }
@@ -323,15 +272,6 @@ public class CasTokenRestConnection {
         return put(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * delete相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> delete(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.DELETE, requestEntity, responseType);
     }
@@ -364,15 +304,6 @@ public class CasTokenRestConnection {
         return delete(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * patch相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> patch(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PATCH, requestEntity, responseType);
     }
@@ -399,12 +330,6 @@ public class CasTokenRestConnection {
         return patch(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * 根据body构建通用HttpEntity
-     *
-     * @param body
-     * @return
-     */
     private HttpEntity<String> buildHttpEntityByBody(String body, String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = commonHeader(host, protocol, port, username, password);
         if (StringUtils.isBlank(body)) {
@@ -413,13 +338,6 @@ public class CasTokenRestConnection {
         return buildHttpEntity(headers, body, username, password);
     }
 
-    /**
-     * 根据body与Header构建通用HttpEntity
-     *
-     * @param headers
-     * @param body
-     * @return
-     */
     public HttpEntity<String> buildHttpEntity(HttpHeaders headers, String body, String username, String password) {
         HttpHeaders newHeaders = new HttpHeaders();
         headers.forEach((name, value) -> {
@@ -433,11 +351,6 @@ public class CasTokenRestConnection {
         return entity;
     }
 
-    /**
-     * 通用header构建
-     *
-     * @return
-     */
     public HttpHeaders commonHeader(String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -445,7 +358,6 @@ public class CasTokenRestConnection {
         headers.add(HttpHeaders.COOKIE, refreshToken(host, protocol, port, username, password));
         return headers;
     }
-
 
     private String accessUrl(String uri, String host, String protocol, int port) {
         StringBuffer sb = new StringBuffer(protocol)

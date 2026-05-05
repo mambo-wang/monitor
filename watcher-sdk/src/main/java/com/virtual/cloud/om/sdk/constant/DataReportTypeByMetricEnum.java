@@ -2,8 +2,6 @@ package com.virtual.cloud.om.sdk.constant;
 
 import com.google.common.collect.Lists;
 import com.virtual.cloud.om.sdk.constant.report.ReportMetricEnum;
-import lombok.AllArgsConstructor;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +17,6 @@ import java.util.stream.Collectors;
  * 如果DataReportTypeByMetricEnum.metric 唯一，DataReportTypeByMetricEnum.platform 值可以为null
  * 如果DataReportTypeByMetricEnum.metric 不唯一，请指定 DataReportTypeByMetricEnum.platform 的值，否则会获取到多个type
  */
-@AllArgsConstructor
 @SuppressWarnings("all")
 public enum DataReportTypeByMetricEnum {
     desktop_pool_basic("桌面池基本信息上报", ReportMetricEnum.desktop_pool_basic, new ReportResourceEnum[]{ReportResourceEnum.workspace},null),
@@ -161,6 +158,14 @@ public enum DataReportTypeByMetricEnum {
     public final ReportMetricEnum metric;
     public final ReportResourceEnum[] platform;
     public final ReportSeparateEnum separate;
+
+    DataReportTypeByMetricEnum(String desc, ReportMetricEnum metric, ReportResourceEnum[] platform, ReportSeparateEnum separate) {
+        this.desc = desc;
+        this.metric = metric;
+        this.platform = platform;
+        this.separate = separate;
+    }
+
     /**
      * 根据策略和平台获取 数据上报实现类的类型
      * 策略和平台相当于唯一索引

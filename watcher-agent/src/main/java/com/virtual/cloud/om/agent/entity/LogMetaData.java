@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.mongodb.core.mapping.Document;
+
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ import java.util.Objects;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "LogMetaData")//相当于数据库里的表名
+//相当于数据库里的表名
 public class LogMetaData {
 
     private String logPath;

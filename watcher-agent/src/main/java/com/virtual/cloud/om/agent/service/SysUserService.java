@@ -1,16 +1,15 @@
 package com.virtual.cloud.om.agent.service;
 
-import com.virtual.cloud.om.agent.entity.SysUser;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.virtual.cloud.om.sdk.entity.mysql.SysUser;
 import com.virtual.cloud.om.sdk.constant.Constant;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
+import com.virtual.cloud.om.sdk.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Service
@@ -18,17 +17,19 @@ import java.util.Objects;
 public class SysUserService {
 
     @Autowired
-    private MongoTemplate mongoTemplate;
+    private SysUserMapper sysUserMapper;
 
     public void updateLastLoginTime(String username) {
         SysUser user = findUserByUserName(Constant.username);
-        user.setLastLoginTime(new Date());
-        mongoTemplate.save(user);
+        user.setLastLoginTime(LocalDateTime.now());
+        sysUserMapper.updateById(user);
     }
+
     public SysUser findUserByUserName(String username){
         //根据用户名获取用户信息
-        Query query=new Query(Criteria.where("username").is(username));
-        SysUser sysUser = mongoTemplate.findOne(query, SysUser.class);
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysUser::getUsername, username);
+        SysUser sysUser = sysUserMapper.selectOne(queryWrapper);
         if (Objects.isNull(sysUser)){
             throw new AppException(ErrorCodes.USER_DOES_NOT_EXIT);
         }

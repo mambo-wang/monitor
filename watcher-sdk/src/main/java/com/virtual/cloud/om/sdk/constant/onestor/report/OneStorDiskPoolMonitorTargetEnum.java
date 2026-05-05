@@ -1,14 +1,9 @@
 package com.virtual.cloud.om.sdk.constant.onestor.report;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Onestor 硬盘池 监控信息字段枚举类
  * 需传入 响应资源名称 使用
  * */
-@AllArgsConstructor
-@Getter
 public enum OneStorDiskPoolMonitorTargetEnum {
     iops_read("diskpool.%s.iops.wr", "存储写IOPS"),
     iops_write("diskpool.%s.iops.rd", "存储读IOPS"),
@@ -21,6 +16,15 @@ public enum OneStorDiskPoolMonitorTargetEnum {
     capacity_used("diskpool.%s.space.used", "已用容量"),
 
     ;
+
     private final String value;
     private final String desc;
+
+    OneStorDiskPoolMonitorTargetEnum(String value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
+
+    public String getValue() { return value; }
+    public String getDesc() { return desc; }
 }

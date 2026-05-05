@@ -6,8 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 /**
  * @Author: w22798
@@ -17,13 +17,13 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "Resource")//相当于数据库里的表名
+//相当于数据库里的表名
 @ApiModel
 public class ResourceEntity {
     @ApiModelProperty("资源类型")
     private String platform;
     @ApiModelProperty("资源ID")
-    @Id
+    
     private String id;
     @ApiModelProperty("IP地址")
     private String ipAddress;

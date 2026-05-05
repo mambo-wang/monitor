@@ -21,10 +21,9 @@ package com.virtual.cloud.om.sdk.utils;
 
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
@@ -49,8 +48,9 @@ import java.util.regex.Pattern;
  *
  * @author 郑雄开
  */
-@Slf4j
 public class FuncUtil {
+    
+    private static final Logger log = LoggerFactory.getLogger(FuncUtil.class);
 
     /**
      * 定时器1秒执行一次。

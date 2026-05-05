@@ -2,7 +2,6 @@ package com.virtual.cloud.om.cas.service.severPerformanceMonitor;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import com.sun.org.apache.xerces.internal.dom.PSVIAttrNSImpl;
 import com.virtual.cloud.om.sdk.api.DataReportCollector;
 import com.virtual.cloud.om.sdk.config.rest.cas.CasRestConnection;
 import com.virtual.cloud.om.sdk.constant.Constant;

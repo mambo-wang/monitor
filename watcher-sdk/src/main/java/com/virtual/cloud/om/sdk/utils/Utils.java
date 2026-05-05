@@ -395,4 +395,31 @@ public class Utils {
         return true;
     }
 
+    /**
+     * 冒泡排序（升序）
+     *
+     * @param arr 待排序的整型数组
+     * @throws IllegalArgumentException 当数组为null时抛出异常
+     */
+    public static void bubbleSort(int[] arr) {
+        if (arr == null) {
+            throw new IllegalArgumentException("数组不能为null");
+        }
+        int length = arr.length;
+        for (int i = 0; i < length - 1; i++) {
+            boolean swapped = false;
+            for (int j = 0; j < length - 1 - i; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    int temp = arr[j];
+                    arr[j] = arr[j + 1];
+                    arr[j + 1] = temp;
+                    swapped = true;
+                }
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+
 }

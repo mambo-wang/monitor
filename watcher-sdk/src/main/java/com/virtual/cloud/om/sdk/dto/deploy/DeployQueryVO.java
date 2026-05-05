@@ -2,7 +2,6 @@ package com.virtual.cloud.om.sdk.dto.deploy;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 import java.util.List;
 
@@ -11,7 +10,6 @@ import java.util.List;
  * @Date: 2022/4/26 20:20
  */
 @ApiModel("节点状态信息")
-@Data
 public class DeployQueryVO{
 
     @ApiModelProperty(value = "IP地址")
@@ -31,4 +29,17 @@ public class DeployQueryVO{
 
     @ApiModelProperty(value = "组件状态信息")
     private List<Component> components;
+
+    public String getIp() { return ip; }
+    public void setIp(String ip) { this.ip = ip; }
+    public String getVip() { return vip; }
+    public void setVip(String vip) { this.vip = vip; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public Boolean getIsMaster() { return isMaster; }
+    public void setIsMaster(Boolean isMaster) { this.isMaster = isMaster; }
+    public List<Component> getComponents() { return components; }
+    public void setComponents(List<Component> components) { this.components = components; }
 }

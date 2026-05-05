@@ -1,19 +1,21 @@
 package com.virtual.cloud.om.agent;
 
-import com.spring4all.mongodb.EnableMongoPlus;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.quartz.QuartzAutoConfiguration;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScans;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author z13465 2022/4/14
  */
-@SpringBootApplication(scanBasePackages = {"com.virtual.cloud.om.onestor","com.virtual.cloud.om.sdk","com.virtual.cloud.om.cas", "com.virtual.cloud.om.uis", "com.virtual.cloud.om.self", "com.virtual.cloud.om.workspace", "com.virtual.cloud.om.log","com.virtual.cloud.om.agent"})
+@SpringBootApplication(exclude = {
+        QuartzAutoConfiguration.class
+}, scanBasePackages = {"com.virtual.cloud.om.onestor","com.virtual.cloud.om.sdk","com.virtual.cloud.om.cas", "com.virtual.cloud.om.uis", "com.virtual.cloud.om.workspace","com.virtual.cloud.om.agent"})
 @EnableScheduling
-@EnableMongoPlus
+@MapperScan("com.virtual.cloud.om.sdk.mapper")
 public class WatcherAgentApplication {
 
     public static String[] args;

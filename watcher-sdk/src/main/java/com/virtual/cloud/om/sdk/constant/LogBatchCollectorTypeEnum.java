@@ -1,12 +1,9 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
-
 import java.util.Arrays;
 import java.util.Optional;
 
 @SuppressWarnings("all")
-@AllArgsConstructor
 public enum LogBatchCollectorTypeEnum {
     workspace_domain(ReportResourceEnum.workspace,LogBatchTypeEnum.domain),
     workspace_terminal(ReportResourceEnum.workspace,LogBatchTypeEnum.terminal),
@@ -25,7 +22,12 @@ public enum LogBatchCollectorTypeEnum {
     public final ReportResourceEnum platform;
     public final LogBatchTypeEnum type;
 
-    public static LogBatchCollectorTypeEnum getByPlatformAndType(ReportResourceEnum platform,LogBatchTypeEnum type){
+    LogBatchCollectorTypeEnum(ReportResourceEnum platform, LogBatchTypeEnum type) {
+        this.platform = platform;
+        this.type = type;
+    }
+
+    public static LogBatchCollectorTypeEnum getByPlatformAndType(ReportResourceEnum platform, LogBatchTypeEnum type){
         Optional<LogBatchCollectorTypeEnum> first = Arrays.stream(values()).filter(e -> e.platform.equals(platform) && e.type.equals(type)).findFirst();
         return first.isPresent()?first.get():null;
     }

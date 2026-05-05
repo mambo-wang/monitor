@@ -1,8 +1,5 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
-
-@AllArgsConstructor
 public enum WarnMetricEnum {
     ws_realtime_alarms("ws实时告警"),
     cas_realtime_alarms("cas实时告警"),
@@ -16,4 +13,8 @@ public enum WarnMetricEnum {
     ;
 
     public final String desc;
+
+    WarnMetricEnum(String desc) {
+        this.desc = desc;
+    }
 }

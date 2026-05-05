@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+
 
 /**
  * @author kf9535
@@ -17,10 +17,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "DataCenterToken")//相当于数据库里的表名
+//相当于数据库里的表名
 public class DataCenterToken {
 
-    @Id
+    
     private String id;
 
     /**ip*/

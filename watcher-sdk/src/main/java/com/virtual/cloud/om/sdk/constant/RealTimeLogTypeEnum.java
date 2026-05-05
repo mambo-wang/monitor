@@ -1,6 +1,5 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.Arrays;
@@ -12,7 +11,6 @@ import java.util.stream.Collectors;
  * @Author: w22798
  * @Date: 2022/5/21 16:27
  */
-@AllArgsConstructor
 @Getter
 public enum RealTimeLogTypeEnum {
 

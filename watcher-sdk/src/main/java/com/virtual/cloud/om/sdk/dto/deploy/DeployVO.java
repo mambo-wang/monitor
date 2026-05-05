@@ -2,14 +2,12 @@ package com.virtual.cloud.om.sdk.dto.deploy;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
 /**
  * @Author: w22798
  * @Date: 2022/4/26 19:54
  */
 @ApiModel("节点部署")
-@Data
 public class DeployVO {
 
     @ApiModelProperty(value = "IP地址")
@@ -23,4 +21,13 @@ public class DeployVO {
 
     @ApiModelProperty(value = "是否为主节点")
     private Boolean isMaster;
+
+    public String getIp() { return ip; }
+    public void setIp(String ip) { this.ip = ip; }
+    public String getUsername() { return username; }
+    public void setUsername(String username) { this.username = username; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public Boolean getIsMaster() { return isMaster; }
+    public void setIsMaster(Boolean isMaster) { this.isMaster = isMaster; }
 }

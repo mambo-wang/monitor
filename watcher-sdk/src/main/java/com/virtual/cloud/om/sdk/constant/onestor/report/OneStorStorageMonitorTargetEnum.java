@@ -1,14 +1,9 @@
 package com.virtual.cloud.om.sdk.constant.onestor.report;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
 /**
  * Onestor 存储池 监控信息字段枚举类
  * 需传入 响应资源名称 使用
  * */
-@AllArgsConstructor
-@Getter
 public enum OneStorStorageMonitorTargetEnum {
     iops_read("onestor.%s.pool.%s.iops.rd", "存储写IOPS"),
     iops_write("onestor. %s.pool.%s.iops.wr", "存储读IOPS"),
@@ -19,6 +14,15 @@ public enum OneStorStorageMonitorTargetEnum {
     onestor_pool_bw_all("onestor.%s.pool.%s.bw.all", "存储写带宽"),
 
     ;
+
     private final String value;
     private final String desc;
+
+    OneStorStorageMonitorTargetEnum(String value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
+
+    public String getValue() { return value; }
+    public String getDesc() { return desc; }
 }

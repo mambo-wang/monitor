@@ -1,14 +1,11 @@
 package com.virtual.cloud.om.sdk.constant;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
 
 /**
  * @author:XK
  * @Date:2022/8/24 17:54
  */
-@AllArgsConstructor
 @Getter
 public enum OneStorClusterMonitorEnum {
 
@@ -40,28 +37,30 @@ public enum OneStorClusterMonitorEnum {
     big_cluster_fs_bw_total("big_cluster.fs.bw.total ","文件总带宽"),
     big_cluster_pool_all_iops_all("big_cluster.pool.all.iops.all","集群总IOPS"),
     big_cluster_fs_ops_total("big_cluster.fs.ops.total","文件总OPS"),
-    big_cluster_pool_all_bw_all("big_cluster.pool.all.bw.all"," 集群总带宽"),
+    big_cluster_pool_all_bw_all("big_cluster.pool.all.bw.all","集群总带宽"),
 
-    server_loadavg_1("servers.%s.loadavg_1"," 集群总带宽"),
-    server_loadavg_5("servers.%s.loadavg_5"," 集群总带宽"),
-    server_loadavg_15("servers.%s.loadavg_15"," 集群总带宽"),
+    server_loadavg_1("servers.%s.loadavg_1","集群总带宽"),
+    server_loadavg_5("servers.%s.loadavg_5","集群总带宽"),
+    server_loadavg_15("servers.%s.loadavg_15","集群总带宽"),
 
     network_all_rx_byte("servers.%s.network.all.rx_byte","網卡接收"),
-    network_all_tx_byte("servers.%s.network.all.tx_byte"," 網卡發送"),
-    network_all_rx_packets("servers.%s.network.all.rx_packets"," 集群总带宽"),
-    network_all_rx_drop("servers.%s.network.all.rx_drop"," 集群总带宽"),
+    network_all_tx_byte("servers.%s.network.all.tx_byte","網卡發送"),
+    network_all_rx_packets("servers.%s.network.all.rx_packets","集群总带宽"),
+    network_all_rx_drop("servers.%s.network.all.rx_drop","集群总带宽"),
 
-    network_all_rx_errors("servers.%snetwork.all.rx_errors"," 集群总带宽"),
-    network_all_tx_packets("servers.%s.network.all.tx_packets"," 集群总带宽"),
-    network_all_tx_drop("servers.%s.network.all.tx_drop"," 集群总带宽"),
+    network_all_rx_errors("servers.%snetwork.all.rx_errors","集群总带宽"),
+    network_all_tx_packets("servers.%s.network.all.tx_packets","集群总带宽"),
+    network_all_tx_drop("servers.%s.network.all.tx_drop","集群总带宽"),
 
-    network_all_tx_errors("servers.%s.network.all.tx_errors"," 集群总带宽"),
-    sub_cluster_node_pool_all_bw_all("sub_cluster.node.pool.all.bw.all"," 集群总带宽"),
-    sub_cluster_node_fs_bw_total("sub_cluster.node.fs.bw.total"," 集群总带宽")
+    network_all_tx_errors("servers.%s.network.all.tx_errors","集群总带宽"),
+    sub_cluster_node_pool_all_bw_all("sub_cluster.node.pool.all.bw.all","集群总带宽"),
+    sub_cluster_node_fs_bw_total("sub_cluster.node.fs.bw.total","集群总带宽");
 
-    ;
+    private final String value;
+    private final String desc;
 
-    private String value;
-    private String desc;
-
+    OneStorClusterMonitorEnum(String value, String desc) {
+        this.value = value;
+        this.desc = desc;
+    }
 }

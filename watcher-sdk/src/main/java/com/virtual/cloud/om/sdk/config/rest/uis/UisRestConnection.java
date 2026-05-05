@@ -14,10 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -27,26 +23,31 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
+ * UIS REST 连接 - 改造为内存缓存
  * Created by y17381 on 2019/10/29.
  */
 @Slf4j
 @Service("uisRestConnection")
 @ConditionalOnProperty(name = "rest-client.uis.enable", havingValue = "true", matchIfMissing = false)
 public class UisRestConnection {
+    
+    // 内存缓存替代 MongoDB
+    private final Map<String, ResourceHttpClientToken> tokenCache = new ConcurrentHashMap<>();
+    
     @Autowired
     private RestTemplate restTemplate;
-
 
     @Value("${vdi.uis.admin.username}")
     private String username;
@@ -57,17 +58,17 @@ public class UisRestConnection {
     @Value("${vdi.provider.operator.port:6060}")
     private int tokenPort;
 
-
-    @Resource
-    private MongoTemplate mongoTemplate;
+    private String getCacheKey(String resource, String host) {
+        return resource + "_" + host;
+    }
 
     public String refreshToken(String host) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-        if (Objects.nonNull(tokenDto) && StrUtil.isNotBlank(tokenDto.getToken())) {
-            return tokenDto.getToken();
+        String cacheKey = getCacheKey(ReportResourceEnum.uis.name(), host);
+        ResourceHttpClientToken cachedToken = tokenCache.get(cacheKey);
+        if (Objects.nonNull(cachedToken) && StrUtil.isNotBlank(cachedToken.getToken())) {
+            return cachedToken.getToken();
         }
+        
         String tokenUrl = "http" + "://" + host + ":" + tokenPort + UisUriConstants.Oauth.OAUTH_TOKEN;
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -82,20 +83,14 @@ public class UisRestConnection {
         ResponseEntity<UisTokenResult> responseEntity = restTemplate.exchange(tokenUrl, HttpMethod.POST, requestEntity, UisTokenResult.class);
 
         String token = responseEntity.getBody().getAccessToken();
-        query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name())
-                .and("host").is(host).and("updateTimeMs").lt(System.currentTimeMillis() - (60 * 1000)));
-        Update update = new Update();
-        update.set("token",token);
-        update.set("resource",ReportResourceEnum.uis.name());
-        update.set("host",host);
-        update.set("createTime", DateUtil.now());
-        update.set("updateTimeMs",System.currentTimeMillis());
-        try{
-            this.mongoTemplate.upsert(query,update,ResourceHttpClientToken.class);
-        }catch (Exception e){
-            // 忽略
-        }
+        // 保存到缓存
+        ResourceHttpClientToken tokenDto = new ResourceHttpClientToken();
+        tokenDto.setToken(token);
+        tokenDto.setResource(ReportResourceEnum.uis.name());
+        tokenDto.setHost(host);
+        tokenDto.setCreateTime(DateUtil.now());
+        tokenDto.setUpdateTimeMs(System.currentTimeMillis());
+        tokenCache.put(cacheKey, tokenDto);
         return token;
     }
 
@@ -103,7 +98,6 @@ public class UisRestConnection {
         Optional<UisTokenRestClient> restClient = UisTokenRestClientCache.get().get(ip, protocol, port, username, password);
         return restClient.<RestTemplate>map(UisTokenRestClient::getRestTemplate).orElse(null);
     }
-
 
     public <T> ResponseEntity<T> exchangeResp(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... uriVariables) {
         RestTemplate restTemplate = find(host, protocol, port, username, password);
@@ -147,11 +141,9 @@ public class UisRestConnection {
     }
 
     private HttpEntity<?> refreshHttpEntity(HttpEntity<?> requestEntity, String host,String protocol, int port, String username, String password) {
-        //todo 删除已有token
-        Query query = new Query();
-        query = query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name())
-                .and("host").is(host));
-        mongoTemplate.remove(query,ResourceHttpClientToken.class);
+        // 删除已有token
+        String cacheKey = getCacheKey(ReportResourceEnum.uis.name(), host);
+        tokenCache.remove(cacheKey);
         HttpHeaders headers = commonHeader(host,protocol,port,username,password);
         if (Objects.isNull(requestEntity.getBody())) {
             headers.remove(HttpHeaders.CONTENT_TYPE);
@@ -168,16 +160,6 @@ public class UisRestConnection {
                 new HttpEntity<>(newHeaders) : new HttpEntity<>(requestEntity.getBody(), newHeaders);
     }
 
-    /**
-     * 基础模板，直接套用restTemplate
-     *
-     * @param url
-     * @param method
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> exchange(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity,
                                           Class<T> responseType) {
         return exchangeResp(host, protocol, username, password, port, url, method, requestEntity, new ParameterizedTypeReference<T>() {
@@ -190,15 +172,6 @@ public class UisRestConnection {
         return exchangeResp(host, protocol, username, password, port, url, method, requestEntity, responseType);
     }
 
-    /**
-     * get相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> get(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.GET, requestEntity, responseType);
     }
@@ -228,15 +201,6 @@ public class UisRestConnection {
         return get(host, protocol, username, password, port, url, headers, responseType);
     }
 
-    /**
-     * post相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> post(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.POST, requestEntity, responseType);
     }
@@ -263,15 +227,6 @@ public class UisRestConnection {
         return post(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * put相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> put(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PUT, requestEntity, responseType);
     }
@@ -298,15 +253,6 @@ public class UisRestConnection {
         return put(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * delete相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> delete(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.DELETE, requestEntity, responseType);
     }
@@ -339,15 +285,6 @@ public class UisRestConnection {
         return delete(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * patch相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> patch(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PATCH, requestEntity, responseType);
     }
@@ -373,12 +310,7 @@ public class UisRestConnection {
         HttpEntity<String> entity = buildHttpEntityByBody(body, host, protocol, port, username, password);
         return patch(host, protocol, username, password, port, url, entity, responseType);
     }
-    /**
-     * 根据body构建通用HttpEntity
-     *
-     * @param body
-     * @return
-     */
+
     private HttpEntity<String> buildHttpEntityByBody(String body, String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = commonHeader(host, protocol, port, username, password);
         if (StringUtils.isBlank(body)) {
@@ -387,13 +319,6 @@ public class UisRestConnection {
         return buildHttpEntity(headers, body, username, password);
     }
 
-    /**
-     * 根据body与Header构建通用HttpEntity
-     *
-     * @param headers
-     * @param body
-     * @return
-     */
     public HttpEntity<String> buildHttpEntity(HttpHeaders headers, String body, String username, String password) {
         HttpHeaders newHeaders = new HttpHeaders();
         headers.forEach((name, value) -> {
@@ -407,19 +332,12 @@ public class UisRestConnection {
         return entity;
     }
 
-
-    /**
-     * 通用header构建
-     *
-     * @return
-     */
     public HttpHeaders commonHeader(String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         headers.add(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        Query query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
+        String cacheKey = getCacheKey(ReportResourceEnum.uis.name(), host);
+        ResourceHttpClientToken tokenDto = tokenCache.get(cacheKey);
         String cookie = "";
         if (ObjectUtils.isNotEmpty(tokenDto) && StringUtils.isNotEmpty(tokenDto.getSessionId())) {
             cookie = tokenDto.getSessionId() + ";AC_TOKEN=" + refreshToken(host);
@@ -428,10 +346,8 @@ public class UisRestConnection {
         }
         log.info("set uis-cookie = " + cookie);
         headers.add(HttpHeaders.COOKIE, cookie);
-//        headers.add(HttpHeaders.COOKIE, "AC_TOKEN=" + refreshToken(host,protocol,port,username,password));
         return headers;
     }
-
 
     private String accessUrl(String uri, String host, String protocol, int port) {
         StringBuffer sb = new StringBuffer(protocol)
@@ -448,17 +364,15 @@ public class UisRestConnection {
             Files.createDirectories(Paths.get(targetPath));
         }
         String targetFilePath = targetPath + "/" + fileName + suffix ;
-        //如果文件已经存在，则删除文件
         File file = new File(targetFilePath);
         if (file.exists()) {
             file.delete();
         }
         HttpHeaders headers = new HttpHeaders();
-        Query query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
+        String cacheKey = getCacheKey(ReportResourceEnum.uis.name(), host);
+        ResourceHttpClientToken tokenDto = tokenCache.get(cacheKey);
         String cookie = "";
-        if (StringUtils.isNotEmpty(tokenDto.getSessionId())) {
+        if (Objects.nonNull(tokenDto) && StringUtils.isNotEmpty(tokenDto.getSessionId())) {
             cookie = tokenDto.getSessionId() + ";AC_TOKEN=" + refreshToken(host);
         } else {
             cookie = "AC_TOKEN=" + refreshToken(host);
@@ -467,7 +381,6 @@ public class UisRestConnection {
         headers.add(HttpHeaders.COOKIE, cookie);
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         RequestCallback requestCallback = request -> request.getHeaders().putAll(headers);
-        //restTemplate会把%转义为%25,所以用自己生成的uri
         URI uri = URI.create(accessUrl(url, host, protocol, port));
         RestTemplate restTemplate = find(host, protocol, port, username, password);
         restTemplate.execute(uri, HttpMethod.GET, requestCallback, clientHttpResponse -> {
@@ -478,16 +391,13 @@ public class UisRestConnection {
     }
 
     private void updateUisJsessionId(String host, ResponseEntity responseEntity){
-        Query query = new Query();
-        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.uis.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-        Update update = new Update();
+        String cacheKey = getCacheKey(ReportResourceEnum.uis.name(), host);
+        ResourceHttpClientToken tokenDto = tokenCache.get(cacheKey);
         String token = "";
         if (Objects.nonNull(tokenDto) && StrUtil.isNotBlank(tokenDto.getToken())) {
             token = tokenDto.getToken();
         }
         HttpHeaders headers = responseEntity.getHeaders();
-        /**获取UIS JSESSIONID*/
         List<String> cookies = headers.get("Set-Cookie");
         if (!CollectionUtils.isEmpty(cookies)) {
             Optional<String> jsessionid = cookies.stream().filter(s -> s.contains("JSESSIONID")).findAny();
@@ -495,8 +405,14 @@ public class UisRestConnection {
                 String[] split = jsessionid.get().split(";");
                 String s = split[0];
                 log.info("update uis-cookie JSESSIONID : " + s);
-                update.set("sessionId",s);
-                this.mongoTemplate.upsert(query,update,ResourceHttpClientToken.class);
+                if (Objects.isNull(tokenDto)) {
+                    tokenDto = new ResourceHttpClientToken();
+                    tokenDto.setHost(host);
+                    tokenDto.setResource(ReportResourceEnum.uis.name());
+                }
+                tokenDto.setSessionId(s);
+                tokenDto.setToken(token);
+                tokenCache.put(cacheKey, tokenDto);
             }
         }
     }

@@ -20,10 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -39,20 +35,22 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
- * REST连接获取MGR
+ * OneStor REST连接 - 改造为内存缓存
  */
 @Service("onestorRestConnection")
 @Slf4j
 @ConditionalOnProperty(name = "rest-client.onestor.enable", havingValue = "true")
 public class OnestorRestConnection {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
+    // 内存缓存替代 MongoDB
+    private final Map<String, ResourceHttpClientToken> tokenCache = new ConcurrentHashMap<>();
 
     @Autowired
     private RestTemplate restTemplate;
@@ -60,14 +58,16 @@ public class OnestorRestConnection {
     @Resource
     private LockApi lockApi;
 
+    private String getCacheKey(String resource, String host) {
+        return resource + "_" + host;
+    }
+
     public synchronized String refreshToken(String host, String protocol, int port, String username, String password) {
-//        Query query = new Query()
-//        query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.onestor.name()).and("host").is(host));
-        Query query = Query.query(Criteria.where("resource").is(ReportResourceEnum.onestor.name()).and("host").is(host));
-        ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-        log.info("resourcetoken is {}",tokenDto);
-        if (Objects.nonNull(tokenDto) && StrUtil.isNotBlank(tokenDto.getToken())) {
-            return tokenDto.getToken();
+        String cacheKey = getCacheKey(ReportResourceEnum.onestor.name(), host);
+        ResourceHttpClientToken cachedToken = tokenCache.get(cacheKey);
+        log.info("resourcetoken is {}", cachedToken);
+        if (Objects.nonNull(cachedToken) && StrUtil.isNotBlank(cachedToken.getToken())) {
+            return cachedToken.getToken();
         }
         String key = String.format("refreshToken_%s_%s", host, ReportResourceEnum.onestor.name());
         String acquire = null;
@@ -101,8 +101,8 @@ public class OnestorRestConnection {
                 token = StringUtils.substringBefore(token, ";");
                 String sessionId = cookies.stream().filter(v -> v.startsWith("calamari_sessionid")).findAny().orElse("");
                 sessionId = StringUtils.substringBefore(sessionId, ";");
-                cookieValue =  sessionId + ";" + token;
-                log.info("get login cookievalue is :{}",cookieValue);
+                cookieValue = sessionId + ";" + token;
+                log.info("get login cookievalue is :{}", cookieValue);
                 HttpHeaders headersPost = new HttpHeaders();
                 headersPost.add(HttpHeaders.CONTENT_TYPE, "application/json;charset=UTF-8");
                 headersPost.add("Cookie", cookieValue);
@@ -115,23 +115,19 @@ public class OnestorRestConnection {
                 token = StringUtils.substringBefore(tokenPost, ";");
                 String sessionIdPost = cookiesPost.stream().filter(v -> v.startsWith("calamari_sessionid")).findAny().orElse("");
                 sessionId = StringUtils.substringBefore(sessionIdPost, ";");
-                cookieValue =  sessionId + ";" + token;
-                log.info("cookievalue is ---------:{}",cookieValue);
-                query = new Query();
-                query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.onestor.name())
-                        .and("host").is(host));
-                Update update = new Update();
-                update.set("token",cookieValue);
-                update.set("resource",ReportResourceEnum.onestor.name());
-                update.set("host",host);
-                update.setOnInsert("createTime", DateUtil.now());
-                update.set("updateTimeMs",System.currentTimeMillis());
-                try{
-                    this.mongoTemplate.upsert(query,update,ResourceHttpClientToken.class);
-                }catch (Exception e){
-                    // 忽略
-                    log.error("save resource token fail", e);
-                }
+                cookieValue = sessionId + ";" + token;
+                log.info("cookievalue is ---------:{}", cookieValue);
+                
+                // 保存到缓存
+                ResourceHttpClientToken tokenDto = new ResourceHttpClientToken();
+                tokenDto.setToken(cookieValue);
+                tokenDto.setResource(ReportResourceEnum.onestor.name());
+                tokenDto.setHost(host);
+                tokenDto.setCreateTime(DateUtil.now());
+                tokenDto.setUpdateTimeMs(System.currentTimeMillis());
+                tokenCache.put(cacheKey, tokenDto);
+            } catch (Exception e) {
+                log.error("save resource token fail", e);
             } finally {
                 this.lockApi.release(key, acquire);
             }
@@ -143,7 +139,6 @@ public class OnestorRestConnection {
         Optional<OnestorTokenRestClient> restClient = OnestorTokenRestClientCache.get().get(ip, protocol, port, username, password);
         return restClient.<RestTemplate>map(OnestorTokenRestClient::getRestTemplate).orElse(null);
     }
-
 
     public <T> ResponseEntity<T> exchangeResp(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType, Object... uriVariables) {
         RestTemplate restTemplate = find(host, protocol, port, username, password);
@@ -158,14 +153,10 @@ public class OnestorRestConnection {
         } catch (AppException e) {
             if (e.getErrorCode().equals(ErrorCodes.NOT_FOUND)) {
                 throw new AppException(e.getErrorCode(), url);
-            } else if (e.getErrorCode().equals(ErrorCodes.UNAUTHORIZED) || e.getErrorCode().equals(ErrorCodes.FORBIDDEN))  {
+            } else if (e.getErrorCode().equals(ErrorCodes.UNAUTHORIZED) || e.getErrorCode().equals(ErrorCodes.FORBIDDEN)) {
                 // 401,403 异常，需要重新获取token
-                Query query = new Query();
-                query.addCriteria(Criteria.where("resource").is(ReportResourceEnum.onestor.name()).and("host").is(host));
-                ResourceHttpClientToken tokenDto = this.mongoTemplate.findOne(query, ResourceHttpClientToken.class);
-                if (Objects.nonNull(tokenDto)) {
-                    this.mongoTemplate.remove(tokenDto);
-                }
+                String cacheKey = getCacheKey(ReportResourceEnum.onestor.name(), host);
+                tokenCache.remove(cacheKey);
                 HttpHeaders headers = requestEntity.getHeaders();
                 HttpHeaders newHeaders = new HttpHeaders();
                 headers.entrySet().forEach(entry -> {
@@ -197,17 +188,6 @@ public class OnestorRestConnection {
         return result;
     }
 
-
-    /**
-     * 基础模板，直接套用restTemplate
-     *
-     * @param url
-     * @param method
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> exchange(String host, String protocol, String username, String password, int port, String url, HttpMethod method, HttpEntity<?> requestEntity,
                                           Class<T> responseType) {
         return exchangeResp(host, protocol, username, password, port, url, method, requestEntity, new ParameterizedTypeReference<T>() {
@@ -220,18 +200,6 @@ public class OnestorRestConnection {
         return exchangeResp(host, protocol, username, password, port, url, method, requestEntity, responseType);
     }
 
-
-
-
-    /**
-     * get相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> get(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.GET, requestEntity, responseType);
     }
@@ -260,15 +228,6 @@ public class OnestorRestConnection {
         return get(host, protocol, username, password, port, url, headers, responseType);
     }
 
-    /**
-     * post相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> post(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.POST, requestEntity, responseType);
     }
@@ -282,7 +241,7 @@ public class OnestorRestConnection {
         return post(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    private  <T> ResponseEntity<T> post(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType) {
+    public <T> ResponseEntity<T> post(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, ParameterizedTypeReference<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.POST, requestEntity, responseType);
     }
 
@@ -295,15 +254,6 @@ public class OnestorRestConnection {
         return post(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * put相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> put(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PUT, requestEntity, responseType);
     }
@@ -330,15 +280,6 @@ public class OnestorRestConnection {
         return put(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * delete相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> delete(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.DELETE, requestEntity, responseType);
     }
@@ -371,15 +312,6 @@ public class OnestorRestConnection {
         return delete(host, protocol, username, password, port, url, entity, responseType);
     }
 
-    /**
-     * patch相关方法
-     *
-     * @param url
-     * @param requestEntity
-     * @param responseType
-     * @param <T>
-     * @return
-     */
     public <T> ResponseEntity<T> patch(String host, String protocol, String username, String password, int port, String url, HttpEntity<?> requestEntity, Class<T> responseType) {
         return exchange(host, protocol, username, password, port, url, HttpMethod.PATCH, requestEntity, responseType);
     }
@@ -407,11 +339,10 @@ public class OnestorRestConnection {
     }
 
     public String downloadBigFile(String host, String protocol, String username, String password, int port, String url, String targetPath, String fileName, String suffix) throws IOException {
-        if(Files.notExists(Paths.get(targetPath))){
+        if (Files.notExists(Paths.get(targetPath))) {
             Files.createDirectories(Paths.get(targetPath));
         }
-        String targetFilePath = targetPath + "/" + fileName + suffix ;
-        //如果文件已经存在，则删除文件
+        String targetFilePath = targetPath + "/" + fileName + suffix;
         File file = new File(targetFilePath);
         if (file.exists()) {
             file.delete();
@@ -420,7 +351,6 @@ public class OnestorRestConnection {
         headers.add(HttpHeaders.COOKIE, "AC_TOKEN=" + refreshToken(host, protocol, port, username, password));
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         RequestCallback requestCallback = request -> request.getHeaders().putAll(headers);
-        //restTemplate会把%转义为%25,所以用自己生成的uri
         URI uri = URI.create(accessUrl(url, host, protocol, port));
         RestTemplate restTemplate = find(host, protocol, port, username, password);
         restTemplate.execute(uri, HttpMethod.GET, requestCallback, clientHttpResponse -> {
@@ -430,25 +360,11 @@ public class OnestorRestConnection {
         return targetFilePath;
     }
 
-
-    /**
-     * 根据body构建通用HttpEntity
-     *
-     * @param body
-     * @return
-     */
     private HttpEntity<String> buildHttpEntityByBody(String body, String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = commonHeader(host, protocol, port, username, password);
         return buildHttpEntity(headers, body, username, password);
     }
 
-    /**
-     * 根据body与Header构建通用HttpEntity
-     *
-     * @param headers
-     * @param body
-     * @return
-     */
     public HttpEntity<String> buildHttpEntity(HttpHeaders headers, String body, String username, String password) {
         HttpHeaders newHeaders = new HttpHeaders();
         headers.forEach((name, value) -> {
@@ -462,11 +378,6 @@ public class OnestorRestConnection {
         return entity;
     }
 
-    /**
-     * 通用header构建
-     *
-     * @return
-     */
     public HttpHeaders commonHeader(String host, String protocol, int port, String username, String password) {
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
@@ -477,7 +388,6 @@ public class OnestorRestConnection {
         log.info("token is {},cookieValue is {},headers is {}", token, cookieValue, headers);
         return headers;
     }
-
 
     private String accessUrl(String uri, String host, String protocol, int port) {
         StringBuffer sb = new StringBuffer(protocol)
@@ -491,10 +401,12 @@ public class OnestorRestConnection {
 
     public String getClusterId(String host, String protocol, String username, String password, Integer port) {
         String url = String.format(OnestoreUriConstants.Cluster.CLUSTER_INFO);
-        OneStorRestResult oneStorRestResult = this.get(host, protocol, username, password, port, url, new ParameterizedTypeReference<OneStorRestResult>(){}).getBody();
-        LinkedHashMap data = (LinkedHashMap)oneStorRestResult.getData();
+        OneStorRestResult oneStorRestResult = this.get(host, protocol, username, password, port, url, new ParameterizedTypeReference<OneStorRestResult>() {
+        }).getBody();
+        LinkedHashMap data = (LinkedHashMap) oneStorRestResult.getData();
         ObjectMapper mapper = new ObjectMapper();
-        OneStorClusterInfoDTO oneStorClusterInfoDTO = mapper.convertValue(data, new TypeReference<OneStorClusterInfoDTO>(){});
+        OneStorClusterInfoDTO oneStorClusterInfoDTO = mapper.convertValue(data, new TypeReference<OneStorClusterInfoDTO>() {
+        });
         return oneStorClusterInfoDTO.getId();
     }
 }

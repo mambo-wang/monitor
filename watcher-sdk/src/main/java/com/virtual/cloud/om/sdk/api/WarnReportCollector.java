@@ -3,14 +3,16 @@ package com.virtual.cloud.om.sdk.api;
 import com.virtual.cloud.om.sdk.constant.WarnMetricEnum;
 import com.virtual.cloud.om.sdk.dto.RestHost;
 import com.virtual.cloud.om.sdk.dto.dataReport.workspace.WarnDataDTO;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Slf4j
 public abstract class WarnReportCollector {
+
+    private static final Logger log = LoggerFactory.getLogger(WarnReportCollector.class);
 
     /**
      * @param goal 目标id 如 hostId

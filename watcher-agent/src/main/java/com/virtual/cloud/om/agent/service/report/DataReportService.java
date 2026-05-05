@@ -8,8 +8,6 @@ import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.virtual.cloud.om.agent.dto.MandatoryDTO;
-import com.virtual.cloud.om.agent.entity.LastReportStaticDataTime;
-import com.virtual.cloud.om.agent.entity.ResourceEntity;
 import com.virtual.cloud.om.agent.entity.Task;
 import com.virtual.cloud.om.agent.repository.TaskRepository;
 import com.virtual.cloud.om.sdk.api.*;
@@ -19,14 +17,14 @@ import com.virtual.cloud.om.sdk.constant.ReportResourceEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportDataTypeEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportErrorTypeEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportMetricEnum;
-import com.virtual.cloud.om.sdk.constant.uri.DataCenterUriConstants;
 import com.virtual.cloud.om.sdk.dto.RestHost;
 import com.virtual.cloud.om.sdk.dto.TaskDTO;
 import com.virtual.cloud.om.sdk.dto.dataReport.ReportErrorDTO;
 import com.virtual.cloud.om.sdk.dto.dataReport.workspace.ReportDTO;
-import com.virtual.cloud.om.sdk.entity.clickhouse.AwesomeMetric;
+import com.virtual.cloud.om.sdk.entity.mysql.ResourceEntity;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
+import com.virtual.cloud.om.sdk.mapper.ResourceEntityMapper;
 import com.virtual.cloud.om.agent.service.strategy.StrategyService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,10 +32,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -47,13 +41,16 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * 数据上报服务 - MySQL 单机版
+ */
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class DataReportService {
     private DataCenterApi dataCenterApi;
-    private final MongoTemplate mongoTemplate;
-    private  ResourceApi resourceApi;
+    private ResourceEntityMapper resourceEntityMapper;
+    private ResourceApi resourceApi;
     private final LockApi lockApi;
     private final TaskRepository taskRepository;
     private final TaskMgrApi taskMgrApi;
@@ -71,18 +68,23 @@ public class DataReportService {
         this.dataCenterApi = dataCenterApi;
     }
 
+    @Autowired
+    public void setResourceEntityMapper(ResourceEntityMapper resourceEntityMapper) {
+        this.resourceEntityMapper = resourceEntityMapper;
+    }
+
     @PostConstruct
     public void init() {
         Stream.of(dataReportCollectors).forEach(collectApi -> collectApiMap.put(collectApi.metric().name(), collectApi));
     }
+
     @Autowired
     public void setResourceApi(ResourceApi resourceApi) {
         this.resourceApi = resourceApi;
     }
+
     /**
      * 强制上报静态数据
-     *
-     * @param data
      */
     public void mandatory(String data) {
         MandatoryDTO mandatoryDTO = JSONUtil.toBean(data, MandatoryDTO.class);
@@ -91,9 +93,8 @@ public class DataReportService {
         Arrays.stream(mandatoryDTO.getResourceIds().split(",")).parallel()
                 .forEach(resourceId -> {
                     this.report(new StringBuilder("resourceId=").append(resourceId).toString(), metrics);
-                    //修改定时任务
                     {
-                        ReportMetricEnum.getStaticMetrics().stream().forEach(s->{
+                        ReportMetricEnum.getStaticMetrics().stream().forEach(s -> {
                             String taskId = this.strategyService.getTaskId(resourceId, s);
                             Task task = this.taskRepository.findById(taskId);
                             if (Objects.isNull(task) || StrUtil.isBlank(task.getId())) {
@@ -103,7 +104,6 @@ public class DataReportService {
                             this.taskMgrApi.delete(dto);
                             this.taskMgrApi.addTask(dto);
                         });
-//                        String taskId = this.strategyService.getTaskId(resourceId, ReportMetricEnum.getStaticMetrics().stream().toArray(ReportMetricEnum[]::new));
                     }
                 });
         log.info("[data collect][static={}][resourceIds={}] static data report[mandatory] is end", true, mandatoryDTO.getResourceIds());
@@ -111,18 +111,13 @@ public class DataReportService {
 
     /**
      * 数据上报
-     *
-     * @param tags
-     * @param metrics
      */
     public void report(String tags, String metrics) {
-        // tags 中拆 resourceId
         Optional<String> first = DataReportCollector.getId("resourceId", tags).stream().findFirst();
         if (!first.isPresent()) {
             throw new AppException(ErrorCodes.RESTHOST_RESOURCEID_NONE);
         }
         final String resourceId = first.get();
-        // 批次号
         String batchNum = String.valueOf(System.currentTimeMillis() / 1000 / 60);
         ReportMetricEnum[] metricArr = Arrays.stream(metrics.split(";")).map(metric -> ReportMetricEnum.valueOf(metric)).toArray(ReportMetricEnum[]::new);
         if (Arrays.stream(metricArr).filter(metric -> metric.staticMetric).findFirst().isPresent()) {
@@ -136,16 +131,8 @@ public class DataReportService {
                 this.report(resourceId, tags, batchNum, true, metricArr);
             } finally {
                 this.lockApi.release(lockKey, acquire);
-                // 记录最后一次上报时间
-                {
-                    Query query = Query.query(Criteria.where("resourceId").is(resourceId));
-                    Update update = new Update()
-                            // 不存在就新增，存在无操作
-                            .setOnInsert("_id", resourceId)
-                            // 不存在就新增，存在就更新
-                            .set("lastTimeMs", System.currentTimeMillis());
-                    this.mongoTemplate.upsert(query, update, LastReportStaticDataTime.class);
-                }
+                // 记录最后一次上报时间 - MySQL版本暂时禁用
+                log.debug("[data collect] last report time recording disabled in MySQL standalone mode");
             }
         } else {
             this.report(resourceId, tags, batchNum, false, metricArr);
@@ -154,9 +141,6 @@ public class DataReportService {
 
     /**
      * 数据上报
-     *
-     * @param tags
-     * @param metrics
      */
     private void report(String resourceId, String tags, String batchNum, Boolean ifStatic, ReportMetricEnum... metrics) {
         ReportResourceEnum platform;
@@ -177,15 +161,15 @@ public class DataReportService {
         List<ReportError> reportErrorList = Lists.newCopyOnWriteArrayList();
         CompletableFuture[] completableFutures = Arrays.stream(metrics).map(metric ->
                 CompletableFuture.runAsync(() -> {
-                    final List<DataReportTypeByMetricEnum> types =DataReportTypeByMetricEnum.getTypesByMetricAndPlatform(metric, platform);
+                    final List<DataReportTypeByMetricEnum> types = DataReportTypeByMetricEnum.getTypesByMetricAndPlatform(metric, platform);
                     final String traceId = UUID.fastUUID().toString();
                     List<ReportDTO> data = Lists.newCopyOnWriteArrayList();
                     CompletableFuture[] innerCompletableFutures = types.stream().map(type ->
                             CompletableFuture.runAsync(() -> {
-                                log.info("[data collect] type={} [resourceId={}] [{}]",type,resourceId,metric);
+                                log.info("[data collect] type={} [resourceId={}] [{}]", type, resourceId, metric);
                                 DataReportCollector collector = collectApiMap.get(type.name());
                                 if (Objects.isNull(collector)) {
-                                    if (Objects.isNull(collector= collectApiMap.get(type.metric.name()))){
+                                    if (Objects.isNull(collector = collectApiMap.get(type.metric.name()))) {
                                         log.info("[data collect][resourceId={}][batchNum={}][static={}][{}][traceId={}] cant find collector", resourceId, batchNum, ifStatic, metric, traceId);
                                         return;
                                     }
@@ -201,30 +185,17 @@ public class DataReportService {
                                         }
                                     }
                                     e.printStackTrace();
-                                    log.error("[data collect][resourceId={}][batchNum={}][static={}][{}][traceId={}] collector error:{}", resourceId, batchNum, ifStatic, metric, traceId,e.getMessage());
+                                    log.error("[data collect][resourceId={}][batchNum={}][static={}][{}][traceId={}] collector error:{}", resourceId, batchNum, ifStatic, metric, traceId, e.getMessage());
                                 }
                             })
                     ).toArray(CompletableFuture[]::new);
                     CompletableFuture.allOf(innerCompletableFutures).join();
-                    if(CollUtil.isEmpty(data)){
+                    if (CollUtil.isEmpty(data)) {
                         return;
                     }
                     try {
                         for (ReportDTO da : data) {
                             log.info("save data {}", da);
-                            //暂时先处理数字格式的指标
-                            if(da.getType() == ReportDataTypeEnum.gauge){
-                                AwesomeMetric awesomeMetric = new AwesomeMetric();
-                                awesomeMetric.setMetric(da.getMetric().toString());
-                                awesomeMetric.setBatchNum(batchNum);
-                                awesomeMetric.setPlatform(platform.toString());
-                                awesomeMetric.setTraceId(traceId);
-                                awesomeMetric.setCreateTime(da.getTimestamp());
-                                awesomeMetric.setTags(da.getTags());
-                                String value = String.valueOf(da.getValue());
-                                awesomeMetric.setValue(StringUtils.isNumeric(value) ? Double.valueOf(value) : 0.00);
-                                //写入时序数据库
-                            }
                         }
                     } catch (AppException e) {
                         log.error("collect error", e);
@@ -244,19 +215,12 @@ public class DataReportService {
 
     /**
      * 上报异常
-     *
-     * @param errorCode
-     * @param errorMessage
-     * @param tags
-     * @param type
      */
-    public void reportError(Integer datacenterType,String cloudToken,Integer errorCode, String errorMessage, String tags, ReportErrorTypeEnum type, String resourceId, ReportMetricEnum metric,
-                            String watcherCode, byte[] secretKey, String host,String port, String token, String traceId,
-                            String comCode, String orgCode) {
-        Query query = new Query();
-        query.addCriteria(Criteria.where("id").is(resourceId));
+    public void reportError(Integer datacenterType, String cloudToken, Integer errorCode, String errorMessage, String tags, ReportErrorTypeEnum type, String resourceId, ReportMetricEnum metric,
+                           String watcherCode, byte[] secretKey, String host, String port, String token, String traceId,
+                           String comCode, String orgCode) {
         try {
-            ResourceEntity resource = this.mongoTemplate.findOne(query, ResourceEntity.class);
+            ResourceEntity resource = resourceEntityMapper.selectById(resourceId);
             if (Objects.isNull(resource)) {
                 throw new AppException(ErrorCodes.RESTHOST_RESOURCE_NONE);
             }
@@ -271,21 +235,7 @@ public class DataReportService {
             dto.setErrorCode(errorCode);
             dto.setType(type);
             dto.setPlatform(resource.getPlatform());
-            String uri = DataCenterUriConstants.REPORT_ERROR;
-            try {
-//todo wb
-                log.info("[data collect][resourceId={}][{}][data center host={}][traceId={}] report error info ：{} ", resourceId, metric, host, traceId, errorMessage);
-            } catch (AppException e) {
-                // 数据中心返回了这个code，需要重新上报一次
-                if (e.getErrorCode().equals(ErrorCodes.report_data_error_need_report_again)) {
-                    try {
-//todo wb
-                        log.info("[data collect][resourceId={}][{}][data center host={}][traceId={}] report error info ：{} ", resourceId, metric, host, traceId, errorMessage);
-                    } catch (Exception e1) {
-                        log.error("[data collect][resourceId={}][{}][data center host={}][traceId={}] report error info fail :{} ", resourceId, metric, host, traceId, e.getMessage());
-                    }
-                }
-            }
+            log.info("[data collect][resourceId={}][{}][data center host={}][traceId={}] report error info ：{} ", resourceId, metric, host, traceId, errorMessage);
         } catch (Exception e) {
             log.error("[data collect][resourceId={}][{}][data center host={}][traceId={}] report error info fail :{} ", resourceId, metric, host, traceId, e.getMessage());
         }

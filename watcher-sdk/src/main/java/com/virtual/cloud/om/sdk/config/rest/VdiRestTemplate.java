@@ -3,7 +3,8 @@ package com.virtual.cloud.om.sdk.config.rest;
 import com.virtual.cloud.om.sdk.config.rest.common.RestType;
 import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,9 @@ import java.lang.reflect.Type;
 /**
  * 继承Spring原来的RestTemplate，把泛型参数名字减短一点
  */
-@Slf4j
 public class VdiRestTemplate extends RestTemplate {
+    
+    private static final Logger log = LoggerFactory.getLogger(VdiRestTemplate.class);
 
     public VdiRestTemplate(ClientHttpRequestFactory requestFactory) {
         super(requestFactory);
