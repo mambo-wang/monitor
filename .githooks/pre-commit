@@ -1,20 +1,21 @@
 #!/bin/sh
 # pre-commit hook: 提交前检查（整合版）
-# 依次执行：提交量检查 → 单元测试
+# 依次执行：提交量检查 -> 单元测试
 # 各功能通过 git config 控制开关
 
-set -e
+# 关闭 set -e，避免 git config 返回非零时脚本退出
+set +e
 
 GIT_ROOT="$(git rev-parse --show-toplevel)"
 GITHOOKS_DIR="$GIT_ROOT/.githooks"
 PYTHON="$(command -v python3 || command -v python)"
 
 # 1. 提交量检查（commitSize.threshold）
-THRESHOLD=$(git config --get commitSize.threshold 2>/dev/null || echo "0")
+THRESHOLD=$(git config --get commitSize.threshold 2>/dev/null)
 if [ -n "$THRESHOLD" ] && [ "$THRESHOLD" -gt 0 ] 2>/dev/null; then
-    echo "📏 检查提交改动量（阈值: ${THRESHOLD} 行）..."
     COMMIT_SIZE_THRESHOLD=$THRESHOLD "$PYTHON" "$GITHOOKS_DIR/check_commit_size.py"
-    if [ $? -ne 0 ]; then
+    result=$?
+    if [ $result -ne 0 ]; then
         exit 1
     fi
 fi
@@ -22,9 +23,9 @@ fi
 # 2. 单元测试（autoTest.enabled）
 TEST_ENABLED=$(git config --get autoTest.enabled 2>/dev/null)
 if [ "$TEST_ENABLED" = "true" ]; then
-    echo "🧪 运行单元测试..."
     "$PYTHON" "$GITHOOKS_DIR/run_unit_tests.py"
-    if [ $? -ne 0 ]; then
+    result=$?
+    if [ $result -ne 0 ]; then
         exit 1
     fi
 fi

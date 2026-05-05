@@ -13,7 +13,37 @@ from pathlib import Path
 from typing import Optional
 
 
-DEFAULT_THRESHOLD = int(os.environ.get("COMMIT_SIZE_THRESHOLD", os.environ.get("THRESHOLD", "1000")))
+def get_git_config_threshold() -> Optional[str]:
+    """从 git config 读取阈值配置"""
+    result = subprocess.run(
+        ["git", "config", "--local", "--get", "commitSize.threshold"],
+        capture_output=True, text=True
+    )
+    if result.returncode == 0:
+        return result.stdout.strip()
+    return None
+
+
+def get_threshold() -> int:
+    """获取阈值优先级：环境变量 > git config > 默认值"""
+    env_threshold = os.environ.get("COMMIT_SIZE_THRESHOLD", os.environ.get("THRESHOLD", ""))
+    if env_threshold:
+        try:
+            return int(env_threshold)
+        except ValueError:
+            pass
+    
+    git_threshold = get_git_config_threshold()
+    if git_threshold:
+        try:
+            return int(git_threshold)
+        except ValueError:
+            pass
+    
+    return 1000
+
+
+DEFAULT_THRESHOLD = get_threshold()
 
 
 def run_git_diff(staged: bool = True) -> str:
@@ -188,8 +218,7 @@ def main():
         print(f"__JSON_RESULT__:{json.dumps(result, ensure_ascii=False, indent=2)}")
         sys.exit(1)
     else:
-        print(f"✅ 提交检查通过：{total_changes}/{threshold} 行", file=sys.stderr)
-        print(f"__JSON_RESULT__:{json.dumps(result, ensure_ascii=False, indent=2)}")
+        # 检查通过，静默退出，不输出任何信息
         sys.exit(0)
 
 
