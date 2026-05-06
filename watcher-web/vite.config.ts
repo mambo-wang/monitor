@@ -1,7 +1,5 @@
-
 import { ConfigEnv, UserConfigExport } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { viteMockServe } from 'vite-plugin-mock'
 import { resolve } from 'path'
 
 const pathResolve = (dir: string): any => {
@@ -12,16 +10,15 @@ const alias: Record<string, string> = {
   '@': pathResolve("src")
 }
 
-/**
- * @description-en vite document address
- * @description-cn vite官网
- * https://vitejs.cn/config/ */
 export default ({ command }: ConfigEnv): UserConfigExport => {
-  const prodMock = false;
   return {
     base: './',
     resolve: {
       alias
+    },
+    define: {
+      __VUE_I18N_LEGACY_API__: false,
+      __VUE_I18N_FULL_INSTALL__: false,
     },
     server: {
       host: '0.0.0.0',
@@ -29,12 +26,9 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       open: false,
       proxy: {
         '/watcher': {
-          target: 'http://10.99.224.173:8888/',
+          target: 'http://localhost:8888',
           changeOrigin: true,
-          // headers: {
-          //   referer: 'http://10.99.224.172:8888/',
-          //   origin: 'http://10.99.224.172:8888/',
-          // }
+          rewrite: (path: string) => path,
         },
       }
     },
@@ -50,17 +44,6 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     },
     plugins: [
       vue(),
-      viteMockServe({
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
-        prodEnabled: command !== 'serve' && prodMock,
-        watchFiles: true,
-        injectCode: `
-          import { setupProdMockServer } from '../mockProdServer';
-          setupProdMockServer();
-        `,
-        logger: true,
-      }),
     ]
   };
 }

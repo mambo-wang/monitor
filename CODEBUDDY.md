@@ -4,13 +4,26 @@ This file provides guidance to CodeBuddy when working with code in this reposito
 
 ## 项目概述
 
-ShowTime 是一个全方位监控系统，特别适合新华三云基产品线。核心功能：日志采集/全文检索、指标采集/监控报表、爬虫/知识库。
+ShowTime 是一个全方位监控系统，特别适合新华三云基产品线。核心功能：指标采集/监控报表。
 
-### 核心业务逻辑
+### 开发计划(sprint 1)
 
-**传入 IP 地址/监控指标 → 查询对应环境的对应数据**
+前端服务业务（watcher-web）：
+1 提供登陆界面，输入账号密码。目前暂不支持注册用户和添加用户，仅支持admin账号登陆
+2 登陆成功后，展示资源列表，可以新增资源，点击资源名称列进入详情页面
+3 详情页面展示数据，包括集群/主机/虚拟机三级数据。每一级数据有监控报表
+4 指标详情页面展示指标监控数据，点击时间范围切换，展示不同时间范围的监控数据
+5 提供Mcp server和SKILL, 使AI Agent可以调用接口获取监控数据
 
-系统提供 REST 接口，接收 IP 地址和监控指标作为参数，返回该 IP 在对应环境（CAS/UIS/OneStor/Workspace）下的监控数据。这是整个系统的核心价值点。
+后端服务业务（watcher-agent等）：
+1 系统对外提供 REST 接口，入参为资源信息ResourceDTO集合，本服务会把资源信息入库保存。为了便于调试，前后端交互的时候密码暂不做加密。
+2 接收资源IP 地址和监控指标集合作为参数，返回该 IP 在对应环境（CAS/UIS/OneStor/Workspace）下的监控数据。这是整个系统的核心价值点。
+
+### 开发计划(sprint 2)
+
+1 提供用户注册界面，注册完由admin账号审批通过后才可以使用
+2 admin登陆后，展示用户列表，点击用户名称列进入用户详情页面
+3 admin登陆后，展示审批列表，点击审批名称列进入审批详情页面，可以同意或者拒绝
 
 ## 构建命令
 
@@ -33,14 +46,14 @@ mvn clean package -Dmaven.test.skip=true
 ```
 ShowTime/
 ├── watcher-agent/      # 采集程序主入口（Spring Boot）
-│   ├── config/        # Quartz/应用配置
-│   ├── service/       # 采集服务（Kafka/MongoDB）
+│   ├── config/        # 应用配置
+│   ├── service/       # 采集服务
 │   ├── task/          # Quartz定时任务
 │   ├── controller/    # REST接口
-│   └── entity/        # MongoDB实体
+│   └── entity/        # MySQL实体
 ├── watcher-sdk/       # 公共模块（被所有模块依赖）
 │   ├── api/           # 对外API接口定义
-│   ├── config/        # ClickHouse/Kafka/ES/Rest配置
+│   ├── config/        # Rest配置
 │   ├── constant/      # 枚举常量（指标类型/日志类型）
 │   ├── dto/           # 数据传输对象
 │   └── utils/         # 工具类

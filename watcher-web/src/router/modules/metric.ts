@@ -4,15 +4,18 @@ import {createNameComponent} from "../createNode";
 
 const route: Route[] = [
     {
-        path: "/",
+        path: "/metric",
         component: Layout,
-        redirect: "/agent",
+        meta: {title: "", icon: "sfont  system-menu"},
         children: [
             {
-                path: "init",
-                component: createNameComponent(() => import("@/views/main/init-config/index.vue")),
+                path: "detail",
+                component: createNameComponent(
+                    () => import("@/views/main/metric/metric-detail.vue")
+                ),
                 meta: {
-                    title: "message.menu.initConfig.name",
+                    title: "message.metric.metricDetail",
+                    icon: "sfont  system-menu",
                     hideClose: true,
                 },
             },

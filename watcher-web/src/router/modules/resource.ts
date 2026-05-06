@@ -10,11 +10,24 @@ const route: Route[] = [
         children: [
             {
                 path: "index",
+                name: "resource-index",
                 component: createNameComponent(
                     () => import("@/views/main/resource/index.vue")
                 ),
                 meta: {
                     title: "message.menu.resource.name",
+                    icon: "sfont  system-menu",
+                    hideClose: true,
+                },
+            },
+            {
+                path: "add",
+                name: "resource-add",
+                component: createNameComponent(
+                    () => import("@/views/main/resource/resource-add.vue")
+                ),
+                meta: {
+                    title: "message.resource.addResource",
                     icon: "sfont  system-menu",
                     hideClose: true,
                 },

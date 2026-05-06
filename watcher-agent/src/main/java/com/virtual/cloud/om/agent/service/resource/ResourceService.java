@@ -43,10 +43,48 @@ public class ResourceService implements ResourceApi {
     private final PlatformTestConnectionApi[] platformTestConnectionApis;
     private Map<ReportResourceEnum, PlatformTestConnectionApi> platformTestConnectionApiMap = Maps.newConcurrentMap();
     private final TaskMgrApi taskMgrApi;
+    private final com.virtual.cloud.om.sdk.mapper.ResourceMapper resourceMapper;
 
     @PostConstruct
     public void init() {
         Stream.of(platformTestConnectionApis).forEach(connectionApi -> platformTestConnectionApiMap.put(connectionApi.platform(), connectionApi));
+    }
+
+    /**
+     * 资源同步 - 从 CollectController 调用
+     */
+    public void syncResources(List<ResourceDTO> dtos) {
+        log.info("[ResourceService] sync resources, count: {}", dtos.size());
+        for (ResourceDTO dto : dtos) {
+            try {
+                com.virtual.cloud.om.sdk.entity.mysql.Resource resource = new com.virtual.cloud.om.sdk.entity.mysql.Resource();
+                resource.setId(dto.getId() != null ? dto.getId() : cn.hutool.core.util.IdUtil.fastSimpleUUID());
+                resource.setResourceName(dto.getResourceName());
+                resource.setPlatform(dto.getPlatform() != null ? dto.getPlatform().toLowerCase() : null);
+                resource.setIpAddress(dto.getIpAddress());
+                resource.setPort(dto.getPort());
+                resource.setProtocol(dto.getProtocol());
+                resource.setAuthType(dto.getAuthType());
+                resource.setAc(dto.getAc());
+                resource.setCi(dto.getCi());
+                resource.setServerUsername(dto.getServerUsername());
+                resource.setServerPassword(dto.getServerPassword());
+                resource.setServerPort(dto.getServerPort() != null ? dto.getServerPort() : 22);
+                resource.setActive(1);
+                resource.setUsable(1);
+                resource.setCreateTime(java.time.LocalDateTime.now());
+                resource.setUpdateTime(java.time.LocalDateTime.now());
+
+                com.virtual.cloud.om.sdk.entity.mysql.Resource existing = resourceMapper.selectById(resource.getId());
+                if (existing == null) {
+                    resourceMapper.insert(resource);
+                } else {
+                    resourceMapper.updateById(resource);
+                }
+            } catch (Exception e) {
+                log.error("[ResourceService] sync resource error, id: {}", dto.getId(), e);
+            }
+        }
     }
 
     /**
@@ -71,7 +109,7 @@ public class ResourceService implements ResourceApi {
         for (ResourceDTO dto : validDtos) {
             ResourceEntity entity = new ResourceEntity();
             entity.setId(dto.getId());
-            entity.setPlatform(dto.getPlatform() != null ? dto.getPlatform().name() : null);
+            entity.setPlatform(dto.getPlatform());
             entity.setIpAddress(dto.getIpAddress());
             entity.setAc(dto.getAc());
             entity.setCi(dto.getCi());

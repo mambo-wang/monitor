@@ -3,6 +3,9 @@
     <div class="resource-list-wrapper" v-loading="loading">
       <div class="resource-title"><span class="tenant-title">{{ $t("message.resource.resourceList") }}</span></div>
       <div class="action-wrapper">
+        <el-button type="primary" @click="goToAddResource">
+          {{ $t("message.resource.addResource") }}
+        </el-button>
         <el-select v-model="platformValue" class="search-selector" @change="getResourceList">
           <el-option v-for="item in platformList" :key="item.value" :label="item.label" :value="item.value"/>
         </el-select>
@@ -88,6 +91,7 @@
 <script lang="ts" setup>
 import {computed, onMounted, reactive, ref} from "vue";
 import {useI18n} from 'vue-i18n';
+import {useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
 import _ from "lodash";
 import emTable from "@/components/table/index.vue";
@@ -100,7 +104,12 @@ onMounted(() => {
   getResourceList();
 })
 
+const router = useRouter();
 const {t} = useI18n();
+
+const goToAddResource = () => {
+  router.push("/resource/add");
+};
 const loading = ref<boolean>(false);
 const resource = reactive({
   list: []

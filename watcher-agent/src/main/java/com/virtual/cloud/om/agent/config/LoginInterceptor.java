@@ -35,16 +35,24 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        Cookie cookie = CookieUtil.readCookie(request, Constant.TOKEN_NAME);
-        RpcResult result = new RpcResult();
-        if (Objects.isNull(cookie)) {
-            result.setState(StateResult.FAILURE);
-            result.setErrorCode(HttpServletResponse.SC_UNAUTHORIZED);
-            result.setFailureMessage(sm.getString("token.error"));
-            this.response(response,result);
-            return false;
+        // 优先从请求头获取token，其次从Cookie获取
+        String token = request.getHeader("token");
+        log.info("[LoginInterceptor] path: {}, token from header: {}", request.getRequestURI(), token);
+        if (StringUtils.isEmpty(token)) {
+            Cookie cookie = CookieUtil.readCookie(request, Constant.TOKEN_NAME);
+            log.info("[LoginInterceptor] cookie: {}", cookie);
+            if (Objects.isNull(cookie)) {
+                RpcResult result = new RpcResult();
+                result.setState(StateResult.FAILURE);
+                result.setErrorCode(HttpServletResponse.SC_UNAUTHORIZED);
+                result.setFailureMessage(sm.getString("token.error"));
+                this.response(response, result);
+                return false;
+            }
+            token = cookie.getValue();
         }
-        String token = cookie.getValue();
+        
+        RpcResult result = new RpcResult();
         if (StringUtils.isEmpty(token)){
             result.setState(StateResult.FAILURE);
             result.setErrorCode(HttpServletResponse.SC_UNAUTHORIZED);
@@ -53,6 +61,7 @@ public class LoginInterceptor implements HandlerInterceptor {
             return false;
         }
         Boolean verify = loginService.verify(token);
+        log.info("[LoginInterceptor] verify result: {}", verify);
         if (!verify){
             result.setState(StateResult.FAILURE);
             result.setErrorCode(HttpServletResponse.SC_UNAUTHORIZED);

@@ -1,0 +1,28 @@
+ __   __                           __ _  
+ \ \ / /   ___    _  _    _ _     / _` | 
+  \ V /   / _ \  | +| |  | ' \    \__, | 
+  _|_|_   \___/   \_,_|  |_||_|   |___/  
+_| """ |_|"""""|_|"""""|_|"""""|_|"""""| 
+"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-'"`-0-0-' 
+
+2026-05-06 17:15:59[INFO ][background-preinit][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
+2026-05-06 17:15:59[INFO ][main][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 17.0.13 on KiritodeMacBook-Pro.local with PID 32158 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime)
+2026-05-06 17:15:59[INFO ][main][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
+2026-05-06 17:16:02[INFO ][main][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
+2026-05-06 17:16:02[INFO ][main][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
+2026-05-06 17:16:02[INFO ][main][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
+2026-05-06 17:16:02[INFO ][main][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2026-05-06 17:16:02[INFO ][main][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 3204 ms
+2026-05-06 17:16:03[INFO ][main][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
+2026-05-06 17:16:03[INFO ][main][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
+ _ _   |_  _ _|_. ___ _ |    _ 
+| | |\/|_)(_| | |_\  |_)||_|_\ 
+     /               |         
+                        3.5.3.1 
+2026-05-06 17:16:03[INFO ][main][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
+2026-05-06 17:16:04[WARN ][main][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
+2026-05-06 17:16:04[INFO ][main][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
+2026-05-06 17:16:04[INFO ][main][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2026-05-06 17:16:05[WARN ][main][]org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext.refresh [591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8888 is already in use
+2026-05-06 17:16:05[INFO ][main][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
+2026-05-06 17:16:05[INFO ][main][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.

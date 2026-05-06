@@ -148,3 +148,56 @@ CREATE TABLE warn (
 
 CREATE INDEX idx_warn_status ON warn(status);
 CREATE INDEX idx_warn_level ON warn(level);
+
+-- ================================================
+-- 10. 资源表 (Resource)
+-- ================================================
+DROP TABLE IF EXISTS resource;
+CREATE TABLE resource (
+    id VARCHAR(64) PRIMARY KEY COMMENT '资源ID',
+    resource_name VARCHAR(255) COMMENT '资源名称',
+    platform VARCHAR(50) COMMENT '平台类型: workspace/uis/cas/onestor',
+    ip_address VARCHAR(100) NOT NULL COMMENT 'IP地址',
+    port INT COMMENT '端口',
+    protocol VARCHAR(20) DEFAULT 'HTTP' COMMENT '协议: HTTP/HTTPS',
+    auth_type VARCHAR(50) DEFAULT 'Digest' COMMENT '认证类型',
+    ac VARCHAR(100) COMMENT 'REST认证用户名',
+    ci VARCHAR(255) COMMENT 'REST认证密码(加密)',
+    server_username VARCHAR(100) COMMENT '管理节点用户名',
+    server_password VARCHAR(255) COMMENT '管理节点密码(加密)',
+    server_port INT DEFAULT 22 COMMENT '管理节点端口',
+    active INT DEFAULT 1 COMMENT '是否激活: 0-否 1-是',
+    usable INT DEFAULT 1 COMMENT '是否可用: 0-不可用 1-可用',
+    remote INT DEFAULT 0 COMMENT 'SSH权限: 0-禁用 1-启用',
+    end_time DATETIME COMMENT 'SSH关闭时间',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    UNIQUE KEY uk_ip_platform (ip_address, platform)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='资源表';
+
+CREATE INDEX idx_resource_platform ON resource(platform);
+CREATE INDEX idx_resource_ip ON resource(ip_address);
+CREATE INDEX idx_resource_usable ON resource(usable);
+
+-- ================================================
+-- 11. 指标数据表 (MetricData)
+-- ================================================
+DROP TABLE IF EXISTS metric_data;
+CREATE TABLE metric_data (
+    id VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    resource_id VARCHAR(64) NOT NULL COMMENT '资源ID',
+    resource_ip VARCHAR(100) COMMENT '资源IP地址',
+    platform VARCHAR(50) COMMENT '平台类型',
+    metric_type VARCHAR(100) NOT NULL COMMENT '指标类型',
+    metric_name VARCHAR(255) NOT NULL COMMENT '指标名称',
+    metric_value VARCHAR(500) COMMENT '指标值',
+    metric_unit VARCHAR(50) COMMENT '指标单位',
+    tags VARCHAR(500) COMMENT '标签(JSON)',
+    report_time DATETIME COMMENT '数据上报时间',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='指标数据表';
+
+CREATE INDEX idx_metric_resource_id ON metric_data(resource_id);
+CREATE INDEX idx_metric_type ON metric_data(metric_type);
+CREATE INDEX idx_metric_report_time ON metric_data(report_time);
+CREATE INDEX idx_metric_platform ON metric_data(platform);

@@ -14,20 +14,12 @@ import MenuBox from "@/components/menu/index.vue";
 /** 引入带有系统自定义name的组件，方便keep-alive实现 */
 import {createNameComponent} from "./createNode";
 
-import Agent from "./modules/agent";
-import Tenant from "./modules/tenant"
-import initConfig from "./modules/init-config"
 import Resource from "./modules/resource"
-import Net from "./modules/net"
 
-/** 登录后需要动态加入的本地路由 生产环境请将内部注释*/
+/** 登录后需要动态加入的本地路由 - 只保留纳管资源列表*/
 
 const asyncRoutes: Route[] = [
-    ...initConfig,
-    ...Agent,
-    ...Tenant,
-    ...Resource,
-    ...Net
+    ...Resource
 ];
 let permissionsList: any = [];
 

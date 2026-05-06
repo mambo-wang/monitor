@@ -79,8 +79,8 @@ public class LoginService {
             throw new AppException(ErrorCodes.USER_DOES_NOT_EXIT);
         }
 
-        //校验密码
-        String password = SM4Utils.webDecryptText(sysUserDTO.getPassword());
+        //校验密码 - 前端已改为明文传输，不再解密
+        String password = sysUserDTO.getPassword();
         String dbPassword = SM4Utils.webDecryptText(sysUser.getPassword());
         if (!StringUtils.equals(password,dbPassword)){
             throw new AppException(ErrorCodes.PWD_ERR);

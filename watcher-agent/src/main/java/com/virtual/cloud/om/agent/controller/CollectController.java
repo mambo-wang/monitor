@@ -52,7 +52,8 @@ public class CollectController {
 
     @PostMapping("/resources")
     public RpcResult<Void> createResources(@RequestBody List<ResourceDTO> dtos){
-        // 资源同步功能已禁用（MongoDB已移除）
+        // 资源同步 - 委托给 ResourceController
+        resourceService.syncResources(dtos);
         return RpcResult.success();
     }
 

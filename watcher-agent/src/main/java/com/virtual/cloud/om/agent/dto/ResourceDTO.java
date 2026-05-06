@@ -1,6 +1,5 @@
 package com.virtual.cloud.om.agent.dto;
 
-import com.virtual.cloud.om.sdk.constant.ReportResourceEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -8,8 +7,10 @@ import lombok.Data;
 @Data
 @ApiModel
 public class ResourceDTO {
-    @ApiModelProperty("资源类型")
-    private ReportResourceEnum platform;
+    @ApiModelProperty("资源名称")
+    private String resourceName;
+    @ApiModelProperty("资源类型: cas/uis/workspace/onestor")
+    private String platform;
     @ApiModelProperty("资源ID, 不能重复，非必填")
     private String id;
     @ApiModelProperty("IP地址")

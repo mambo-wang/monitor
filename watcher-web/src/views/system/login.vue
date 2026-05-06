@@ -148,7 +148,7 @@ const submit = () => {
     // }
     let params = {
       username: form.username,
-      password: util.encryptBySm4(form.password),
+      password: form.password,
     };
     store
         .dispatch("user/login", params)

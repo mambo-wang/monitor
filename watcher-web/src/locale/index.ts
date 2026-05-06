@@ -16,8 +16,6 @@ const locale = lang.indexOf('en') !== -1 ? 'en' : 'zh-cn'
 
 /** 国际化主函数，调用vue-i18n插件生成 */
 const i18n = createI18n({
-  __VUE_I18N_LEGACY_API__: false,
-  __VUE_I18N_FULL_INSTALL__: false,
   locale: locale,
   fallbackLocale: 'zh-cn',
   messages
