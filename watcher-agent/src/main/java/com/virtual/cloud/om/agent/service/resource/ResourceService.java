@@ -174,7 +174,8 @@ public class ResourceService implements ResourceApi {
 
     @Override
     public RestHost findRestHostByResourceId(String resourceId) {
-        ResourceEntity resource = resourceEntityMapper.selectById(resourceId);
+        // 查询 Resource 表（前端创建的资源和查询都使用此表）
+        com.virtual.cloud.om.sdk.entity.mysql.Resource resource = resourceMapper.selectById(resourceId);
         if (Objects.isNull(resource)) {
             String errInfo = sm.getString("errorCode.1401", resourceId);
             log.error(errInfo);
@@ -183,6 +184,8 @@ public class ResourceService implements ResourceApi {
         RestHost restHost = new RestHost();
         restHost.setHost(resource.getIpAddress());
         restHost.setResourceId(resource.getId());
+        restHost.setPort(resource.getPort());
+        restHost.setProtocol(resource.getProtocol() != null ? resource.getProtocol() : "HTTP");
         restHost.setUsername(resource.getAc());
         restHost.setPassword(SM4Utils.webDecryptText(resource.getCi()));
         restHost.setPlatform(resource.getPlatform());

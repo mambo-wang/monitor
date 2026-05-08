@@ -30,7 +30,7 @@ public class DataSourceConfig {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(jdbcUrl);
         config.setUsername(username);
-        config.setPassword("");  // 空密码
+        config.setPassword(password);
         config.setDriverClassName("org.mariadb.jdbc.Driver");
         config.setMaximumPoolSize(10);
         config.setMinimumIdle(2);

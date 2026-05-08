@@ -140,6 +140,96 @@ public class DataReportService {
     }
 
     /**
+     * 数据上报并返回采集数据
+     */
+    public List<ReportDTO> reportWithResult(String tags, String metrics) {
+        Optional<String> first = DataReportCollector.getId("resourceId", tags).stream().findFirst();
+        if (!first.isPresent()) {
+            throw new AppException(ErrorCodes.RESTHOST_RESOURCEID_NONE);
+        }
+        final String resourceId = first.get();
+        String batchNum = String.valueOf(System.currentTimeMillis() / 1000 / 60);
+        ReportMetricEnum[] metricArr = Arrays.stream(metrics.split(";")).map(metric -> ReportMetricEnum.valueOf(metric)).toArray(ReportMetricEnum[]::new);
+        return this.reportWithResult(resourceId, tags, batchNum, metricArr);
+    }
+
+    /**
+     * 数据上报并返回采集数据
+     */
+    public List<ReportDTO> reportWithResult(String resourceId, String tags, String batchNum, ReportMetricEnum... metrics) {
+        return this.reportWithResult(resourceId, tags, batchNum, false, metrics);
+    }
+
+    /**
+     * 数据上报并返回采集数据
+     */
+    private List<ReportDTO> reportWithResult(String resourceId, String tags, String batchNum, Boolean ifStatic, ReportMetricEnum... metrics) {
+        ReportResourceEnum platform;
+        RestHost restHost;
+        boolean reportWatcher = resourceId.equals("watcher");
+        if (reportWatcher) {
+            platform = ReportResourceEnum.hccAgent;
+            restHost = RestHost.builder().platform(platform.name()).build();
+        } else {
+            restHost = this.resourceApi.findRestHostByResourceId(resourceId);
+            platform = ReportResourceEnum.valueOf(restHost.getPlatform());
+            if (Objects.isNull(platform)) {
+                log.info("[data collect][resourceId={}][batchNum={}][static={}] platform is null ", resourceId, batchNum, ifStatic);
+                return Lists.newArrayList();
+            }
+        }
+        final RestHost rh = restHost;
+        // Capture the TCCL from the calling thread (Spring Boot LaunchedURLClassLoader)
+        // This is needed because ForkJoinPool worker threads may not have the correct TCCL,
+        // causing JAXB (and other classpath-dependent operations) to fail with ClassNotFoundException
+        final ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        List<ReportDTO> allData = Lists.newCopyOnWriteArrayList();
+        List<ReportError> reportErrorList = Lists.newCopyOnWriteArrayList();
+        CompletableFuture[] completableFutures = Arrays.stream(metrics).map(metric ->
+                CompletableFuture.runAsync(() -> {
+                    final List<DataReportTypeByMetricEnum> types = DataReportTypeByMetricEnum.getTypesByMetricAndPlatform(metric, platform);
+                    final String traceId = UUID.fastUUID().toString();
+                    List<ReportDTO> data = Lists.newCopyOnWriteArrayList();
+                    CompletableFuture[] innerCompletableFutures = types.stream().map(type ->
+                            CompletableFuture.runAsync(() -> {
+                                // ForkJoinPool worker threads may have null/system TCCL,
+                                // set it to the LaunchedURLClassLoader so JAXB can find its implementation
+                                Thread.currentThread().setContextClassLoader(contextClassLoader);
+                                log.info("[data collect] type={} [resourceId={}] [{}]", type, resourceId, metric);
+                                DataReportCollector collector = collectApiMap.get(type.name());
+                                if (Objects.isNull(collector)) {
+                                    if (Objects.isNull(collector = collectApiMap.get(type.metric.name()))) {
+                                        log.info("[data collect][resourceId={}][batchNum={}][static={}][{}][traceId={}] cant find collector", resourceId, batchNum, ifStatic, metric, traceId);
+                                        return;
+                                    }
+                                }
+                                try {
+                                    List<ReportDTO> dataSplit = collector.data(rh, tags);
+                                    dataSplit.forEach(r -> r.setBatchNum(batchNum));
+                                    data.addAll(dataSplit);
+                                } catch (Exception e) {
+                                    if (e instanceof AppException) {
+                                        if (!reportWatcher) {
+                                            reportErrorList.add(new ReportError((AppException) e, metric, traceId));
+                                        }
+                                    }
+                                    e.printStackTrace();
+                                    log.error("[data collect][resourceId={}][batchNum={}][static={}][{}][traceId={}] collector error:{}", resourceId, batchNum, ifStatic, metric, traceId, e.getMessage());
+                                }
+                            })
+                    ).toArray(CompletableFuture[]::new);
+                    CompletableFuture.allOf(innerCompletableFutures).join();
+                    if (CollUtil.isEmpty(data)) {
+                        return;
+                    }
+                    allData.addAll(data);
+                })
+        ).toArray(CompletableFuture[]::new);
+        CompletableFuture.allOf(completableFutures).join();
+        return allData;
+    }
+
+    /**
      * 数据上报
      */
     private void report(String resourceId, String tags, String batchNum, Boolean ifStatic, ReportMetricEnum... metrics) {

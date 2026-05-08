@@ -73,6 +73,12 @@
               show-overflow-tooltip
           >
             <template #default="scope">
+              <el-button type="text" @click="goToEditResource(scope.row)">
+                {{ $t("message.resource.edit") }}
+              </el-button>
+              <el-button type="text" @click="goToMetricDetail(scope.row)">
+                {{ $t("message.resource.viewMetric") }}
+              </el-button>
               <el-button type="text" @click="openAuthRole(scope.row)" :disabled="!scope.row.usable">
                 {{ $t("message.resource.settingParams") }}
               </el-button>
@@ -109,6 +115,20 @@ const {t} = useI18n();
 
 const goToAddResource = () => {
   router.push("/resource/add");
+};
+
+const goToEditResource = (row: any) => {
+  router.push({
+    path: "/resource/edit",
+    query: { id: row.id }
+  });
+};
+
+const goToMetricDetail = (row: any) => {
+  router.push({
+    path: "/metric/detail",
+    query: { id: row.id, name: row.resourceName }
+  });
 };
 const loading = ref<boolean>(false);
 const resource = reactive({

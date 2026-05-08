@@ -107,10 +107,15 @@
             <version>${mybatis-plus.version}</version>
         </dependency>
 
-        <!-- JAXB API for Java 8+ compatibility -->
+        <!-- JAXB API and Runtime for Java 17 compatibility -->
         <dependency>
             <groupId>javax.xml.bind</groupId>
             <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
             <version>2.3.1</version>
         </dependency>
 

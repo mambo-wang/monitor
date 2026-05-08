@@ -42,6 +42,11 @@ import java.net.SocketException;
 @Configuration
 public class RestTemplateConfig {
 
+    static {
+        // JDK 17 不再内置 JAXB 实现，需要指定 Glassfish JAXB Runtime 作为 ContextFactory
+        System.setProperty("javax.xml.bind.context.factory", "com.sun.xml.bind.v2.ContextFactory");
+    }
+
     private Log log = LogFactory.getLog(getClass());
 
     @SneakyThrows

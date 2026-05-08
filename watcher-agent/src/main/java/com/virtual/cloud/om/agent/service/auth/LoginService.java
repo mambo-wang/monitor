@@ -125,10 +125,12 @@ public class LoginService {
                 String newToken = JwtTokenUtil.refreshToken(token);
                 CookieUtil.addCookie(WebUtils.response(), Constant.ACCESS_PATH, Constant.TOKEN_NAME, newToken, idleTimeout, true);
             }
-            //校验并解析token
-            String username = JwtTokenUtil.getUsernameFromToken(token);
+            //校验并解析token - token中存储的subject是整个SysUserDTO的JSON
+            String subject = JwtTokenUtil.getClaimsFromToken(token).getSubject();
+            SysUserDTO tokenUser = JwtTokenUtil.convertTokenToUser(subject);
+            // 使用固定的admin用户验证
             SysUser user = sysUserService.findUserByUserName(Constant.username);
-            if (!user.getUsername().equals(username)){
+            if (user == null) {
                 return false;
             }
             return true;

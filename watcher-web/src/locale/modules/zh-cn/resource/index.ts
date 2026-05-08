@@ -49,5 +49,10 @@ export default {
         ipInvalid: 'IP地址格式不正确',
         restUsernameRequired: '请输入REST用户名',
         restPasswordRequired: '请输入REST密码',
+        viewMetric: '查看指标',
+        editResource: '编辑资源',
+        updateSuccess: '资源更新成功',
+        updateFailed: '资源更新失败',
+        edit: '编辑',
     }
 }

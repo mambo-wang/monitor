@@ -99,7 +99,8 @@ public class CasRestConnection {
     private Integer casHttpsPort;
 
     private Integer casPortByResourcePlatform(String platform, String protocol, Integer port) {
-        if (ReportResourceEnum.uis.name().equals(platform)) {
+        if (ReportResourceEnum.uis.name().equals(platform)
+                || ReportResourceEnum.workspace.name().equals(platform)) {
             if ("https".equals(protocol)) {
                 port = casHttpsPort;
             } else {
