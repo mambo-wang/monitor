@@ -6,6 +6,7 @@ import agent from './zh-cn/agent/index'
 import tenant from "./zh-cn/tenant/index"
 import initConfig from "./zh-cn/init-config/index"
 import resource from "./zh-cn/resource/index"
+import dashboard from "./zh-cn/dashboard"
 
 const lang = {
     el: zhLocale.el, // element内部国际化
@@ -17,7 +18,8 @@ const lang = {
         ...agent,
         ...tenant,
         ...initConfig,
-        ...resource
+        ...resource,
+        ...dashboard
     }
 }
 

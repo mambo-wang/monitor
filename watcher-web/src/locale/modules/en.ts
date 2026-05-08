@@ -5,6 +5,7 @@ import menu from './en/menu'
 import agent from './en/agent/index'
 import tenant from "./en/tenant/index"
 import initConfig from "./en/init-config/index"
+import dashboard from "./en/dashboard"
 
 const lang = {
     el: enLocale.el, // element-plus i18 setting
@@ -15,7 +16,8 @@ const lang = {
         ...menu,
         ...agent,
         ...tenant,
-        ...initConfig
+        ...initConfig,
+        ...dashboard
     }
 }
 

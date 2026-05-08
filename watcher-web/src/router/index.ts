@@ -14,13 +14,14 @@ NProgress.configure({ showSpinner: false });
 
 // 引入不需要权限的modules
 import System from "./modules/system";
+import Dashboard from "./modules/dashboard";
 
 /**
  * @name 初始化必须要的路由
  * @description 使用reactive属性使得modules可以在路由菜单里面实时响应，搞定菜单回显的问题
  * @detail 针对modules的任何修改，均会同步至菜单级别，记住，是针对变量名为：moduels的修改
  **/
-let modules = reactive([...System]);
+let modules = reactive([...System, ...Dashboard]);
 
 const { t } = i18n.global;
 

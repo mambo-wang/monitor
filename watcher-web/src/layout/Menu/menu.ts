@@ -2,6 +2,21 @@ import {createNameComponent} from "@/router/createNode";
 
 const menuList = [
   {
+    path: "/dashboard",
+    meta: { title: "", icon: "sfont system-dashboard" },
+    hideMenu: false,
+    children: [
+      {
+        path: "index",
+        meta: {
+          title: "message.menu.dashboard.name",
+          icon: "sfont system-dashboard",
+          hideClose: true,
+        },
+      },
+    ],
+  },
+  {
     path: "/agent",
     redirect: "/agent/index",
     meta: { title: "", icon: "sfont system-component" },
