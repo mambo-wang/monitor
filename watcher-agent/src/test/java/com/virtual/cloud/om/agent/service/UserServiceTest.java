@@ -361,7 +361,7 @@ class UserServiceTest {
                 SysUser.builder().id("1").username("admin").build(),
                 SysUser.builder().id("2").username("user1").build()
             );
-            when(sysUserMapper.selectList(any(LambdaQueryWrapper.class))).thenReturn(users);
+            when(sysUserMapper.selectList(any())).thenReturn(users);
 
             // when
             List<String> result = userApi.getUserList();

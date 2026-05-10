@@ -24,7 +24,7 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <lombok.version>1.18.30</lombok.version>
+        <lombok.version>1.18.42</lombok.version>
         <httpclient.version>4.5.13</httpclient.version>
         <java.version>1.8</java.version>
         <swagger.version>2.9.2</swagger.version>
@@ -124,7 +124,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
+                <version>3.14.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>

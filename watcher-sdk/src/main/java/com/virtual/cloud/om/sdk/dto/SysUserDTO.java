@@ -24,7 +24,6 @@ public class SysUserDTO implements Serializable {
     @ApiModelProperty(value = "账号-不加密")
     private String username;
 
-    @ApiModelProperty(value = "密码-加密")
     @ApiModelProperty(value = "用户状态: active-已激活/inactive-未激活")
     private String status;
 

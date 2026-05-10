@@ -12,6 +12,14 @@
     <artifactId>watcher-agent</artifactId>
 
     <dependencies>
+        <!-- Mockito JUnit 5 扩展（spring-boot-starter-test 自带 mockito-core 3.9.0） -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>3.9.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Lombok 依赖 -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -23,6 +31,23 @@
         <dependency>
             <groupId>com.virtual.cloud.om</groupId>
             <artifactId>watcher-sdk</artifactId>
+        </dependency>
+
+        <!-- Swagger 依赖（修复预存编译错误） -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>${knife4j.version}</version>
         </dependency>
 
         <dependency>
