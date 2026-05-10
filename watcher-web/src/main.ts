@@ -21,13 +21,14 @@ if (import.meta.env.MODE !== "development") {
     // 非开发环境调用百度统计
     baidu();
 }
-/** 权限路由处理主方法 */
-getAuthRoutes();
 const app = createApp(App);
 app.config.globalProperties.$eventBus = mitt();
 app.use(ElementPlus, {size: store.state.app.elementSize});
 app.use(store);
 app.use(router);
+
+/** 权限路由处理主方法（store 初始化后再调用） */
+getAuthRoutes();
 app.use(i18n);
 app.use(uploader);
 app.directive("debounce", debounce);

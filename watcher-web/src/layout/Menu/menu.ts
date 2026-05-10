@@ -92,6 +92,32 @@ const menuList = [
         ]
       },
     ],
+  },
+  {
+    path: "/main/user",
+    redirect: "/main/user/register-list",
+    meta: { title: "message.menu.user.name", icon: "sfont system-user" },
+    hideMenu: false,
+    children: [
+      {
+        path: "register-list",
+        component: createNameComponent(() => import('@/views/main/user/register-list.vue')),
+        meta: {
+          title: "message.menu.user.register-list",
+          icon: "sfont system-user",
+          hideClose: true,
+        },
+      },
+      {
+        path: "user-list",
+        component: createNameComponent(() => import('@/views/main/user/user-list.vue')),
+        meta: {
+          title: "message.menu.user.user-list",
+          icon: "sfont system-user",
+          hideClose: true,
+        },
+      },
+    ],
   }
 ];
 

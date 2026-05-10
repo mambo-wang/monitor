@@ -15,14 +15,14 @@ import MenuBox from "@/components/menu/index.vue";
 import {createNameComponent} from "./createNode";
 
 import Agent from "./modules/agent";
-import Tenant from "./modules/tenant"
-import initConfig from "./modules/init-config"
-import Resource from "./modules/resource"
-import Net from "./modules/net"
-import Metric from "./modules/metric"
-import User from "./modules/user"
+import Tenant from "./modules/tenant";
+import initConfig from "./modules/init-config";
+import Resource from "./modules/resource";
+import Net from "./modules/net";
+import Metric from "./modules/metric";
+import User from "./modules/user";
 
-/** 登录后需要动态加入的本地路由 生产环境请将内部注释*/
+/** 登录后需要动态加入的本地路由 */
 
 const asyncRoutes: Route[] = [
     ...initConfig,
