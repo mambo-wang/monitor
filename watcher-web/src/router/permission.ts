@@ -30,7 +30,8 @@ const asyncRoutes: Route[] = [
     ...Tenant,
     ...Resource,
     ...Net,
-    ...Metric
+    ...Metric,
+    ...User
 ];
 let permissionsList: any = [];
 
