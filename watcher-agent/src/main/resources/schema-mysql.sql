@@ -217,6 +217,7 @@ CREATE TABLE user_register_request (
     approve_time DATETIME COMMENT '审批时间',
     reject_reason VARCHAR(500) COMMENT '拒绝原因',
     remark VARCHAR(500) COMMENT '备注',
+    reject_count INT DEFAULT 0 COMMENT '累计被拒次数',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户注册申请表';

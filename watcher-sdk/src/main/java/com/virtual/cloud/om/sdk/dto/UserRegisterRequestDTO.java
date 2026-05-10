@@ -48,4 +48,7 @@ public class UserRegisterRequestDTO implements Serializable {
 
     @ApiModelProperty(value = "备注")
     private String remark;
+
+    @ApiModelProperty(value = "累计被拒次数")
+    private Integer rejectCount = 0;
 }

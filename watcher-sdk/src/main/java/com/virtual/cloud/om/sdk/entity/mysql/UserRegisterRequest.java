@@ -67,6 +67,11 @@ public class UserRegisterRequest implements Serializable {
     private String remark;
 
     /**
+     * 累计被拒次数
+     */
+    private Integer rejectCount = 0;
+
+    /**
      * 创建时间
      */
     private LocalDateTime createTime;
