@@ -4,8 +4,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * 拒绝注册申请请求VO
  */
@@ -14,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class UserRegisterRejectVO {
 
     @ApiModelProperty("申请ID")
-    @NotBlank(message = "申请ID不能为空")
     private String id;
 
     @ApiModelProperty("拒绝原因（可选）")
