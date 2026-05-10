@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-left">
         <div class="headertitle">
-          <span>{{ $t("message.system.registerTitle") || '用户注册' }}</span>
+          <span v-if="!isCollapse">{{ $t("message.system.systemTitle") }}</span>
         </div>
       </div>
     </div>
@@ -12,58 +12,71 @@
         <img class="loginleft" src="@/assets/images/loginleft.png" alt=""/>
       </div>
       <div class="box">
-        <div class="welcome">{{ $t("message.system.registerTitle") || '用户注册' }}</div>
+        <div class="welcome">{{ $t("message.system.registerTitle") }}</div>
         <el-form class="form" @submit.prevent>
           <el-input
-              size="large"
-              v-model="form.username"
-              :placeholder="$t('message.system.username') || '用户名'"
-              name="username"
-              maxlength="50"
-              @keyup.enter.native="submit"
-              style="margin-bottom: 16px"
+            size="large"
+            v-model="form.username"
+            placeholder="请输入用户名"
+            maxlength="50"
           >
             <template #prepend>
-              {{ $t("message.system.username") || '用户名' }}
+              用户名
             </template>
           </el-input>
           <el-input
-              size="large"
-              v-model="form.password"
-              type="password"
-              :placeholder="$t('message.system.password')"
-              name="password"
-              maxlength="50"
-              @keyup.enter.native="submit"
-              style="margin-bottom: 16px"
+            size="large"
+            v-model="form.password"
+            :type="passwordType"
+            placeholder="请输入密码"
+            maxlength="50"
+            style="margin-top: 16px"
           >
             <template #prepend>
-              {{ $t("message.system.password") }}
+              密码
+            </template>
+            <template #append>
+              <i
+                class="sfont password-icon"
+                :class="passwordType ? 'system-yanjing-guan' : 'system-yanjing'"
+                @click="passwordTypeChange"
+              ></i>
             </template>
           </el-input>
           <el-input
-              size="large"
-              v-model="form.confirmPassword"
-              type="password"
-              :placeholder="$t('message.system.confirmPassword') || '确认密码'"
-              name="confirmPassword"
-              maxlength="50"
-              @keyup.enter.native="submit"
+            size="large"
+            v-model="form.confirmPassword"
+            :type="passwordType"
+            placeholder="请再次输入密码"
+            maxlength="50"
+            style="margin-top: 16px"
+            @keyup.enter.native="submit"
           >
             <template #prepend>
-              {{ $t("message.system.confirmPassword") || '确认密码' }}
+              确认密码
+            </template>
+          </el-input>
+          <el-input
+            size="large"
+            v-model="form.remark"
+            placeholder="可选，填写申请说明"
+            maxlength="200"
+            style="margin-top: 16px"
+          >
+            <template #prepend>
+              备注
             </template>
           </el-input>
           <el-button
-              :loading="form.loading"
-              @click="submit"
-              style="width: 100%; background-color: #0546ce; color: #ffffff; margin-top: 20px"
-              size="medium"
+            :loading="form.loading"
+            @click="submit"
+            style="width: 100%; margin-top: 24px; background-color: #0546ce; color: #ffffff"
+            size="medium"
           >
-            {{ $t("message.system.register") || '注册' }}
+            {{ $t("message.system.submitRegister") }}
           </el-button>
-          <div class="register-link">
-            <span @click="goLogin">{{ $t("message.system.hasAccount") || '已有账号？去登录' }}</span>
+          <div class="login-link">
+            已有账号？<router-link to="/login">立即登录</router-link>
           </div>
         </el-form>
       </div>
@@ -72,70 +85,60 @@
 </template>
 
 <script lang="ts" setup>
-import {reactive} from "vue";
-import {useRouter} from "vue-router";
-import {ElMessage} from "element-plus";
-import {registerApi} from "@/api/user";
-import i18n from "@/locale";
+import { reactive, ref } from "vue";
+import { useRouter } from "vue-router";
+import { ElMessage } from "element-plus";
+import { register } from "@/api/user";
 
-const {t} = i18n.global;
 const router = useRouter();
-
 let form = reactive({
   username: "",
   password: "",
   confirmPassword: "",
+  remark: "",
   loading: false,
 });
+const passwordType = ref("password");
 
-const checkForm = () => {
-  return new Promise((resolve, reject) => {
-    if (form.username === "") {
-      ElMessage.warning({ message: t("message.common.emptyTip"), type: "warning" });
-      return;
-    }
-    if (form.password === "") {
-      ElMessage.warning({ message: t("message.common.emptyTip"), type: "warning" });
-      return;
-    }
-    if (form.confirmPassword === "") {
-      ElMessage.warning({ message: t("message.common.emptyTip"), type: "warning" });
-      return;
-    }
-    if (form.password !== form.confirmPassword) {
-      ElMessage.warning({ message: t("message.system.twicePasswordNotMatch") || '两次输入的密码不一致', type: "warning" });
-      return;
-    }
-    resolve(true);
-  });
+const passwordTypeChange = () => {
+  passwordType.value = passwordType.value === "" ? "password" : "";
 };
 
-const submit = async () => {
-  await checkForm();
-  form.loading = true;
-  try {
-    const res: any = await registerApi({
-      username: form.username,
-      password: form.password,
-      confirmPassword: form.confirmPassword,
-    });
-    if (res.state === "SUCCESS") {
-      ElMessage.success({ message: '注册成功，请等待审批', type: "success" });
-      setTimeout(() => {
-        router.push("/login");
-      }, 1500);
-    } else {
-      ElMessage.error({ message: res.failureMessage || '注册失败', type: "error" });
-    }
-  } catch (error: any) {
-    ElMessage.error({ message: error.message || '注册失败', type: "error" });
-  } finally {
-    form.loading = false;
+const submit = () => {
+  if (form.username === "") {
+    ElMessage.warning({ message: "请输入用户名", type: "warning" });
+    return;
   }
-};
-
-const goLogin = () => {
-  router.push("/login");
+  if (form.password === "") {
+    ElMessage.warning({ message: "请输入密码", type: "warning" });
+    return;
+  }
+  if (form.password !== form.confirmPassword) {
+    ElMessage.warning({ message: "两次密码输入不一致", type: "warning" });
+    return;
+  }
+  form.loading = true;
+  register({
+    username: form.username,
+    password: form.password,
+    remark: form.remark,
+  })
+    .then(() => {
+      ElMessage.success({
+        message: "注册申请已提交，请等待审批",
+        type: "success",
+      });
+      router.push("/login");
+    })
+    .catch((e: any) => {
+      ElMessage.error({
+        message: e?.message || "注册失败",
+        type: "error",
+      });
+    })
+    .finally(() => {
+      form.loading = false;
+    });
 };
 </script>
 
@@ -145,19 +148,19 @@ const goLogin = () => {
   height: 100vh;
   overflow: hidden;
   background-color: #eef0f3;
+  -moz-background-size: 100% 100%;
+  background-size: 100% 100%;
 
   .header {
     position: relative;
     width: 100vw;
     height: 50px;
     box-shadow: none;
-
     .header-left {
       position: relative;
       height: 32px;
       left: 16px;
       top: 9px;
-
       .headertitle {
         position: relative;
         float: left;
@@ -166,7 +169,11 @@ const goLogin = () => {
         top: 32px;
         font-family: Roboto;
         font-size: 32px;
+        font-style: normal;
         font-weight: 700;
+        line-height: 24px;
+        letter-spacing: 0.005em;
+        text-align: left;
         color: var(--system-primary-color);
       }
     }
@@ -174,6 +181,7 @@ const goLogin = () => {
 
   .welcome {
     font-weight: 700;
+    font-style: normal;
     font-size: 18px;
     color: #333333;
     margin-top: 20px;
@@ -198,6 +206,7 @@ const goLogin = () => {
     height: 460px;
     width: 440px;
     top: 162px;
+    border-radius: 0px;
   }
 
   .loginleft {
@@ -214,6 +223,7 @@ const goLogin = () => {
     position: relative;
     height: 460px;
     width: 440px;
+    border-radius: 0px;
 
     .form {
       padding: 0 40px 0 40px;
@@ -223,22 +233,44 @@ const goLogin = () => {
         border-right-color: #ffffff;
       }
 
-      .el-input {
-        margin-bottom: 16px;
+      :deep(.el-input-group__append) {
+        background-color: #ffffff;
+      }
+
+      .password-icon {
+        cursor: pointer;
+        color: #409eff;
       }
     }
   }
 }
 
-.register-link {
+.login-link {
+  display: flex;
   margin-top: 16px;
-  text-align: center;
-  span {
+  justify-content: center;
+  color: #7F7F7F;
+  font-size: 14px;
+  a {
     color: #0546ce;
-    cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
+    text-decoration: none;
+    margin-left: 4px;
+  }
+}
+
+@media screen and (max-width: 750px) {
+  .container .box {
+    width: 100vw;
+    height: 100vh;
+    box-shadow: none;
+    left: 0;
+    top: 0;
+    transform: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e5e5e5;
   }
 }
 </style>
