@@ -25,5 +25,10 @@ export default {
     net: {
       name: '网络参数管理'
     },
+    user: {
+      name: '用户管理',
+      userList: '用户列表',
+      approval: '审批列表'
+    },
   },
 };

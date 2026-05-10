@@ -79,6 +79,11 @@ public class LoginService {
             throw new AppException(ErrorCodes.USER_DOES_NOT_EXIT);
         }
 
+        //检查用户状态 - 只有激活用户可以登录
+        if (!"active".equals(sysUser.getStatus())) {
+            throw new AppException(ErrorCodes.USER_INACTIVE);
+        }
+
         //校验密码 - 前端已改为明文传输，不再解密
         String password = sysUserDTO.getPassword();
         String dbPassword = SM4Utils.webDecryptText(sysUser.getPassword());

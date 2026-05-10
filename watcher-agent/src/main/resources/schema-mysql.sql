@@ -13,14 +13,15 @@ CREATE TABLE sys_user (
     id VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
     username VARCHAR(100) NOT NULL UNIQUE COMMENT '用户名',
     password VARCHAR(255) NOT NULL COMMENT '密码(加密)',
+    status VARCHAR(20) DEFAULT 'active' COMMENT '用户状态: active-已激活/inactive-未激活',
     last_login_time DATETIME COMMENT '最近登录时间',
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
 
 -- 初始化默认管理员用户 (用户名: admin, 密码: Admin@123 - SM4加密)
-INSERT INTO sys_user (id, username, password) VALUES
-('1', 'admin', 'iesB4yJHVdE1R3mP4yT6LA==');
+INSERT INTO sys_user (id, username, password, status) VALUES
+('1', 'admin', 'iesB4yJHVdE1R3mP4yT6LA==', 'active');
 
 -- ================================================
 -- 2. 密码策略表 (PwdStrategy)
@@ -201,3 +202,24 @@ CREATE INDEX idx_metric_resource_id ON metric_data(resource_id);
 CREATE INDEX idx_metric_type ON metric_data(metric_type);
 CREATE INDEX idx_metric_report_time ON metric_data(report_time);
 CREATE INDEX idx_metric_platform ON metric_data(platform);
+
+-- ================================================
+-- 12. 用户注册申请表 (UserRegisterRequest)
+-- ================================================
+DROP TABLE IF EXISTS user_register_request;
+CREATE TABLE user_register_request (
+    id VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    username VARCHAR(100) NOT NULL COMMENT '申请用户名',
+    password VARCHAR(255) NOT NULL COMMENT '密码(SM4加密)',
+    status VARCHAR(20) DEFAULT 'pending' COMMENT '状态: pending-待审批/approved-已通过/rejected-已拒绝',
+    submit_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '提交时间',
+    approver VARCHAR(100) COMMENT '审批人用户名',
+    approve_time DATETIME COMMENT '审批时间',
+    reject_reason VARCHAR(500) COMMENT '拒绝原因',
+    remark VARCHAR(500) COMMENT '备注',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户注册申请表';
+
+CREATE INDEX idx_register_request_status ON user_register_request(status);
+CREATE INDEX idx_register_request_submit_time ON user_register_request(submit_time);

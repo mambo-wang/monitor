@@ -9,26 +9,24 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/**
+ * 用户注册请求DTO
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "用户详情")
-public class SysUserDTO implements Serializable {
+@ApiModel(value = "用户注册请求")
+public class RegisterRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "账号-不加密")
-    private String id;
-
-    @ApiModelProperty(value = "账号-不加密")
+    @ApiModelProperty(value = "用户名")
     private String username;
 
-    @ApiModelProperty(value = "密码-加密")
-    @ApiModelProperty(value = "用户状态: active-已激活/inactive-未激活")
-    private String status;
-
-    @ApiModelProperty(value = "密码-加密")
+    @ApiModelProperty(value = "密码")
     private String password;
 
+    @ApiModelProperty(value = "确认密码")
+    private String confirmPassword;
 }

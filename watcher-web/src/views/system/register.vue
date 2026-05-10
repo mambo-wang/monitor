@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-left">
         <div class="headertitle">
-          <span v-if="!isCollapse">{{ $t("message.system.systemTitle") }}</span>
+          <span>{{ $t("message.system.registerTitle") || '用户注册' }}</span>
         </div>
       </div>
     </div>
@@ -12,7 +12,7 @@
         <img class="loginleft" src="@/assets/images/loginleft.png" alt=""/>
       </div>
       <div class="box">
-        <div class="welcome">{{ $t("message.system.loginTitle") || '用户登录' }}</div>
+        <div class="welcome">{{ $t("message.system.registerTitle") || '用户注册' }}</div>
         <el-form class="form" @submit.prevent>
           <el-input
               size="large"
@@ -29,23 +29,29 @@
           </el-input>
           <el-input
               size="large"
-              ref="password"
               v-model="form.password"
-              :type="passwordType"
+              type="password"
               :placeholder="$t('message.system.password')"
               name="password"
               maxlength="50"
               @keyup.enter.native="submit"
+              style="margin-bottom: 16px"
           >
             <template #prepend>
               {{ $t("message.system.password") }}
             </template>
-            <template #append>
-              <i
-                  class="sfont password-icon"
-                  :class="passwordType ? 'system-yanjing-guan' : 'system-yanjing'"
-                  @click="passwordTypeChange"
-              ></i>
+          </el-input>
+          <el-input
+              size="large"
+              v-model="form.confirmPassword"
+              type="password"
+              :placeholder="$t('message.system.confirmPassword') || '确认密码'"
+              name="confirmPassword"
+              maxlength="50"
+              @keyup.enter.native="submit"
+          >
+            <template #prepend>
+              {{ $t("message.system.confirmPassword") || '确认密码' }}
             </template>
           </el-input>
           <el-button
@@ -54,13 +60,10 @@
               style="width: 100%; background-color: #0546ce; color: #ffffff; margin-top: 20px"
               size="medium"
           >
-            {{ $t("message.system.login") }}
+            {{ $t("message.system.register") || '注册' }}
           </el-button>
-          <div class="login-password-tip">
-            {{$t("message.system.loginPasswordTip")}}
-          </div>
           <div class="register-link">
-            <span @click="goRegister">{{ $t("message.system.noAccount") || '没有账号？去注册' }}</span>
+            <span @click="goLogin">{{ $t("message.system.hasAccount") || '已有账号？去登录' }}</span>
           </div>
         </el-form>
       </div>
@@ -69,48 +72,21 @@
 </template>
 
 <script lang="ts" setup>
-import {ref, reactive, onMounted} from "vue";
-import {useStore} from "vuex";
+import {reactive} from "vue";
 import {useRouter} from "vue-router";
 import {ElMessage} from "element-plus";
+import {registerApi} from "@/api/user";
 import i18n from "@/locale";
-import _ from "lodash";
 
 const {t} = i18n.global;
-
-const store = useStore();
 const router = useRouter();
+
 let form = reactive({
   username: "",
   password: "",
+  confirmPassword: "",
   loading: false,
 });
-const passwordType = ref("password");
-const isCollapse = ref(false);
-onMounted(() => {
-  getCookie();
-});
-
-const getCookie = () => {
-  if (document.cookie.length > 0) {
-    const arr = document.cookie.split("; ");
-    let cookieName = _.find(arr, (item: string) => item.includes("username")) || "";
-    let cookiePwd = _.find(arr, (item: string) => item.includes("userpassword")) || "";
-    const arrName = cookieName.split("username=")[1];
-    const arrPassword = cookiePwd.split("userpassword=")[1];
-  }
-};
-
-const setCookie = (username: any, password: any, day: any) => {
-  const expiration = new Date();
-  expiration.setTime(expiration.getTime() + 24 * 60 * 60 * 1000 * day);
-  window.document.cookie = "username" + "=" + username + ";path=/;expires=" + expiration.toUTCString();
-  window.document.cookie = "userpassword" + "=" + password + ";path=/;expires=" + expiration.toUTCString();
-};
-
-const passwordTypeChange = () => {
-  passwordType.value = passwordType.value === "" ? "password" : "";
-};
 
 const checkForm = () => {
   return new Promise((resolve, reject) => {
@@ -122,35 +98,44 @@ const checkForm = () => {
       ElMessage.warning({ message: t("message.common.emptyTip"), type: "warning" });
       return;
     }
+    if (form.confirmPassword === "") {
+      ElMessage.warning({ message: t("message.common.emptyTip"), type: "warning" });
+      return;
+    }
+    if (form.password !== form.confirmPassword) {
+      ElMessage.warning({ message: t("message.system.twicePasswordNotMatch") || '两次输入的密码不一致', type: "warning" });
+      return;
+    }
     resolve(true);
   });
 };
 
-const submit = () => {
-  checkForm().then(() => {
-    form.loading = true;
-    let params = {
+const submit = async () => {
+  await checkForm();
+  form.loading = true;
+  try {
+    const res: any = await registerApi({
       username: form.username,
       password: form.password,
-    };
-    store.dispatch("user/login", params)
-        .then(async () => {
-          ElMessage.success({
-            message: t("message.system.loginSuccess"),
-            type: "success",
-            showClose: true,
-            duration: 1000,
-          });
-          location.reload();
-        })
-        .finally(() => {
-          form.loading = false;
-        });
-  });
+      confirmPassword: form.confirmPassword,
+    });
+    if (res.state === "SUCCESS") {
+      ElMessage.success({ message: '注册成功，请等待审批', type: "success" });
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
+    } else {
+      ElMessage.error({ message: res.failureMessage || '注册失败', type: "error" });
+    }
+  } catch (error: any) {
+    ElMessage.error({ message: error.message || '注册失败', type: "error" });
+  } finally {
+    form.loading = false;
+  }
 };
 
-const goRegister = () => {
-  router.push("/register");
+const goLogin = () => {
+  router.push("/login");
 };
 </script>
 
@@ -238,33 +223,11 @@ const goRegister = () => {
         border-right-color: #ffffff;
       }
 
-      :deep(.el-input-group__append) {
-        background-color: #ffffff;
-      }
-
       .el-input {
         margin-bottom: 16px;
       }
-
-      .password-icon {
-        cursor: pointer;
-        color: #409eff;
-      }
-    }
-
-    .fixed-top-right {
-      position: absolute;
-      top: 10px;
-      right: 10px;
     }
   }
-}
-
-.login-password-tip {
-  display: flex;
-  margin-top: 20px;
-  color: #7F7F7F;
-  font-size: 14px;
 }
 
 .register-link {

@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.sdk.entity.mysql;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
@@ -13,14 +12,14 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * 系统用户表
+ * 用户注册申请表
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@TableName("sys_user")
-public class SysUser implements Serializable {
+@TableName("user_register_request")
+public class UserRegisterRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -28,25 +27,44 @@ public class SysUser implements Serializable {
     private String id;
 
     /**
-     * 用户名
+     * 申请用户名
      */
     private String username;
 
     /**
-     * 密码(加密)
+     * 密码(SM4加密)
      */
     private String password;
 
     /**
-     * 用户状态: active-已激活/inactive-未激活
+     * 状态: pending-待审批/approved-已通过/rejected-已拒绝
      */
     private String status;
 
     /**
-     * 最近登录时间
+     * 提交时间
      */
-    @TableField(exist = false)
-    private LocalDateTime lastLoginTime;
+    private LocalDateTime submitTime;
+
+    /**
+     * 审批时间
+     */
+    private LocalDateTime approveTime;
+
+    /**
+     * 审批人用户名
+     */
+    private String approver;
+
+    /**
+     * 拒绝原因
+     */
+    private String rejectReason;
+
+    /**
+     * 备注
+     */
+    private String remark;
 
     /**
      * 创建时间

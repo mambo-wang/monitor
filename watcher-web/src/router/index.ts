@@ -31,7 +31,7 @@ const router = createRouter({
 });
 
 // 未授权时可访问的白名单
-const whiteList = ["/login"];
+const whiteList = ["/login", "/register"];
 
 // 路由跳转前的监听操作
 router.beforeEach((to, _from, next) => {

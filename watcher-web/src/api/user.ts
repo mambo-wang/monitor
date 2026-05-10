@@ -47,3 +47,74 @@ export function getMenuApi() {
     baseURL: '/mock'
   })
 }
+
+// ============ 用户注册审批相关API ============
+
+/** 用户注册 */
+export function registerApi(data: { username: string; password: string; confirmPassword: string }) {
+  return request({
+    url: '/user/register',
+    method: 'post',
+    data
+  })
+}
+
+/** 获取待审批列表 */
+export function getPendingListApi(params: { pageNum: number; pageSize: number }) {
+  return request({
+    url: '/user/registration/pending',
+    method: 'get',
+    params
+  })
+}
+
+/** 获取所有审批记录 */
+export function getRegistrationListApi(params: { pageNum: number; pageSize: number }) {
+  return request({
+    url: '/user/registration/list',
+    method: 'get',
+    params
+  })
+}
+
+/** 获取审批详情 */
+export function getRegistrationDetailApi(id: string) {
+  return request({
+    url: `/user/registration/${id}`,
+    method: 'get'
+  })
+}
+
+/** 审批通过 */
+export function approveRegistrationApi(id: string) {
+  return request({
+    url: `/user/registration/approve/${id}`,
+    method: 'post'
+  })
+}
+
+/** 审批拒绝 */
+export function rejectRegistrationApi(data: { id: string; rejectReason: string; remark?: string }) {
+  return request({
+    url: '/user/registration/reject',
+    method: 'post',
+    data
+  })
+}
+
+/** 获取用户列表 */
+export function getUserListApi(params: { pageNum: number; pageSize: number }) {
+  return request({
+    url: '/user/list',
+    method: 'get',
+    params
+  })
+}
+
+/** 获取用户详情 */
+export function getUserDetailApi(id: string) {
+  return request({
+    url: `/user/${id}`,
+    method: 'get'
+  })
+}
