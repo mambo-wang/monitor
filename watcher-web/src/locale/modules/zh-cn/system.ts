@@ -7,6 +7,8 @@ export default {
     forgetPassword:'忘记密码',
     login: '登录',
     loginSuccess: '登录成功',
+    registerTitle: '用户注册',
+    submitRegister: '提交注册申请',
     userName: '用户名/域账号',
     password: '密码',
     oldPassword: "原密码",

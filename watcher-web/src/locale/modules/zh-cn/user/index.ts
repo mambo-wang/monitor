@@ -17,5 +17,11 @@ export default {
     rejectDialogTitle: '拒绝申请',
     rejectReasonPlaceholder: '可选，填写拒绝原因',
     userListTitle: '用户列表',
+  },
+  common: {
+    index: '序号',
+    cancel: '取消',
+    confirm: '确认',
+    emptyTip: '请完善信息',
   }
 }
