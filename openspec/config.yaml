@@ -1,0 +1,32 @@
+schema: tdd-driven-v2
+
+context: |
+  技术栈：TypeScript + Node.js
+  测试框架：Jest
+  测试运行命令：npx jest
+  项目说明：<替换为你的项目描述>
+  核心函数签名：<替换为核心函数签名>
+  所有生产代码必须有对应的测试。
+
+rules:
+  proposal:
+    - 用WHEN/THEN格式列出每一个可测试行为
+    - 不要描述实现细节
+
+  specs:
+    - 每个场景使用GIVEN/WHEN/THEN格式
+    - 每个场景必须可独立测试
+
+  design:
+    - 必须指定精确的测试文件路径
+    - 必须指定每个文件的测试策略
+
+  tasks:
+    - 必须使用checkbox格式"- [ ]"
+    - 每个任务是且仅是一个TDD阶段（RED/GREEN/REFACTOR）
+    - 任务严格交替RED→GREEN→（可选REFACTOR）
+    - GREEN任务必须引用对应的RED任务
+
+  plans:
+    - 每个计划步骤精确对应一个任务
+    - 必须指定验证命令和预期证据
