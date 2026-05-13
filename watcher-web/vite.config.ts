@@ -25,6 +25,11 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       port: 9090,
       open: false,
       proxy: {
+        '/api': {
+          target: 'http://localhost:8888/watcher',
+          changeOrigin: true,
+          rewrite: (path: string) => path,
+        },
         '/watcher': {
           target: 'http://localhost:8888',
           changeOrigin: true,

@@ -17,6 +17,23 @@ const menuList = [
     ],
   },
   {
+    path: "/large-display",
+    redirect: "/large-display/index",
+    meta: { title: "", icon: "sfont system-dashboard" },
+    hideMenu: false,
+    children: [
+      {
+        path: "index",
+        component: createNameComponent(() => import('@/views/large-display/LargeDisplayView.vue')),
+        meta: {
+          title: "大屏概览",
+          icon: "sfont system-dashboard",
+          hideClose: true,
+        },
+      },
+    ],
+  },
+  {
     path: "/agent",
     redirect: "/agent/index",
     meta: { title: "", icon: "sfont system-component" },
