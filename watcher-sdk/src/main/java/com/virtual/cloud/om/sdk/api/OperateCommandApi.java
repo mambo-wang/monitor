@@ -25,8 +25,8 @@ import javax.annotation.Resource;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-@Slf4j
 public abstract class OperateCommandApi {
+    protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(OperateCommandApi.class);
 
     /**
      * 命令下发

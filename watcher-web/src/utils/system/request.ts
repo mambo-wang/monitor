@@ -31,7 +31,8 @@ service.interceptors.request.use(
 service.interceptors.response.use(
     (response: AxiosResponse) => {
         const res = response.data;
-        if (res.state === 0) {
+        // 支持两种响应格式: state=0 或 code=0
+        if (res.state === 0 || res.code === 0) {
             return res
         } else {
             showError(res)

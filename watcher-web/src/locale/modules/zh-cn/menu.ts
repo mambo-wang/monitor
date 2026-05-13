@@ -25,6 +25,9 @@ export default {
     net: {
       name: '网络参数管理'
     },
+    largeDisplay: {
+      name: '大屏概览'
+    },
     user: {
       name: "用户管理",
       "register-list": "注册审批",

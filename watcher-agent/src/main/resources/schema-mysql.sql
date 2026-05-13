@@ -131,6 +131,28 @@ CREATE TABLE data_center_config (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='数据中心配置表';
 
 -- ================================================
+-- 8.1 平台配置表 (PlatformConfig)
+-- ================================================
+DROP TABLE IF EXISTS platform_config;
+CREATE TABLE platform_config (
+    id VARCHAR(64) PRIMARY KEY COMMENT '主键ID',
+    platform_type VARCHAR(50) NOT NULL UNIQUE COMMENT '平台类型: WORKSPACE/CAS/UIS/ONESTOR',
+    platform_name VARCHAR(100) NOT NULL COMMENT '平台名称',
+    description VARCHAR(500) COMMENT '平台描述',
+    status VARCHAR(20) DEFAULT 'NORMAL' COMMENT '状态: NORMAL/ABNORMAL/DISABLED',
+    sort_order INT DEFAULT 0 COMMENT '排序顺序',
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='平台配置表';
+
+-- 初始化平台数据
+INSERT INTO platform_config (id, platform_type, platform_name, description, status, sort_order) VALUES
+('1', 'WORKSPACE', 'Workspace', 'Workspace 管理平台', 'NORMAL', 1),
+('2', 'CAS', 'CAS', 'CAS 管理平台', 'NORMAL', 2),
+('3', 'UIS', 'UIS', 'UIS 管理平台', 'NORMAL', 3),
+('4', 'ONESTOR', 'OneStor', 'OneStor 分布式存储平台', 'NORMAL', 4);
+
+-- ================================================
 -- 9. 告警记录表 (Warn)
 -- ================================================
 DROP TABLE IF EXISTS warn;

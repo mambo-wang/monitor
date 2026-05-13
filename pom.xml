@@ -24,9 +24,9 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <lombok.version>1.18.42</lombok.version>
+        <lombok.version>1.18.36</lombok.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <swagger.version>2.9.2</swagger.version>
         <swagger-models.version>1.5.22</swagger-models.version>
         <knife4j.version>2.0.4</knife4j.version>

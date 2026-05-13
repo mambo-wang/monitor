@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-@Slf4j
 public abstract class DataReportCollector {
+    protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(DataReportCollector.class);
 
 
     /**

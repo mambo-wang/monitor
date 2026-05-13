@@ -18,6 +18,9 @@ export default {
     },
     initConfig: {
       name: "Initial Configuration"
+    },
+    largeDisplay: {
+      name: "Large Display"
     }
   },
 };

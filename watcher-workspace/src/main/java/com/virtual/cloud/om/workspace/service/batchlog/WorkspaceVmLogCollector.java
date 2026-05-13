@@ -124,7 +124,7 @@ public class WorkspaceVmLogCollector implements LogBatchCollector {
                 }
                 this.vmLogsFromWs(host, protocol, username, password, port, vmLogsUri, title, times, ticket);
             }
-            Optional<VmLogDTO> first = vmLogs.stream().filter(log -> title.equals(log.getTitle())).findFirst();
+            Optional<VmLogDTO> first = vmLogs.stream().filter(vmLog -> title.equals(vmLog.getTitle())).findFirst();
             if (!first.isPresent()) {
                 if (times > maxRecursiveNum) {
                     log.info("[log batch][ticket={}][{}] recursive query collect log files result nums out, vmLog is not present", ticket, logBatchType());

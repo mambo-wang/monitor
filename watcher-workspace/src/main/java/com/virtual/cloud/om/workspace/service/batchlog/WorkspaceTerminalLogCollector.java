@@ -130,7 +130,7 @@ public class WorkspaceTerminalLogCollector implements LogBatchCollector {
                 }
                 this.logsFromWs(host, protocol, username, password, port, logsUri, times, ticket);
             }
-            Optional<TerminalLogDTO> first = logs.stream().filter(log -> Objects.isNull(log.getSuccNum())).findFirst();
+            Optional<TerminalLogDTO> first = logs.stream().filter(tLog -> Objects.isNull(tLog.getSuccNum())).findFirst();
             if (first.isPresent()) {
                 if (times > maxRecursiveNum) {
                     log.info("[log batch][ticket={}][{}] recursive query collect log files result nums out, succNum field null is present", ticket, logBatchType());

@@ -7,8 +7,8 @@ import lombok.extern.slf4j.Slf4j;
  * @author:XK
  * @Date:2022/9/13 9:28
  */
-@Slf4j
 public abstract class SshAuthAbstract {
+    protected static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(SshAuthAbstract.class);
 
     public abstract Boolean checkUserSshAuth( String ip, String protocol, Integer port,String username, String password);
 

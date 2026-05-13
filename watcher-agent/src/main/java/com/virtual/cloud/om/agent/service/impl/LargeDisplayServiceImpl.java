@@ -1,8 +1,11 @@
 package com.virtual.cloud.om.agent.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.virtual.cloud.om.agent.dto.MetricTrendDTO;
 import com.virtual.cloud.om.agent.dto.PlatformDTO;
 import com.virtual.cloud.om.agent.dto.ResourceItemDTO;
+import com.virtual.cloud.om.sdk.entity.PlatformConfigEntity;
+import com.virtual.cloud.om.sdk.mapper.PlatformConfigMapper;
 import com.virtual.cloud.om.agent.service.LargeDisplayService;
 import com.virtual.cloud.om.agent.service.report.MetricService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,40 +15,33 @@ import java.util.*;
 
 /**
  * 大屏概览服务实现类
- * 监控数据使用实时采集，不入库也不查数据库
  */
 @Service
 public class LargeDisplayServiceImpl implements LargeDisplayService {
     
     @Autowired
     private MetricService metricService;
+
+    @Autowired
+    private PlatformConfigMapper platformConfigMapper;
     
     @Override
     public List<PlatformDTO> getPlatformList() {
-        // TODO: 从数据库查询管理平台列表
-        // 暂时返回模拟数据
-        PlatformDTO workspace = new PlatformDTO();
-        workspace.setId(1L);
-        workspace.setName("Workspace");
-        workspace.setType("WORKSPACE");
-        workspace.setDescription("Workspace 管理平台");
-        workspace.setStatus("NORMAL");
-        
-        PlatformDTO cas = new PlatformDTO();
-        cas.setId(2L);
-        cas.setName("CAS");
-        cas.setType("CAS");
-        cas.setDescription("CAS 管理平台");
-        cas.setStatus("NORMAL");
-        
-        PlatformDTO uis = new PlatformDTO();
-        uis.setId(3L);
-        uis.setName("UIS");
-        uis.setType("UIS");
-        uis.setDescription("UIS 管理平台");
-        uis.setStatus("NORMAL");
-        
-        return Arrays.asList(workspace, cas, uis);
+        QueryWrapper<PlatformConfigEntity> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("status", "NORMAL").orderByAsc("sort_order");
+        List<PlatformConfigEntity> entities = platformConfigMapper.selectList(queryWrapper);
+
+        List<PlatformDTO> result = new ArrayList<>();
+        for (PlatformConfigEntity entity : entities) {
+            PlatformDTO dto = new PlatformDTO();
+            dto.setId(Long.parseLong(entity.getId()));
+            dto.setName(entity.getPlatformName());
+            dto.setType(entity.getPlatformType());
+            dto.setDescription(entity.getDescription());
+            dto.setStatus(entity.getStatus());
+            result.add(dto);
+        }
+        return result;
     }
     
     @Override
