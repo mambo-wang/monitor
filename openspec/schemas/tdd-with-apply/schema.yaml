@@ -1,0 +1,109 @@
+name: tdd-with-apply
+version: 2
+description: 原子化TDD工作流，子代理隔离执行，证据驱动验证
+
+artifacts:
+  - id: proposal
+    generates: proposal.md
+    description: 变更提案——为什么做、期望什么行为
+    template: proposal.md
+    instruction: |
+      创建一份变更提案，说明为什么要做这个改动。
+      必须用WHEN/THEN格式列出每一个可测试行为：
+      - WHEN <函数名>(<输入>) 被调用 THEN 结果为 <期望值>
+      只描述"期望发生什么"，不要描述实现细节。
+    requires: []
+
+  - id: specs
+    generates: specs/**/*.md
+    description: 行为规格——用场景描述期望行为
+    template: spec.md
+    instruction: |
+      用 GIVEN/WHEN/THEN 格式编写行为规格：
+      - 每个场景必须可独立测试
+      - 覆盖：正常路径、边界情况、错误处理
+      - 只描述期望行为，不描述实现方式
+    requires:
+      - proposal
+
+  - id: design
+    generates: design.md
+    description: 技术设计——怎么实现、测试策略
+    template: design.md
+    instruction: |
+      编写技术设计方案，说明如何实现。
+      必须包含：
+      - 要创建的文件列表（测试文件+源码文件，给出完整路径）
+      - 每个测试文件的测试策略（单元测试/集成测试）
+      - 源码文件与测试文件的对应关系
+      - 测试运行命令
+    requires:
+      - proposal
+
+  - id: tasks
+    generates: tasks.md
+    description: 原子化TDD任务列表
+    template: tasks.md
+    instruction: |
+      关键要求：将工作拆分为原子化 TDD 任务。
+      每个任务必须是且仅是一个 TDD 阶段（RED / GREEN / REFACTOR）。
+      必须使用checkbox格式书写每个任务：
+      ### Feature: [功能名称]
+      - [ ] RED: 编写失败测试——[测试什么行为]
+      - [ ] GREEN: 最小实现——[实现描述，引用对应的RED任务]
+      - [ ] REFACTOR: 重构清理——[清理描述]（可选）
+      规则：
+      1. 禁止将RED和GREEN合并到一个任务
+      2. 每个GREEN任务必须引用对应的RED测试
+      3. 每个任务必须使用"- [ ]" checkbox格式
+      4. 任务严格交替：RED→GREEN→（可选REFACTOR）
+      5. 每个任务应在2-5分钟内可完成
+    requires:
+      - specs
+      - design
+
+  - id: plans
+    generates: plan.md
+    description: 执行计划——每步对应一个任务，附验证命令
+    template: plan.md
+    instruction: |
+      创建详细的执行计划。
+      每个计划步骤必须精确对应 tasks.md 中的一个任务。
+      RED任务需包含：测试文件路径、断言内容、预期失败原因、验证命令。
+      GREEN任务需包含：要通过的测试、最小实现描述、验证命令。
+      计划末尾必须追加：
+      ---
+      ## Execution Mode Selection
+      REQUIRED: Use superpowers:subagent-driven-development skill.
+      DO NOT use executing-plans or inline execution.
+    requires:
+      - tasks
+
+apply:
+  requires: [plans]
+  tracks: tasks.md
+  instruction: |
+    必须使用 superpowers:subagent-driven-development skill 执行。
+    禁止使用 executing-plans 或 inline 执行。
+
+    执行规则：
+    1. 每个任务是一个原子TDD阶段——每个任务派遣一个子代理
+    2. 禁止并行派遣多个实现子代理
+    3. 任务必须按顺序执行
+
+    每个子代理的证据要求：
+    - RED任务：必须包含测试失败输出
+      如果RED阶段报告"所有测试通过"→异常→重新派遣
+    - GREEN任务：必须包含测试通过输出
+      如果GREEN阶段报告"测试仍失败"→不要标记完成→重新派遣
+
+    每个任务完成后（必须逐个执行，不可跳过）：
+    1. Spec审查：子代理是否精确实现了任务要求？
+    2. 代码质量审查：代码是否干净、有测试、可维护？
+    3. 两项审查都通过后→标记完成（- [ ] → - [x]）
+    4. 继续下一个任务
+
+    全部任务完成后：
+    1. 运行完整测试套件
+    2. 验证所有spec已满足
+    3. 检查测试覆盖率

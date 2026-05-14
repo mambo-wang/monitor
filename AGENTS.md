@@ -1,6 +1,6 @@
 # ShowTime - AI Agent 开发规范
 
-> **版本**: 1.0.0 | **更新**: 2026-05-14 | **技术栈**: Java + TypeScript + Python
+> **版本**: 1.0.0 | **更新**: 2026-05-14 | **技术栈**: Java + Vue 3 + TypeScript + Python
 
 ---
 

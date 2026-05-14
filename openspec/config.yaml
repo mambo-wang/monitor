@@ -1,11 +1,8 @@
-schema: tdd-driven-v2
+schema: tdd-with-execute-plan
 
 context: |
-  技术栈：TypeScript + Node.js
-  测试框架：Jest
-  测试运行命令：npx jest
-  项目说明：<替换为你的项目描述>
-  核心函数签名：<替换为核心函数签名>
+  技术栈：Java + Vue 3 + TypeScript + Python
+  测试框架：Jest + Pytest + Junit
   所有生产代码必须有对应的测试。
 
 rules:
