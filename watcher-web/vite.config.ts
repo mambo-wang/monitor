@@ -30,6 +30,11 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
           changeOrigin: true,
           rewrite: (path: string) => path,
         },
+        '/watcher/api/knowledge': {
+          target: 'http://localhost:8000',
+          changeOrigin: true,
+          rewrite: (path: string) => path.replace('/watcher', ''),
+        },
         '/watcher': {
           target: 'http://localhost:8888',
           changeOrigin: true,

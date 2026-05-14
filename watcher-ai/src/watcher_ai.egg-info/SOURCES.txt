@@ -1,0 +1,15 @@
+README.md
+pyproject.toml
+src/watcher_ai/__init__.py
+src/watcher_ai/main.py
+src/watcher_ai.egg-info/PKG-INFO
+src/watcher_ai.egg-info/SOURCES.txt
+src/watcher_ai.egg-info/dependency_links.txt
+src/watcher_ai.egg-info/top_level.txt
+src/watcher_ai/api/__init__.py
+src/watcher_ai/api/knowledge.py
+src/watcher_ai/models/__init__.py
+src/watcher_ai/models/schemas.py
+src/watcher_ai/services/__init__.py
+src/watcher_ai/services/kb_service.py
+tests/test_knowledge_api.py
