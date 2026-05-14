@@ -36,7 +36,12 @@
     </el-table>
 
     <!-- 上传对话框 -->
-    <el-dialog v-model="showUploadDialog" title="上传文档" width="500">
+    <el-dialog 
+      v-model="showUploadDialog" 
+      title="上传文档" 
+      width="300px"
+      v-drag
+      class="upload-dialog">
       <el-upload
         ref="uploadRef"
         :auto-upload="false"
@@ -64,6 +69,10 @@
 import { ref, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { listDocuments, uploadDocument, deleteDocument, type KnowledgeBase, type Document } from '@/api/knowledge'
+import drag from '@/directive/drag'
+
+// 注册拖动指令
+const vDrag = drag
 
 const props = defineProps<{
   kb: KnowledgeBase
