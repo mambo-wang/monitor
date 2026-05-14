@@ -1,8 +1,16 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from contextlib import asynccontextmanager
 from watcher_ai.api.knowledge import router as knowledge_router
+from watcher_ai.services.kb_service import init as kb_init
 
-app = FastAPI(title="ShowTime RAG API")
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # 启动时初始化 KBService
+    kb_init()
+    yield
+
+app = FastAPI(title="ShowTime RAG API", lifespan=lifespan)
 
 # CORS
 app.add_middleware(
