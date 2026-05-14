@@ -1,0 +1,122 @@
+{
+  "version": "2.0",
+  "name": "ShowTime",
+  "description": "远程运维终端管理系统 - AI Agent 环境配置",
+  "runtime": {
+    "java": {
+      "version": "17+",
+      "maven": "3.6+",
+      "project": "watcher-agent"
+    },
+    "nodejs": {
+      "version": "18+",
+      "packageManager": "npm",
+      "project": "watcher-web"
+    },
+    "python": {
+      "version": "3.11+",
+      "packageManager": "pip/conda",
+      "project": "watcher-ai",
+      "env": "showtime"
+    }
+  },
+  "services": [
+    {
+      "name": "Java Backend",
+      "type": "spring-boot",
+      "port": 8888,
+      "path": "watcher-agent",
+      "startCommand": "java -jar target/agent.jar",
+      "healthCheck": "http://localhost:8888/watcher/health",
+      "dependencies": ["mysql"]
+    },
+    {
+      "name": "Frontend",
+      "type": "vite",
+      "port": 9090,
+      "path": "watcher-web",
+      "startCommand": "npm run dev",
+      "healthCheck": "http://localhost:9090",
+      "dependencies": []
+    },
+    {
+      "name": "RAG API",
+      "type": "fastapi",
+      "port": 8000,
+      "path": "watcher-ai/src",
+      "startCommand": "python -m uvicorn watcher_ai.main:app --reload --port 8000",
+      "healthCheck": "http://localhost:8000/health",
+      "dependencies": ["ollama"]
+    },
+    {
+      "name": "Ollama",
+      "type": "ai-runtime",
+      "port": 11434,
+      "startCommand": "ollama serve",
+      "healthCheck": "http://localhost:11434/api/version",
+      "models": ["bge-m3"]
+    }
+  ],
+  "databases": [
+    {
+      "name": "MySQL",
+      "type": "mysql",
+      "defaultPort": 3306,
+      "database": "watcher_db",
+      "connectionPattern": "jdbc:mariadb://${host}:${port}/${database}"
+    },
+    {
+      "name": "ChromaDB",
+      "type": "vector-db",
+      "path": "watcher-ai/src/chroma_db",
+      "persistent": true
+    }
+  ],
+  "environmentVariables": {
+    "required": [
+      {
+        "name": "MINIMAX_API_KEY",
+        "description": "MiniMax API 密钥，用于 LLM 对话",
+        "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+      }
+    ],
+    "optional": [
+      {
+        "name": "OLLAMA_EMBED_URL",
+        "description": "Ollama Embedding API 地址",
+        "default": "http://localhost:11434/api/embeddings"
+      },
+      {
+        "name": "OLLAMA_EMBED_MODEL",
+        "description": "Ollama Embedding 模型",
+        "default": "bge-m3"
+      }
+    ]
+  },
+  "buildCommands": {
+    "java": {
+      "clean": "cd watcher-agent && mvn clean",
+      "compile": "cd watcher-agent && mvn compile",
+      "build": "cd watcher-agent && mvn package -DskipTests",
+      "test": "cd watcher-agent && mvn test"
+    },
+    "frontend": {
+      "install": "cd watcher-web && npm install",
+      "dev": "cd watcher-web && npm run dev",
+      "build": "cd watcher-web && npm run build",
+      "lint": "cd watcher-web && npm run lint"
+    },
+    "python": {
+      "install": "cd watcher-ai && pip install -r requirements.txt",
+      "dev": "cd watcher-ai/src && python -m uvicorn watcher_ai.main:app --reload",
+      "test": "cd watcher-ai && python -m pytest tests/ -v"
+    }
+  },
+  "dataPaths": {
+    "chromaDb": "watcher-ai/src/chroma_db",
+    "kbMetadata": "watcher-ai/data/kb_store.json",
+    "uploads": "watcher-ai/uploads",
+    "logs": "logs/",
+    "agentLogs": "watcher-agent/watcher-agent.log"
+  }
+}

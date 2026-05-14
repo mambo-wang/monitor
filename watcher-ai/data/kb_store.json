@@ -1,0 +1,42 @@
+[
+  {
+    "id": "04b88c92-5256-4a6b-8d64-f50f0694bc04",
+    "name": "KB_04b88c92",
+    "description": "Recovered from ChromaDB",
+    "status": "ready",
+    "document_count": 1,
+    "chunk_count": 7,
+    "created_at": "2026-05-14T11:47:32.510430",
+    "updated_at": "2026-05-14T13:44:37.987601"
+  },
+  {
+    "id": "a7158604-38d3-4096-b291-971d69467714",
+    "name": "KB_a7158604",
+    "description": "Recovered from ChromaDB",
+    "status": "idle",
+    "document_count": 0,
+    "chunk_count": 0,
+    "created_at": "2026-05-14T11:47:32.511764",
+    "updated_at": "2026-05-14T11:47:32.511767"
+  },
+  {
+    "id": "ce91771d-8d92-4625-a746-22f7f45b8c74",
+    "name": "KB_ce91771d",
+    "description": "Recovered from ChromaDB",
+    "status": "idle",
+    "document_count": 0,
+    "chunk_count": 0,
+    "created_at": "2026-05-14T11:47:32.518707",
+    "updated_at": "2026-05-14T11:47:32.518716"
+  },
+  {
+    "id": "test-kb-1",
+    "name": "KB_test-kb-",
+    "description": "Recovered from ChromaDB",
+    "status": "idle",
+    "document_count": 0,
+    "chunk_count": 0,
+    "created_at": "2026-05-14T11:47:32.526255",
+    "updated_at": "2026-05-14T11:47:32.526258"
+  }
+]
