@@ -25,3 +25,4 @@ build/
 
 ### VS Code ###
 .vscode/
+.worktrees/
