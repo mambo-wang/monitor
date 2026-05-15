@@ -147,3 +147,48 @@ java.lang.NullPointerException: Cannot invoke "java.util.Date.before(java.util.D
 2026-05-14 17:00:15[INFO ][http-nio-8888-exec-1][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
 2026-05-14 20:10:34[WARN ][HikariPool-1 housekeeper][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h48m30s356ms).
 2026-05-14 21:17:35[WARN ][HikariPool-1 housekeeper][]com.zaxxer.hikari.pool.HikariPool.run [780] - HikariPool-1 - Retrograde clock change detected (housekeeper delta=29s840ms), soft-evicting connections from pool.
+2026-05-15 09:24:16[INFO ][SpringApplicationShutdownHook][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
+2026-05-15 09:24:16[INFO ][SpringApplicationShutdownHook][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.
+2026-05-15 09:24:23.125[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
+2026-05-15 09:24:23.163[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 25.0.2 on KiritodeMacBook-Pro.local with PID 5471 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
+2026-05-15 09:24:23.164[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
+2026-05-15 09:24:25.551[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
+2026-05-15 09:24:25.563[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
+2026-05-15 09:24:25.564[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
+2026-05-15 09:24:25.564[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
+2026-05-15 09:24:25.662[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
+2026-05-15 09:24:25.662[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 2426 ms
+2026-05-15 09:24:26.335[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
+2026-05-15 09:24:26.658[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
+2026-05-15 09:24:26.959[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
+2026-05-15 09:24:27.463[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
+2026-05-15 09:24:27.961[INFO ][main][][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
+2026-05-15 09:24:28.249[INFO ][main][][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
+2026-05-15 09:24:28.984[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Starting ProtocolHandler ["http-nio-8888"]
+2026-05-15 09:24:29.006[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start [220] - Tomcat started on port(s): 8888 (http) with context path '/watcher'
+2026-05-15 09:24:29.007[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [160] - Context refreshed
+2026-05-15 09:24:29.035[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [163] - Found 1 custom documentation plugin(s)
+2026-05-15 09:24:29.095[INFO ][main][][]springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan [41] - Scanning for api listing references
+2026-05-15 09:24:29.347[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: batchDeployUsingPOST_1
+2026-05-15 09:24:29.566[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: listUsingGET_1
+2026-05-15 09:24:29.651[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarted [61] - Started WatcherAgentApplication in 7.06 seconds (JVM running for 7.883)
+2026-05-15 09:24:30.004[INFO ][main][][]com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl.run [316] - =====策略定时任务========== com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl@45394b31
+2026-05-15 11:44:55.366[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m25s981ms).
+2026-05-15 11:59:33.339[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m38s8ms).
+2026-05-15 12:17:01.049[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=16m57s712ms).
+2026-05-15 12:36:52.913[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=19m21s856ms).
+2026-05-15 13:29:59.886[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=53m6s973ms).
+2026-05-15 13:34:50.240[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m19s969ms).
+2026-05-15 16:38:19.614[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h11m5s330ms).
+2026-05-15 16:54:14.066[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m24s408ms).
+2026-05-15 17:09:41.726[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m27s660ms).
+2026-05-15 17:25:37.401[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m25s300ms).
+2026-05-15 17:28:25.169[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m17s776ms).
+2026-05-15 17:44:21.024[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m25s846ms).
+2026-05-15 17:59:46.820[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m25s797ms).
+2026-05-15 18:15:42.244[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m25s430ms).
+2026-05-15 18:29:27.579[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m15s343ms).
+2026-05-15 19:30:37.280[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1h39s698ms).
+2026-05-15 19:35:16.130[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m38s851ms).
+2026-05-15 19:45:20.406[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m34s269ms).
+2026-05-15 19:58:30.324[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=13m9s917ms).
