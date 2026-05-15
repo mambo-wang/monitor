@@ -42,6 +42,38 @@ export interface ChatResponse {
   }>
 }
 
+// 对话历史相关类型
+export interface ChatSession {
+  id: string
+  user_id: string
+  kb_id: string
+  title: string
+  message_count: number
+  created_at: string
+  updated_at: string
+}
+
+export interface ChatHistoryItem {
+  id: number
+  session_id: string
+  role: string
+  content: string
+  sources: any
+  created_at: string
+}
+
+export interface ChatHistoryListResponse {
+  sessions: ChatSession[]
+  total: number
+  page: number
+  page_size: number
+}
+
+export interface SessionDetailResponse {
+  session: ChatSession
+  messages: ChatHistoryItem[]
+}
+
 export interface SearchRequest {
   query: string
   top_k?: number
@@ -115,5 +147,36 @@ export async function searchKB(kbId: string, query: string, top_k: number = 3): 
     query,
     top_k
   })
+  return res.data
+}
+
+// 对话历史 API
+export async function listChatHistory(userId: string, page: number = 1, pageSize: number = 20): Promise<ChatHistoryListResponse> {
+  const res = await request.get<ChatHistoryListResponse>('/api/knowledge/chat/history', {
+    params: { user_id: userId, page, page_size: pageSize }
+  })
+  return res.data
+}
+
+export async function getSessionDetail(sessionId: string, userId: string): Promise<SessionDetailResponse> {
+  const res = await request.get<SessionDetailResponse>(`/api/knowledge/chat/sessions/${sessionId}`, {
+    params: { user_id: userId }
+  })
+  return res.data
+}
+
+export async function deleteSession(sessionId: string, userId: string): Promise<void> {
+  await request.delete(`/api/knowledge/chat/sessions/${sessionId}`, {
+    params: { user_id: userId }
+  })
+}
+
+export async function chatWithHistory(data: {
+  user_id: string
+  kb_id: string
+  question: string
+  session_id?: string
+}): Promise<{ answer: string; session_id: string }> {
+  const res = await request.post('/api/knowledge/chat/with-history', data)
   return res.data
 }

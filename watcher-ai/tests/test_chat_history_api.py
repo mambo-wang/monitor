@@ -223,7 +223,11 @@ class TestChatWithHistory:
         mock_repo.create_session.return_value = {'id': 'sess', 'user_id': 'user123', 'kb_id': 'kb001'}
         mock_repo.save_message.return_value = 1
         mock_kb.get_by_id.return_value = {'id': 'kb001'}
-        mock_chroma.search.return_value = {'documents': [[]]}
+        mock_chroma.search.return_value = {
+            'documents': [['这是相关文档内容']],
+            'metadatas': [[{'file_name': 'test.pdf'}]],
+            'distances': [[0.1]]
+        }
         mock_llm.chat.return_value = "AI回答"
 
         client.post("/api/knowledge/chat/with-history", json={

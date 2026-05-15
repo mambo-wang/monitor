@@ -63,10 +63,11 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { chatWithKB, type KnowledgeBase, type ChatMessage } from '@/api/knowledge'
+import { chatWithHistory, chatWithKB, type KnowledgeBase, type ChatMessage } from '@/api/knowledge'
 
 const props = defineProps<{
   kb: KnowledgeBase
+  sessionId?: string
 }>()
 
 const emit = defineEmits<{
@@ -86,6 +87,8 @@ const inputText = ref('')
 const loading = ref(false)
 const showSources = ref(true)
 const messageListRef = ref<HTMLElement>()
+const currentSessionId = ref(props.sessionId || '')
+const currentUserId = 'default_user' // TODO: 从用户系统获取
 
 async function handleSend() {
   const text = inputText.value.trim()
@@ -99,15 +102,16 @@ async function handleSend() {
   loading.value = true
   scrollToBottom()
   try {
-    const response = await chatWithKB({
+    const response = await chatWithHistory({
+      user_id: currentUserId,
       kb_id: props.kb.id,
       question: text,
-      history: messages.value.slice(0, -1).map(m => ({ role: m.role, content: m.content }))
+      session_id: currentSessionId.value || undefined
     })
+    currentSessionId.value = response.session_id
     messages.value.push({
       role: 'assistant',
-      content: response.answer,
-      sources: response.sources
+      content: response.answer
     })
   } catch (e: any) {
     ElMessage.error(e?.response?.data?.detail || '回答失败')
