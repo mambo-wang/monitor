@@ -4,7 +4,7 @@
   "description": "远程运维终端管理系统 - AI Agent 环境配置",
   "runtime": {
     "java": {
-      "version": "17+",
+      "version": "17",
       "maven": "3.6+",
       "project": "watcher-agent"
     },

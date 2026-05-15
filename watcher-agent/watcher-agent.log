@@ -514,3 +514,5 @@ java.lang.NullPointerException: Cannot invoke "java.util.Date.before(java.util.D
 2026-05-14 11:15:28[INFO ][http-nio-8888-exec-1][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
 2026-05-14 11:15:33[INFO ][http-nio-8888-exec-4][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
 2026-05-14 11:15:33[INFO ][http-nio-8888-exec-4][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
+2026-05-14 16:56:22[INFO ][SpringApplicationShutdownHook][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
+2026-05-14 16:56:22[INFO ][SpringApplicationShutdownHook][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.

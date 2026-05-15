@@ -1,29 +1,19 @@
 schema: tdd-with-execute-plan
 
 context: |
-  技术栈：Java + Vue 3 + TypeScript + Python
-  测试框架：Jest + Pytest + Junit
-  所有生产代码必须有对应的测试。
-
-rules:
-  proposal:
-    - 用WHEN/THEN格式列出每一个可测试行为
-    - 不要描述实现细节
-
-  specs:
-    - 每个场景使用GIVEN/WHEN/THEN格式
-    - 每个场景必须可独立测试
-
-  design:
-    - 必须指定精确的测试文件路径
-    - 必须指定每个文件的测试策略
-
-  tasks:
-    - 必须使用checkbox格式"- [ ]"
-    - 每个任务是且仅是一个TDD阶段（RED/GREEN/REFACTOR）
-    - 任务严格交替RED→GREEN→（可选REFACTOR）
-    - GREEN任务必须引用对应的RED任务
-
-  plans:
-    - 每个计划步骤精确对应一个任务
-    - 必须指定验证命令和预期证据
+  Project: ShowTime — 全方位监控系统/知识库（新华三云基产品线）
+  Tech Stack: Java 17, Spring Boot 2.5.12, Maven multi-module
+  Modules:
+    - watcher-agent      # 采集程序主入口（Spring Boot），端口 8888
+    - watcher-sdk        # 公共模块（所有模块依赖）
+    - watcher-cas        # CAS 虚拟化平台插件
+    - watcher-uis        # UIS 超融合平台插件
+    - watcher-workspace  # Workspace 云桌面插件
+    - watcher-onestor    # OneStor 分布式存储插件
+    - watcher-builder    # 打包模块（部署脚本）
+    - watcher-web        # 前端（Vue 3 + TypeScript + Vite），端口 9090
+    - watcher-ai         # AI 知识库服务（Python FastAPI + ChromaDB），端口 8000
+  Middleware: MySQL 8.0+
+  Database: MySQL（配置存储）, ChromaDB（向量存储）
+  Schema expands artifacts: proposal.md, design.md, specs/, tasks.md
+  Superpowers plans are written to: docs/superpowers/plans/

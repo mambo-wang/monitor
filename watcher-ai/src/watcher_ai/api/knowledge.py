@@ -7,8 +7,6 @@ from watcher_ai.services.document_store import DocumentStore
 from watcher_ai.services.chroma_service import ChromaService
 from watcher_ai.services.build_service import BuildService
 from watcher_ai.services.llm_service import LLMService
-from watcher_ai.services.chat_service import ChatService
-from watcher_ai.services.chat_repository import ChatRepository
 import os
 
 router = APIRouter(prefix="/api/knowledge", tags=["knowledge"])
@@ -20,8 +18,6 @@ class ChatRequest(BaseModel):
     kb_id: str
     question: str
     history: Optional[List[dict]] = None
-    user_id: Optional[str] = None
-    session_id: Optional[str] = None
 
 class SearchRequest(BaseModel):
     query: str
@@ -120,20 +116,6 @@ def chat(req: ChatRequest):
     results = ChromaService.search(req.kb_id, req.question, top_k=3)
     
     if not results.get("documents") or not results["documents"][0]:
-        # 即使没有检索结果也保存对话
-        if req.user_id:
-            session_id, message_id = ChatService.create_or_append_session(
-                user_id=req.user_id,
-                kb_id=req.kb_id,
-                question=req.question,
-                session_id=req.session_id
-            )
-            return ok_response({
-                "answer": "没有找到相关文档",
-                "sources": [],
-                "session_id": session_id,
-                "message_id": message_id
-            })
         return ok_response({"answer": "没有找到相关文档", "sources": []})
     
     context_parts = []
@@ -153,33 +135,7 @@ def chat(req: ChatRequest):
     context = "\n\n".join(context_parts)
     answer = LLMService.chat(req.question, context)
     
-    # 保存对话历史
-    session_id = req.session_id
-    message_id = None
-    if req.user_id:
-        session_id, message_id = ChatService.create_or_append_session(
-            user_id=req.user_id,
-            kb_id=req.kb_id,
-            question=req.question,
-            session_id=req.session_id
-        )
-        # 保存助手回复
-        ChatRepository.save_message(
-            session_id=session_id,
-            role="assistant",
-            content=answer,
-            sources=sources
-        )
-        # 更新消息数
-        session = ChatRepository.get_session_by_id(session_id)
-        ChatRepository.update_message_count(session_id, session['message_count'] + 1)
-    
-    return ok_response({
-        "answer": answer,
-        "sources": sources,
-        "session_id": session_id,
-        "message_id": message_id
-    })
+    return ok_response({"answer": answer, "sources": sources})
 
 @router.post("/kbs/{kb_id}/search")
 def search_kb(kb_id: str, req: SearchRequest):
