@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { ref, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
-import { chatWithHistory, chatWithKB, type KnowledgeBase, type ChatMessage } from '@/api/knowledge'
+import { chatWithHistory, chatWithKB, getSessionDetail, type KnowledgeBase, type ChatMessage } from '@/api/knowledge'
 import HistorySessions from './HistorySessions.vue'
 
 const props = defineProps<{
@@ -161,7 +161,18 @@ function handleSelectHistorySession(session: any) {
 }
 
 async function loadHistoryMessages(sessionId: string) {
-  // TODO: 实现加载历史消息
+  try {
+    const currentUserId = 'default_user'
+    const res = await getSessionDetail(sessionId, currentUserId)
+    // 将历史消息转换为 Message 格式并展示
+    messages.value = res.messages.map((msg: any) => ({
+      role: msg.role as 'user' | 'assistant',
+      content: msg.content
+    }))
+    scrollToBottom()
+  } catch (e: any) {
+    ElMessage.error('加载历史消息失败')
+  }
 }
 </script>
 

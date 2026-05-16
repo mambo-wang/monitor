@@ -18,12 +18,18 @@ def ok_response(data: Any):
 
 @router.get("/history")
 def list_chat_history(
-    user_id: str = Query(..., description="用户ID"),
+    user_id: str = Query(None, description="用户ID"),
+    kb_id: str = Query(None, description="知识库ID"),
     page: int = Query(1, ge=1, description="页码"),
     page_size: int = Query(20, ge=1, le=100, description="每页数量")
 ):
-    """获取用户对话历史列表"""
-    result = ChatRepository.list_sessions_by_user(user_id, page, page_size)
+    """获取对话历史列表（按用户或知识库筛选）"""
+    if kb_id:
+        result = ChatRepository.list_sessions_by_kb(kb_id, page, page_size)
+    elif user_id:
+        result = ChatRepository.list_sessions_by_user(user_id, page, page_size)
+    else:
+        raise HTTPException(status_code=400, detail="user_id or kb_id is required")
     return ok_response(result)
 
 
