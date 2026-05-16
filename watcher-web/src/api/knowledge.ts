@@ -180,3 +180,16 @@ export async function chatWithHistory(data: {
   const res = await request.post('/api/knowledge/chat/with-history', data)
   return res.data
 }
+
+// 按知识库查询会话列表（用于历史会话弹窗）
+export async function getChatSessions(kbId: string): Promise<ChatHistoryListResponse> {
+  const res = await request.get<ChatHistoryListResponse>('/api/knowledge/chat/history', {
+    params: { kb_id: kbId, page: 1, page_size: 100 }
+  })
+  return res.data
+}
+
+// 删除会话
+export async function deleteChatSession(sessionId: string): Promise<void> {
+  await request.delete(`/api/knowledge/chat/sessions/${sessionId}`)
+}
