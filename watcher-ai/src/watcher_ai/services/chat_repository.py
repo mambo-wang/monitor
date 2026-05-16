@@ -110,6 +110,34 @@ class ChatRepository:
         }
 
     @staticmethod
+    def list_sessions_by_kb(
+        kb_id: str,
+        page: int = 1,
+        page_size: int = 20
+    ) -> Dict[str, Any]:
+        """按知识库分页查询会话"""
+        offset = (page - 1) * page_size
+
+        count_sql = f"SELECT COUNT(*) as total FROM {ChatRepository.SESSION_TABLE} WHERE kb_id = %s"
+        total_result = ChatRepository._get_client().query_one(count_sql, (kb_id,))
+        total = total_result['total'] if total_result else 0
+
+        sql = f"""
+            SELECT * FROM {ChatRepository.SESSION_TABLE}
+            WHERE kb_id = %s
+            ORDER BY updated_at DESC
+            LIMIT %s OFFSET %s
+        """
+        sessions = ChatRepository._get_client().query_all(sql, (kb_id, page_size, offset))
+
+        return {
+            'sessions': sessions,
+            'total': total,
+            'page': page,
+            'page_size': page_size
+        }
+
+    @staticmethod
     def update_message_count(session_id: str, count: int) -> bool:
         """更新会话消息数"""
         sql = f"""

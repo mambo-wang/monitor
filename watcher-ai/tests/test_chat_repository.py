@@ -183,3 +183,50 @@ class TestChatRepositoryPaginationDelete:
         result = ChatRepository.delete_session("not_exist")
 
         assert result is True  # 幂等性
+
+
+class TestListSessionsByKb:
+    """测试按知识库查询会话列表"""
+
+    @patch('watcher_ai.services.chat_repository.MySQLClient')
+    def test_list_sessions_by_kb_returns_correct_list(self, mock_mysql):
+        """测试 kb_id 有会话时返回正确列表"""
+        mock_client = MagicMock()
+        mock_mysql.return_value = mock_client
+        mock_client.query_all.return_value = [
+            {'id': 'sess1', 'user_id': 'user123', 'kb_id': 'kb001', 'title': '会话1'},
+            {'id': 'sess2', 'user_id': 'user456', 'kb_id': 'kb001', 'title': '会话2'},
+        ]
+        mock_client.query_one.return_value = {'total': 2}
+
+        result = ChatRepository.list_sessions_by_kb("kb001", page=1, page_size=20)
+        assert result['total'] == 2
+        assert len(result['sessions']) == 2
+
+    @patch('watcher_ai.services.chat_repository.MySQLClient')
+    def test_list_sessions_by_kb_returns_empty_list(self, mock_mysql):
+        """测试 kb_id 无会话时返回空列表"""
+        mock_client = MagicMock()
+        mock_mysql.return_value = mock_client
+        mock_client.query_all.return_value = []
+        mock_client.query_one.return_value = {'total': 0}
+
+        result = ChatRepository.list_sessions_by_kb("kb-empty", page=1, page_size=20)
+        assert result['total'] == 0
+        assert len(result['sessions']) == 0
+
+    @patch('watcher_ai.services.chat_repository.MySQLClient')
+    def test_list_sessions_by_kb_pagination(self, mock_mysql):
+        """测试分页参数正确"""
+        mock_client = MagicMock()
+        mock_mysql.return_value = mock_client
+        mock_client.query_all.return_value = [
+            {'id': 'sess1', 'user_id': 'user123', 'kb_id': 'kb001', 'title': '会话1'},
+        ]
+        mock_client.query_one.return_value = {'total': 2}
+
+        result = ChatRepository.list_sessions_by_kb("kb001", page=1, page_size=1)
+        assert len(result['sessions']) == 1
+        assert result['total'] == 2
+        assert result['page'] == 1
+        assert result['page_size'] == 1
