@@ -5,6 +5,14 @@
         <i class="el-icon-arrow-left"></i> 返回
       </el-button>
       <h2>{{ kb.name }} - RAG 问答</h2>
+      <div class="header-actions">
+        <el-button size="small" @click="handleNewSession">
+          新建会话
+        </el-button>
+        <el-button size="small" @click="showHistoryDialog = true">
+          历史会话
+        </el-button>
+      </div>
       <el-button size="small" @click="showSources = !showSources">
         {{ showSources ? '隐藏' : '显示' }}来源
       </el-button>
@@ -57,6 +65,12 @@
         </el-button>
       </div>
     </div>
+
+    <HistorySessions
+      v-model="showHistoryDialog"
+      :kb-id="kb.id"
+      @select-session="handleSelectHistorySession"
+    />
   </div>
 </template>
 
@@ -64,6 +78,7 @@
 import { ref, nextTick } from 'vue'
 import { ElMessage } from 'element-plus'
 import { chatWithHistory, chatWithKB, type KnowledgeBase, type ChatMessage } from '@/api/knowledge'
+import HistorySessions from './HistorySessions.vue'
 
 const props = defineProps<{
   kb: KnowledgeBase
@@ -89,6 +104,7 @@ const showSources = ref(true)
 const messageListRef = ref<HTMLElement>()
 const currentSessionId = ref(props.sessionId || '')
 const currentUserId = 'default_user' // TODO: 从用户系统获取
+const showHistoryDialog = ref(false)
 
 async function handleSend() {
   const text = inputText.value.trim()
@@ -131,6 +147,21 @@ function scrollToBottom() {
       messageListRef.value.scrollTop = messageListRef.value.scrollHeight
     }
   })
+}
+
+function handleNewSession() {
+  messages.value = []
+  currentSessionId.value = ''
+}
+
+function handleSelectHistorySession(session: any) {
+  currentSessionId.value = session.id
+  // 加载历史消息
+  loadHistoryMessages(session.id)
+}
+
+async function loadHistoryMessages(sessionId: string) {
+  // TODO: 实现加载历史消息
 }
 </script>
 
