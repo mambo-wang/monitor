@@ -190,6 +190,8 @@ export async function getChatSessions(kbId: string): Promise<ChatHistoryListResp
 }
 
 // 删除会话
-export async function deleteChatSession(sessionId: string): Promise<void> {
-  await request.delete(`/api/knowledge/chat/sessions/${sessionId}`)
+export async function deleteChatSession(sessionId: string, userId: string = 'default_user'): Promise<void> {
+  await request.delete(`/api/knowledge/chat/sessions/${sessionId}`, {
+    params: { user_id: userId }
+  })
 }

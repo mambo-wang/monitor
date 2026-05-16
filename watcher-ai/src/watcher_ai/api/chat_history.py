@@ -83,7 +83,7 @@ def chat_with_history(req: ChatWithHistoryRequest):
         if not session or session['user_id'] != req.user_id:
             raise HTTPException(status_code=403, detail="Invalid session")
     else:
-        session = ChatRepository.create_session(req.user_id, req.kb_id)
+        session = ChatRepository.create_session(req.user_id, req.kb_id, title=req.question[:50])
 
     # 2. 执行 RAG 问答
     kb = KBService.get_by_id(req.kb_id)
