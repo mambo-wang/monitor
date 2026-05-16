@@ -17,6 +17,18 @@
         <el-form class="form" @submit.prevent>
           <el-input
               size="large"
+              v-model="form.username"
+              :placeholder="$t('message.system.username')"
+              name="username"
+              maxlength="50"
+              @keyup.enter.native="submit"
+          >
+            <template #prepend>
+              {{ $t("message.system.username") }}
+            </template>
+          </el-input>
+          <el-input
+              size="large"
               ref="password"
               v-model="form.password"
               :type="passwordType"
@@ -44,6 +56,9 @@
           >
             {{ $t("message.system.login") }}
           </el-button>
+          <div class="register-link">
+            <span @click="goToRegister">{{ $t("message.system.registerLink") }}</span>
+          </div>
           <div class="login-password-tip">
             {{$t("message.system.loginPasswordTip")}}
           </div>
@@ -69,8 +84,11 @@ const {t} = i18n.global;
 const store = useStore();
 const router = useRouter();
 const route = useRoute();
+const goToRegister = () => {
+  router.push("/register");
+};
 let form = reactive({
-  username: "admin",
+  username: "",
   password: "",
   loading: false,
 });
@@ -351,5 +369,19 @@ const forgetPassword = () => {
   margin-top: 32px;
   color: #7F7F7F;
   font-size: 14px;
+}
+.register-link {
+  text-align: center;
+  margin-top: 16px;
+
+  span {
+    color: #409eff;
+    cursor: pointer;
+    font-size: 14px;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }
 </style>

@@ -58,6 +58,33 @@ export default {
       closeAll: 'Close all tags',
       closeOther: 'Close other tags',
       closeCurrent: 'Close current tag'
+    },
+    registerTitle: 'Register Account',
+    registerLink: 'Register Account',
+    submitRegister: 'Submit Registration',
+    backToLogin: 'Back to Login',
+    confirmPassword: 'Confirm Password',
+    passwordNotMatch: 'Passwords do not match',
+    registerSuccess: 'Registration submitted, please wait for approval',
+    toolShare: {
+      createFolder: 'Create Folder',
+      uploadFile: 'Upload File',
+      backToParent: 'Back to Parent',
+      folders: 'Folders',
+      files: 'Files',
+      toolName: 'Tool Name',
+      toolDesc: 'Tool Description',
+      downloadCount: 'Downloads',
+      download: 'Download',
+      actions: 'Actions',
+      folderName: 'Folder Name',
+      folderNamePlaceholder: 'Enter folder name',
+      selectFile: 'Select File',
+      chooseFile: 'Choose File',
+      toolNamePlaceholder: 'Enter tool name',
+      toolDescPlaceholder: 'Enter tool description (optional)',
+      noFolders: 'No folders',
+      noFiles: 'No files'
     }
   },
 }

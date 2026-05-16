@@ -1,19 +1,21 @@
-#!/usr/bin/env python3
-"""
-ShowTime MCP Server
-
-This server provides tools to interact with ShowTime monitoring system,
-including resource management and metric query capabilities.
-"""
-
 import os
+import sys
 import json
 from typing import Optional, List, Dict, Any
 from enum import Enum
 
 import httpx
+import requests
 from pydantic import BaseModel, Field, field_validator, ConfigDict
 from mcp.server.fastmcp import FastMCP
+
+# Add watcher-ai src to path for imports
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "watcher_ai"))
+
+from watcher_ai.services.kb_service import KBService
+from watcher_ai.services.chroma_service import ChromaService
+from watcher_ai.services.chat_repository import ChatRepository
+from watcher_ai.services.llm_service import LLMService
 
 # Initialize the MCP server
 mcp = FastMCP("showtime_mcp")
@@ -115,6 +117,50 @@ class MetricSummaryInput(BaseModel):
     resource_id: str = Field(..., description="Resource ID to query", min_length=1)
 
 
+class RagChatInput(BaseModel):
+    """Input model for RAG chat."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+    kb_id: Optional[str] = Field(default=None, description="Knowledge base ID (required if session_id not provided)")
+    question: str = Field(..., description="Question to ask", min_length=1)
+    session_id: Optional[str] = Field(default=None, description="Session ID for continuing a conversation")
+
+
+class ListSessionsInput(BaseModel):
+    """Input model for listing sessions."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+    kb_id: str = Field(..., description="Knowledge base ID", min_length=1)
+
+
+class DeleteSessionInput(BaseModel):
+    """Input model for deleting a session."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+    session_id: str = Field(..., description="Session ID to delete", min_length=1)
+
+
+class ListKnowledgeBasesInput(BaseModel):
+    """Input model for listing knowledge bases."""
+    model_config = ConfigDict(
+        str_strip_whitespace=True,
+        validate_assignment=True,
+        extra='forbid'
+    )
+
+
 # Shared utility functions
 def _get_headers() -> Dict[str, str]:
     """Get HTTP headers with authentication."""
@@ -122,6 +168,11 @@ def _get_headers() -> Dict[str, str]:
     if API_TOKEN:
         headers["token"] = API_TOKEN
     return headers
+
+
+def _ok_response(data: Any) -> Dict[str, Any]:
+    """Create a success response."""
+    return {"state": 0, "data": data}
 
 
 async def _make_api_request(endpoint: str, method: str = "GET", **kwargs) -> dict:
@@ -552,5 +603,248 @@ async def showtime_list_latest_metrics(params: ResourceDetailInput) -> str:
         return _handle_api_error(e)
 
 
+@mcp.tool(
+    name="showtime_rag_chat",
+    annotations={
+        "title": "RAG Chat with Knowledge Base",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def showtime_rag_chat(params: RagChatInput) -> str:
+    """
+    RAG chat with knowledge base, automatically creating session and saving history.
+
+    This tool allows you to ask questions against a knowledge base and get AI-powered
+    answers based on the retrieved context.
+
+    Args:
+        params (RagChatInput): Validated input parameters containing:
+            - kb_id (Optional[str]): Knowledge base ID (required if session_id not provided)
+            - question (str): Question to ask
+            - session_id (Optional[str]): Session ID for continuing a conversation
+
+    Returns:
+        str: JSON-formatted response:
+
+        Success response:
+        {
+            "state": 0,
+            "data": {
+                "answer": "AI answer content",
+                "session_id": "session-id"
+            }
+        }
+
+        Error response:
+        "Error: <error message>"
+    """
+    if not params.kb_id and not params.session_id:
+        return "Error: kb_id or session_id is required"
+
+    try:
+        # 1. Get or create session
+        if params.session_id:
+            session = ChatRepository.get_session_by_id(params.session_id)
+            if not session:
+                return f"Error: Session {params.session_id} not found"
+            kb_id = session['kb_id']
+        else:
+            kb_id = params.kb_id
+            if not kb_id:
+                return "Error: kb_id is required when session_id is not provided"
+            # Check if KB exists
+            kb = KBService.get_by_id(kb_id)
+            if not kb:
+                return f"Error: Knowledge base {kb_id} not found"
+            # Create new session
+            session = ChatRepository.create_session(
+                user_id="mcp_system",
+                kb_id=kb_id,
+                title=params.question[:50]
+            )
+
+        # 2. Execute RAG query
+        assert kb_id is not None, "kb_id should not be None here"
+        chunk_count = ChromaService.get_count(kb_id)
+        if chunk_count == 0:
+            return json.dumps(_ok_response({
+                "answer": "Knowledge base is empty, please build first",
+                "session_id": session['id']
+            }), ensure_ascii=False)
+
+        results = ChromaService.search(kb_id, params.question, top_k=3)
+
+        if not results.get("documents") or not results["documents"][0]:
+            answer = "没有找到相关文档"
+        else:
+            context_parts = []
+            for doc in results["documents"][0]:
+                context_parts.append(doc)
+            context = "\n\n".join(context_parts)
+            answer = LLMService.chat(params.question, context)
+
+        # 3. Save messages
+        ChatRepository.save_message(session['id'], "user", params.question)
+        ChatRepository.save_message(session['id'], "assistant", answer)
+
+        # 4. Update message count
+        messages = ChatRepository.list_messages_by_session(session['id'])
+        ChatRepository.update_message_count(session['id'], len(messages))
+
+        return json.dumps(_ok_response({
+            "answer": answer,
+            "session_id": session['id']
+        }), ensure_ascii=False)
+
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+@mcp.tool(
+    name="showtime_list_sessions",
+    annotations={
+        "title": "List Sessions in Knowledge Base",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def showtime_list_sessions(params: ListSessionsInput) -> str:
+    """
+    List all sessions in a knowledge base.
+
+    Args:
+        params (ListSessionsInput): Validated input parameters containing:
+            - kb_id (str): Knowledge base ID
+
+    Returns:
+        str: JSON-formatted session list:
+
+        Success response:
+        {
+            "state": 0,
+            "data": {
+                "sessions": [...],
+                "total": 10,
+                "page": 1,
+                "page_size": 100
+            }
+        }
+
+        Error response:
+        "Error: <error message>"
+    """
+    try:
+        result = ChatRepository.list_sessions_by_kb(params.kb_id, page=1, page_size=100)
+        return json.dumps(_ok_response(result), ensure_ascii=False)
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+@mcp.tool(
+    name="showtime_delete_session",
+    annotations={
+        "title": "Delete a Session",
+        "readOnlyHint": False,
+        "destructiveHint": True,
+        "idempotentHint": False,
+        "openWorldHint": False
+    }
+)
+async def showtime_delete_session(params: DeleteSessionInput) -> str:
+    """
+    Delete a specific chat session.
+
+    Args:
+        params (DeleteSessionInput): Validated input parameters containing:
+            - session_id (str): Session ID to delete
+
+    Returns:
+        str: JSON-formatted response:
+
+        Success response:
+        {
+            "state": 0,
+            "data": {
+                "message": "deleted"
+            }
+        }
+
+        Error response:
+        "Error: <error message>"
+    """
+    try:
+        session = ChatRepository.get_session_by_id(params.session_id)
+        if not session:
+            return f"Error: Session {params.session_id} not found"
+        ChatRepository.delete_session(params.session_id)
+        return json.dumps(_ok_response({"message": "deleted"}), ensure_ascii=False)
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
+@mcp.tool(
+    name="showtime_list_knowledge_bases",
+    annotations={
+        "title": "List All Knowledge Bases",
+        "readOnlyHint": True,
+        "destructiveHint": False,
+        "idempotentHint": True,
+        "openWorldHint": False
+    }
+)
+async def showtime_list_knowledge_bases(params: ListKnowledgeBasesInput) -> str:
+    """
+    List all available knowledge bases.
+
+    Returns:
+        str: JSON-formatted knowledge base list:
+
+        Success response:
+        {
+            "state": 0,
+            "data": [
+                {
+                    "id": "kb001",
+                    "name": "CAS Documentation",
+                    "description": "...",
+                    "status": "ready",
+                    "chunk_count": 100
+                }
+            ]
+        }
+
+        Error response:
+        "Error: <error message>"
+    """
+    try:
+        import watcher_ai.services.kb_service as kb_module
+        kb_module.init()
+        kbs = KBService.list_all()
+        # 转换 datetime 为字符串，避免 JSON 序列化失败
+        for kb in kbs:
+            for key, value in kb.items():
+                if hasattr(value, 'isoformat'):
+                    kb[key] = value.isoformat()
+        return json.dumps(_ok_response(kbs), ensure_ascii=False)
+    except Exception as e:
+        return f"Error: {str(e)}"
+
+
 if __name__ == "__main__":
-    mcp.run()
+    import argparse
+
+    parser = argparse.ArgumentParser(description="ShowTime MCP Server")
+    parser.add_argument("--http", action="store_true", help="启用 HTTP 模式")
+    args = parser.parse_args()
+
+    if args.http:
+        print("启动 HTTP 服务: http://0.0.0.0:7777")
+        mcp.run(transport="streamable-http")
+    else:
+        print("启动 stdio 模式 MCP Server")
+        mcp.run(transport="stdio")

@@ -11,6 +11,7 @@ export default {
     submitRegister: '提交注册申请',
     userName: '用户名/域账号',
     password: '密码',
+    username: '用户名',
     oldPassword: "原密码",
     newPassword: "新密码",
     renewPassword: "再输一次",
@@ -69,6 +70,37 @@ export default {
       closeAll: '关闭所有标签',
       closeOther: '关闭其他标签',
       closeCurrent: '关闭当前标签'
+    },
+    knowledge: {
+      title: '知识库问答',
+      placeholder: '请输入您的问题，按 Ctrl+Enter 提交',
+      submit: '提交',
+      emptyTip: '请输入问题'
+    },
+    registerLink: '注册账号',
+    confirmPassword: '确认密码',
+    passwordNotMatch: '两次输入的密码不一致',
+    registerSuccess: '注册申请已提交，请等待管理员审批',
+    backToLogin: '返回登录',
+    toolShare: {
+      createFolder: '新建文件夹',
+      uploadFile: '上传文件',
+      backToParent: '返回上级',
+      folders: '文件夹',
+      files: '文件列表',
+      toolName: '工具名称',
+      toolDesc: '工具作用',
+      downloadCount: '下载量',
+      download: '下载',
+      actions: '操作',
+      folderName: '文件夹名称',
+      folderNamePlaceholder: '请输入文件夹名称',
+      selectFile: '选择文件',
+      chooseFile: '选择文件',
+      toolNamePlaceholder: '请输入工具名称',
+      toolDescPlaceholder: '请输入工具作用描述（可选）',
+      noFolders: '暂无文件夹',
+      noFiles: '暂无文件'
     }
   },
 }

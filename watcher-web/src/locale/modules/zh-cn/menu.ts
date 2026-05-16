@@ -10,23 +10,20 @@ export default {
       "404": "404",
       "401": "401",
     },
-    agent: {
-      name: "节点管理",
-    },
-    tenant: {
-      name: "租户认证信息"
-    },
     initConfig: {
       name: "初始化配置"
     },
     resource: {
       name: '纳管资源列表'
     },
-    net: {
-      name: '网络参数管理'
-    },
     largeDisplay: {
       name: '大屏概览'
+    },
+    knowledge: {
+      name: '知识库'
+    },
+    toolShare: {
+      name: '工具分享'
     },
     user: {
       name: "用户管理",

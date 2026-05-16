@@ -6,7 +6,8 @@
     "start": "vite || --host 0.0.0.0",
     "build": "vite build --mode=production",
     "build:stag": "vite build --mode=staging",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "test:unit": "vitest run"
   },
   "eslintConfig": {
     "root": true,

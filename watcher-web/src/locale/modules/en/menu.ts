@@ -10,17 +10,17 @@ export default {
       "404": "404",
       "401": "401",
     },
-    agent: {
-      name: "Collection Node Management",
-    },
-    tenant: {
-      name: "Tenant Authentication Information"
-    },
     initConfig: {
       name: "Initial Configuration"
     },
     largeDisplay: {
       name: "Large Display"
+    },
+    knowledge: {
+      name: 'Knowledge Base'
+    },
+    toolShare: {
+      name: 'Tool Share'
     }
   },
 };

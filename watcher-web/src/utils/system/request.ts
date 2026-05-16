@@ -1,7 +1,6 @@
 import axios, {AxiosError, AxiosRequestConfig, AxiosResponse, AxiosInstance} from 'axios'
 import store from '@/store'
 import {ElMessage} from 'element-plus'
-import {dataTool} from 'echarts'
 //在 axios 请求拦截器里面
 import qs from 'qs'
 
