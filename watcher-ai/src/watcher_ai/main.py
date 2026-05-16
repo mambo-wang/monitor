@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from watcher_ai.api.knowledge import router as knowledge_router
 from watcher_ai.api.chat_history import router as chat_history_router
+from watcher_ai.api.mcp_router import router as mcp_router
 from watcher_ai.services.kb_service import init as kb_init
 
 @asynccontextmanager
@@ -25,6 +26,7 @@ app.add_middleware(
 # 路由
 app.include_router(knowledge_router)
 app.include_router(chat_history_router)
+app.include_router(mcp_router)
 
 @app.get("/")
 def root():
