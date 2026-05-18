@@ -197,4 +197,49 @@ make start-python      # 启动 Python RAG (8000)
 
 ---
 
-**最后更新**: 2026-05-15
+---
+
+## 10. Graphify 代码图谱
+
+本项目已通过 `graphify` 生成了代码知识图谱，详细记录了 **11743 个节点、15359 条边、878 个功能社区**。
+
+### 10.1 图谱文件
+
+| 文件 | 说明 |
+|------|------|
+| `graphify-out/GRAPH_REPORT.md` | 社区导航报告，列出所有社区及其包含的代码元素 |
+| `graphify-out/.graphify_analysis.json` | 社区→节点映射，可用于精确定位文件/符号所属社区 |
+| `graphify-out/graph.json` | 完整图数据 |
+
+### 10.2 何时使用
+
+**必须查询 graphify 的场景：**
+- 修改某个类或方法时：先查它属于哪个社区，找出同社区内会受影响的相关文件
+- 新增功能模块时：查是否有现成社区可以直接扩展
+- 理解陌生代码时：按社区导航，先看社区边界再看代码
+- 评估改动影响范围时：查社区的出入边（外部依赖方）
+
+### 10.3 使用流程
+
+```
+1. 在 GRAPH_REPORT.md 或 .graphify_analysis.json 中搜索目标类/方法名
+2. 定位所属社区编号
+3. 查看该社区内所有节点 → 这些是强相关的协同修改单元
+4. 再读取实际代码文件进行修改
+```
+
+示例：要修改 `HostCpuUsageMonitorCollector`，先查图谱找到它属于 *Community 56*（含 `HostCpuUsageCollector, HostNetIopsCollector, DateTimeTool`），修改时需一并评估这些关联类。
+
+### 10.4 保持图谱更新
+
+```bash
+# 重要代码变更后更新图谱（无需 API 费用，基于静态分析）
+graphify update .
+
+# 完全重建（极少需要）
+graphify run .
+```
+
+---
+
+**最后更新**: 2026-05-18
