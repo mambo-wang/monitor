@@ -91,8 +91,7 @@ const platformList = [
   { value: "all", label: t("message.dashboard.allPlatforms") },
   { value: "cas", label: "CAS" },
   { value: "workspace", label: "Workspace" },
-  { value: "uis", label: "UIS" },
-  { value: "onestor", label: "ONEStor" }
+  { value: "uis", label: "UIS" }
 ];
 
 const onPlatformChange = () => {

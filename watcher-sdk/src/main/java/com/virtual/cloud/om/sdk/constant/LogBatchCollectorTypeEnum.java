@@ -10,7 +10,6 @@ public enum LogBatchCollectorTypeEnum {
     workspace_host(ReportResourceEnum.workspace,LogBatchTypeEnum.host),
     uis_host(ReportResourceEnum.uis,LogBatchTypeEnum.host),
     cas_host(ReportResourceEnum.cas,LogBatchTypeEnum.host),
-    onestor_host(ReportResourceEnum.onestor,LogBatchTypeEnum.host),
     agent(ReportResourceEnum.hccAgent,LogBatchTypeEnum.agent),
     nginx(ReportResourceEnum.hccAgent,LogBatchTypeEnum.nginx),
     kafka(ReportResourceEnum.hccAgent,LogBatchTypeEnum.kafka),

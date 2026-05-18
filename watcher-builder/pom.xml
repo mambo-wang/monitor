@@ -94,7 +94,7 @@
                                 <delete file="${project.build.directory}/watcher/lib/watcher-uis-1.0.0.jar"></delete>
                                 <delete file="${project.build.directory}/watcher/lib/watcher-cas-1.0.0.jar"></delete>
                                 <delete file="${project.build.directory}/watcher/lib/watcher-log-1.0.0.jar"></delete>
-                                <delete file="${project.build.directory}/watcher/lib/watcher-onestor-1.0.0.jar"></delete>
+
                                 <delete file="${project.build.directory}/watcher/lib/watcher-self-1.0.0.jar"></delete>
 
                                 <!--Agent 配置文件拷贝-->
@@ -145,14 +145,6 @@
                                     </fileset>
                                 </copy>
 
-                                <!--Onestor Plugin包拷贝-->
-                                <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
-                                      failonerror="false" quiet="true">
-                                    <fileset dir="${project.basedir}/../watcher-onestor/target">
-                                        <include name="*.jar"></include>
-                                    </fileset>
-                                </copy>
-
                                 <!--Self Plugin包拷贝-->
                                 <copy todir="${project.build.directory}/watcher/plugins" overwrite="true"
                                       failonerror="false" quiet="true">
@@ -183,12 +175,6 @@
                                 <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
                                       failonerror="false">
                                     <fileset dir="${project.basedir}/../watcher-log/target/lib"></fileset>
-                                </copy>
-
-                                <!--Onestor Plugin 依赖包拷贝-->
-                                <copy todir="${project.build.directory}/watcher/lib" overwrite="true" quiet="true"
-                                      failonerror="false">
-                                    <fileset dir="${project.basedir}/../watcher-onestor/target/lib"></fileset>
                                 </copy>
 
                                 <!--Self Plugin 依赖包拷贝-->

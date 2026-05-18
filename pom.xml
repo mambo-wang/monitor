@@ -15,7 +15,6 @@
         <module>watcher-uis</module>
         <module>watcher-workspace</module>
         <module>watcher-builder</module>
-        <module>watcher-onestor</module>
         <!-- watcher-self, performer-service 模块已移除 - 使用 MySQL 单机版 -->
     </modules>
 
@@ -24,16 +23,16 @@
         <commons-lang3.version>3.12.0</commons-lang3.version>
         <commons-net.version>3.3</commons-net.version>
         <commons-collections.version>3.2.2</commons-collections.version>
-        <lombok.version>1.18.36</lombok.version>
+        <lombok.version>1.18.46</lombok.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <java.version>17</java.version>
+        <java.version>25</java.version>
         <swagger.version>2.9.2</swagger.version>
         <swagger-models.version>1.5.22</swagger-models.version>
         <knife4j.version>2.0.4</knife4j.version>
         <jcraft.version>0.1.54</jcraft.version>
         <watcher.version>1.0.0</watcher.version>
         <spring.aop.version>5.0.8.RELEASE</spring.aop.version>
-        <aspect.version>1.8.9</aspect.version>
+        <aspect.version>1.9.22.1</aspect.version>
         <snakeyaml.version>1.26</snakeyaml.version>
         <hutool.version>5.7.15</hutool.version>
         <jwt.version>3.4.0</jwt.version>
@@ -129,6 +128,13 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                     <encoding>UTF-8</encoding>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
                 </configuration>
             </plugin>
         </plugins>

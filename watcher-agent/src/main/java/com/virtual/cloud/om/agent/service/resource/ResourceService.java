@@ -164,8 +164,6 @@ public class ResourceService implements ResourceApi {
             type = ReportResourceEnum.uis;
         } else if (etcFilesNameList.contains(Constant.Version.CAS_VERSION)) {
             type = ReportResourceEnum.cas;
-        } else if (etcFilesNameList.contains(Constant.Version.ONESTOR_VERSION)) {
-            type = ReportResourceEnum.onestor;
         }
         return type == platform;
     }

@@ -14,10 +14,6 @@ import java.util.stream.Collectors;
 @Getter
 public enum RealTimeLogTypeEnum {
 
-    onestor_ceph,
-    onestor_message,
-    onestor_storage,
-    onsestor_calamari,
     workspace_server,
     workspace_controller,
     workspace_grpc,

@@ -79,9 +79,7 @@ public class RealTimeLogService implements RealTimeLogApi, ApplicationRunner {
         String[] tagArr = tags.split(";");
         String resourceId = StringUtils.substringAfter(tagArr[0], "resourceId=");
         Set<String> allNodeIds = new LinkedHashSet<>();
-        if (!request.getPlatform().equals(ReportResourceEnum.onestor.name())) {
-            allNodeIds.add("0");
-        }
+        allNodeIds.add("0");
 
         Set<String> hostIds;
         if (tagArr.length == 1) {

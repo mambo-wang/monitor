@@ -4,6 +4,5 @@ com.virtual.cloud.om.sdk.config.rest.cas.CasRestConnection,\
 com.virtual.cloud.om.sdk.config.rest.uis.UisRestConnection,\
 com.virtual.cloud.om.sdk.config.rest.workspace.WsRestConnection,\
 com.virtual.cloud.om.sdk.config.token.cas.CasTokenRestConnection,\
-com.virtual.cloud.om.sdk.config.token.onestor.OnestorRestConnection,\
 com.virtual.cloud.om.sdk.config.token.workspace.WsCasTokenRestConnection,\
 com.virtual.cloud.om.sdk.config.token.workspace.WsTokenRestConnection

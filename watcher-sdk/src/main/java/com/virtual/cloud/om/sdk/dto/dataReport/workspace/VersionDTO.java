@@ -18,9 +18,6 @@ public class VersionDTO implements Serializable {
     @ApiModelProperty(value = "CAS外部版本号")
     private String casOutVersion;
 
-    @ApiModelProperty(value = "ONESTOR外部版本号")
-    private String onestorOutVersion;
-
     @ApiModelProperty(value = "编译版本号")
     private String buildVersion;
 

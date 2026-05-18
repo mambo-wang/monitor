@@ -11,7 +11,6 @@ public interface Constant {
     String RESOURCE_WORKSPACE = "workspace";
     String RESOURCE_UIS = "uis";
     String RESOURCE_CAS = "cas";
-    String RESOURCE_ONESTOR = "onestor";
     String  TARGET="&target=";
 
     //操作类型
@@ -224,12 +223,9 @@ public interface Constant {
         String WORKSPACE_VERSION = "workspace-server.version";
         String UIS_VERSION = "uis-version";
         String CAS_VERSION = "cas_cvk-version";
-        String ONESTOR_VERSION = "onestor_external_version";
         String WORKSPACE_VERSION_PATH = VERSION_PATH.append(File.separator).append(WORKSPACE_VERSION).toString();
         String UIS_VERSION_PATH = VERSION_PATH.append(File.separator).append(UIS_VERSION).toString();
         String CAS_VERSION_PATH = VERSION_PATH.append(File.separator).append(CAS_VERSION).toString();
-        String ONESTOR_VERSION_PATH = VERSION_PATH.append(File.separator).append(ONESTOR_VERSION).toString();
-        String ONESTOR_VERSION_NUM = "3";
     }
     interface AgentUp{
         Integer UPGRADE_STATUS_SUCCESS = 1;

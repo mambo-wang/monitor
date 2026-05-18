@@ -15,7 +15,7 @@ public interface HostApi {
     /**
      * 返回ssh连接信息
      *
-     * @param cvmHost rest连接信息(cas/uis/workspace/onestor平台登录信息)
+     * @param cvmHost rest连接信息(cas/uis/workspace平台登录信息)
      * @param endpoint 对象（在此仅为主机id）
      * @return 服务器ssh连接信息
      */
@@ -30,7 +30,7 @@ public interface HostApi {
 
     /**
      * 身份识别
-     * @return resource： workspace/cas/uis/onestor
+     * @return resource： workspace/cas/uis
      */
     ReportResourceEnum whoAreYou();
 }

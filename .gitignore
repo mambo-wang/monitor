@@ -26,3 +26,14 @@ build/
 ### VS Code ###
 .vscode/
 .worktrees/
+
+### Generated ###
+graphify-out/
+*.log
+.DS_Store
+__pycache__/
+*.pyc
+chroma.sqlite3
+watcher-ai/src/chroma_db/
+watcher-ai/src/uploads/
+watcher-ai/src/watcher_ai/**/__pycache__/

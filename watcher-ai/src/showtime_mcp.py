@@ -42,7 +42,7 @@ class ResourceListInput(BaseModel):
 
     platform: Optional[str] = Field(
         default=None,
-        description="Filter by platform: workspace, uis, cas, onestor"
+        description="Filter by platform: workspace, uis, cas"
     )
     resource_name: Optional[str] = Field(
         default=None,
@@ -325,7 +325,7 @@ async def showtime_get_resource_detail(params: ResourceDetailInput) -> str:
         {
             "id": "resource-id",
             "resourceName": "Resource Name",
-            "platform": "workspace|uis|cas|onestor",
+            "platform": "workspace|uis|cas",
             "ipAddress": "192.168.1.100",
             "port": 443,
             "protocol": "HTTPS",

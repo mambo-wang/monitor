@@ -13,7 +13,7 @@ export interface ResourceTreeNode {
   id: string
   label: string
   type: 'cluster' | 'host' | 'domain' | 'desktop_pool' | 'storage_pool' | 'vm'
-  platform: 'cas' | 'workspace' | 'uis' | 'onestor'
+  platform: 'cas' | 'workspace' | 'uis'
   children?: ResourceTreeNode[]
   status?: 'healthy' | 'warning' | 'error'
   parentId?: string

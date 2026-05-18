@@ -68,12 +68,6 @@
             <version>${watcher.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.virtual.cloud.om</groupId>
-            <artifactId>watcher-onestor</artifactId>
-            <version>${watcher.version}</version>
-        </dependency>
-
         <!-- watcher-self 依赖已移除 -->
 
         <dependency>

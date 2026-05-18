@@ -4,7 +4,7 @@ package com.virtual.cloud.om.sdk.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
-@ApiModel("资源管理平台（cas/uis/workspace/onestor的管理平台服务）连接地址")
+@ApiModel("资源管理平台（cas/uis/workspace 的管理平台服务）连接地址")
 public class RestHost {
 
     /** 资源类型 workspace uis cas */

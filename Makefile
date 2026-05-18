@@ -96,7 +96,7 @@ start:
 
 start-java:
 	@echo "启动 Java 后端 (端口 8888)..."
-	@cd watcher-agent && java -jar target/agent.jar --spring.profiles.active=dev
+	@cd watcher-agent && java -jar target/agent.jar --spring.profiles.active=dev,local
 
 start-web:
 	@echo "启动前端 (端口 9090)..."

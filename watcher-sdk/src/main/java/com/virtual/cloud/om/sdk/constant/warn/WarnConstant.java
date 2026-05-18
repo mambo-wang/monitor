@@ -34,7 +34,7 @@ public interface WarnConstant {
     }
 
     interface count {
-        //采集端,onestor告警,workspace终端告警重复数量
+        //采集端,workspace终端告警重复数量
         Integer WARN_COUNT = 1;
     }
 
@@ -42,8 +42,6 @@ public interface WarnConstant {
         String CPU_USAGE_NAME = "能力中心Agent CPU利用率告警";
         String MEM_USAGE_NAME = "能力中心Agent内存利用率告警";
         String STORAGE_USAGE_NAME = "能力中心Agent根路径磁盘利用率告警";
-        //onestor告警名称使用告警模块+资源告警
-        String ONESTOR_WARN_NAME = "资源告警";
         //VIP桌面告警
         String VIP_DESK_WARN_NAME = "VIP桌面告警";
         //终端异常告警

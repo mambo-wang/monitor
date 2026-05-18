@@ -9,7 +9,7 @@ import lombok.Data;
 public class ResourceDTO {
     @ApiModelProperty("资源名称")
     private String resourceName;
-    @ApiModelProperty("资源类型: cas/uis/workspace/onestor")
+    @ApiModelProperty("资源类型: cas/uis/workspace")
     private String platform;
     @ApiModelProperty("资源ID, 不能重复，非必填")
     private String id;

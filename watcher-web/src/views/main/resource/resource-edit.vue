@@ -124,7 +124,7 @@ const platformList = [
   { value: "workspace", label: "Workspace" },
   { value: "uis", label: "UIS" },
   { value: "cas", label: "CAS" },
-  { value: "onestor", label: "ONEStor" },
+  // { value: "onestor", label: "ONEStor" },
 ];
 
 const rules = {
@@ -179,7 +179,7 @@ const handleSubmit = async () => {
       workspace: "WORKSPACE",
       uis: "UIS",
       cas: "CAS",
-      onestor: "ONESTOR",
+      // onestor: "ONESTOR",
     };
     
     const params = {

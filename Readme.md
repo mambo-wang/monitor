@@ -61,7 +61,6 @@ ShowTime 是面向新华三云基产品线的监控系统，核心能力：**日
 | `watcher-cas` | CAS 虚拟化平台插件 |
 | `watcher-uis` | UIS 超融合平台插件 |
 | `watcher-workspace` | Workspace 云桌面插件 |
-| `watcher-onestor` | OneStor 分布式存储插件 |
 | `watcher-builder` | 打包部署模块 |
 
 ### 服务层
@@ -132,7 +131,6 @@ ShowTime/
 │   ├── watcher-cas/       # CAS 插件
 │   ├── watcher-uis/       # UIS 插件
 │   ├── watcher-workspace/ # Workspace 插件
-│   └── watcher-onestor/   # OneStor 插件
 ├── watcher-ai/            # Python RAG 服务
 │   └── src/watcher_ai/
 │       ├── api/           # API 路由

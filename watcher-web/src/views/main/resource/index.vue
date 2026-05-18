@@ -150,9 +150,6 @@ const platformList = [
   }, {
     value: 3,
     label: 'CAS'
-  }, {
-    value: 4,
-    label: 'ONEStor'
   },
 ];
 const platformValue = ref<number>(0);
@@ -208,8 +205,6 @@ const getPlatform = (platform: string) => {
   switch (platform) {
     case 'workspace':
       return "Workspace";
-    case "onestor":
-      return "ONEStor";
     default:
       return platform.toUpperCase();
   }

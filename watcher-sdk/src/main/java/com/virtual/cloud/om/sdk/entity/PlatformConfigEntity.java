@@ -20,7 +20,7 @@ public class PlatformConfigEntity implements Serializable {
     private String id;
 
     /**
-     * 平台类型: WORKSPACE/CAS/UIS/ONESTOR
+     * 平台类型: WORKSPACE/CAS/UIS
      */
     private String platformType;
 

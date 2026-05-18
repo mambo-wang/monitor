@@ -45,7 +45,6 @@ watcher-agent (主程序)
 ├── watcher-cas (CAS 虚拟化平台)
 ├── watcher-uis (UIS 超融合)
 ├── watcher-workspace (Workspace 云桌面)
-└── watcher-onestor (OneStor 分布式存储)
 ```
 采集层采用插件化设计，各产品插件实现统一接口，共享 SDK 基础设施。
 

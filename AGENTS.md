@@ -13,7 +13,6 @@
 | `watcher-cas/` | CAS 虚拟化平台插件 |
 | `watcher-uis/` | UIS 超融合平台插件 |
 | `watcher-workspace/` | Workspace 云桌面插件 |
-| `watcher-onestor/` | OneStor 分布式存储插件 |
 | `watcher-web/` | 前端 (Vue 3 + TypeScript + Vite)，端口 9090 |
 | `watcher-ai/` | RAG 服务 (Python FastAPI + ChromaDB)，端口 8000 |
 | `docs/` | 架构文档、设计文档 |

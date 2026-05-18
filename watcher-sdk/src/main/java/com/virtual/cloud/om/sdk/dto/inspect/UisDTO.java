@@ -15,7 +15,6 @@ public class UisDTO  implements Serializable {
     private String virtualIp;
     private String virtualMask;
     private String mysqlSize;
-    private String oneStorVip;
     private Master master;
     private Controller controller;
     private Slave slave;

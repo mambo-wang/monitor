@@ -6,7 +6,6 @@ public enum WarnMetricEnum {
     uis_realtime_alarms("uis实时告警"),
     terminal_alarms("终端告警"),
     vipdesktop_alarms("VIP桌面告警"),
-    stor_alarm_count("onestor实时告警"),
     watcher_cpu_warn("采集端CPU利用率告警"),
     watcher_mem_warn("采集端内存利用率告警"),
     watcher_storage_warn("采集端根路径磁盘利用率告警")
