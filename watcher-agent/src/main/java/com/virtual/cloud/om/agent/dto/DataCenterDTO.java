@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.agent.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,17 +15,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DataCenterDTO {
 
-    @ApiModelProperty("用户名-不加密")
+    @Schema(description = ("用户名-不加密"))
     private String username;
 
-    @ApiModelProperty("密码-sm4加密")
+    @Schema(description = ("密码-sm4加密"))
     private String ci;
 
-    @ApiModelProperty("公钥-base64编码")
+    @Schema(description = ("公钥-base64编码"))
     private String publicKey;
     private String ip;
     private Integer master;
 
-    @ApiModelProperty("能力中心Agent唯一标识")
+    @Schema(description = ("能力中心Agent唯一标识"))
     private String watcherCode;
 }

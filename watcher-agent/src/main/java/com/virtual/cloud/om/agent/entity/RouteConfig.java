@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,23 +9,23 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-@ApiModel
+@Schema
 @Builder
 
 public class RouteConfig {
     
     private String id;
-    @ApiModelProperty("目的地址")
+    @Schema(description = ("目的地址"))
     private String targetIp;
-    @ApiModelProperty("目的地址掩码")
+    @Schema(description = ("目的地址掩码"))
     private String targetMask;
-    @ApiModelProperty("下一跳地址")
+    @Schema(description = ("下一跳地址"))
     private String via;
-    @ApiModelProperty("出接口")
+    @Schema(description = ("出接口"))
     private String dev;
-    @ApiModelProperty("适用采集端ip")
+    @Schema(description = ("适用采集端ip"))
     private List<String> watchers;
-    @ApiModelProperty("描述")
+    @Schema(description = ("描述"))
     private String desc;
     private Long createTime;
     private Long updateTime;

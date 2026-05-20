@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.cas;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
 
@@ -18,23 +18,23 @@ public class DomainStorageDTO implements Serializable {
     private static final long serialVersionUID = -8950307639947191691L;
 
     /** 存储文件名。 **/
-    @ApiModelProperty(value = "存储文件名")
+    @Schema(description = "存储文件名")
     private String storeFile;
 
     /** 容量。 **/
-    @ApiModelProperty(value = "容量，以MB为单位")
+    @Schema(description = "容量，以MB为单位")
     private Long capacity;
 
     /** 取值为：ide scsi virtio usb    SCSI("scsi"),\r\n\r\n    VIRTIO("virtio"),\r\n\r\n    USB("usb");。 **/
-    @ApiModelProperty(value = "取值为：ide scsi virtio usb fdc")
+    @Schema(description = "取值为：ide scsi virtio usb fdc")
     private String targetBus;
 
     /** 取值为：ide scsi virtio usb    SCSI("scsi"),\r\n\r\n    VIRTIO("virtio"),\r\n\r\n    USB("usb");。 **/
-    @ApiModelProperty(value = "取值为：ide scsi virtio usb fdc")
+    @Schema(description = "取值为：ide scsi virtio usb fdc")
     private String bus;
 
     /**　取值为：disk cdrom floppy　。 **/
-    @ApiModelProperty(value = "磁盘类型。取值为：disk cdrom floppy")
+    @Schema(description = "磁盘类型。取值为：disk cdrom floppy")
     private String diskDevice;
 
     public String getBus() {

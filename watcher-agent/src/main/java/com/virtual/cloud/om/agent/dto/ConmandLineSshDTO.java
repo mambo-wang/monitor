@@ -1,25 +1,24 @@
 package com.virtual.cloud.om.agent.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class ConmandLineSshDTO {
-    @ApiModelProperty("websocket连接标识")
+    @Schema(description = ("websocket连接标识"))
     private String ticket;
-    @ApiModelProperty("ssh username")
+    @Schema(description = ("ssh username"))
     private String username;
-    @ApiModelProperty("ssh pwd")
+    @Schema(description = ("ssh pwd"))
     private String password;
-    @ApiModelProperty("websocket 连接超时时长 ms")
+    @Schema(description = ("websocket 连接超时时长 ms"))
     private Integer timeout;
-    @ApiModelProperty("ssh 主机id")
+    @Schema(description = ("ssh 主机id"))
     private Integer hostId;
-    @ApiModelProperty("ssh 端口号")
+    @Schema(description = ("ssh 端口号"))
     private Integer port;
-    @ApiModelProperty("ssh 资源平台id")
+    @Schema(description = ("ssh 资源平台id"))
     private String resourceId;
     private String watcherIp;
     private String userId;

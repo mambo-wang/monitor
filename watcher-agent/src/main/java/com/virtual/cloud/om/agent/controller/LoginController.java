@@ -5,7 +5,7 @@ import com.virtual.cloud.om.sdk.dto.RpcResult;
 import com.virtual.cloud.om.sdk.dto.SysUserDTO;
 import com.virtual.cloud.om.sdk.utils.StringManager;
 import com.virtual.cloud.om.agent.service.auth.LoginService;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/user")
 @CrossOrigin
-@Api(tags = "登录相关")
+@Tag(name = "登录相关")
 @Slf4j
 public class LoginController {
 

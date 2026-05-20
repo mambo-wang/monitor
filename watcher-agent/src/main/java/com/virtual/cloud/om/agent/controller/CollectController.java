@@ -12,8 +12,8 @@ import com.virtual.cloud.om.sdk.dto.dataReport.workspace.WarnDataDTO;
 import com.virtual.cloud.om.agent.service.DataReportCollectorOverview;
 import com.virtual.cloud.om.agent.service.datacenter.DataCenterService;
 import com.virtual.cloud.om.agent.service.resource.ResourceService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +25,7 @@ import java.util.List;
  * @Date: 2022/5/5 15:14
  */
 @RestController
-@Api(tags = "采集接口demo")
+@Tag(name = "采集接口demo")
 @RequestMapping("/collect")
 public class CollectController {
 
@@ -42,7 +42,7 @@ public class CollectController {
     private DataCenterService dataCenterService;
 
 
-    @ApiOperation(value = "日志实时上报任务下发接口demo")
+    @Operation(summary = "日志实时上报任务下发接口demo")
     @PostMapping("/realtime-log")
     public RpcResult realTimeLog(@RequestBody List<RealTimeLogStrategyRequest> request){
 

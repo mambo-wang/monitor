@@ -1,16 +1,15 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-@ApiModel
+@Schema
 public class WorkSpaceResourceUserNumberDTO {
-    @ApiModelProperty("用户总数")
+    @Schema(description = ("用户总数"))
     private Integer totalLength;
 
     private List data;

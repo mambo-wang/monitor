@@ -4,8 +4,8 @@ import com.virtual.cloud.om.sdk.dto.RpcListLoadResult;
 import com.virtual.cloud.om.sdk.dto.RpcResult;
 import com.virtual.cloud.om.sdk.entity.mysql.MetricData;
 import com.virtual.cloud.om.agent.service.report.MetricService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/metric")
-@Api(tags = "指标查询")
+@Tag(name = "指标查询")
 @Slf4j
 @CrossOrigin
 public class MetricController {
@@ -27,19 +27,19 @@ public class MetricController {
     private MetricService metricService;
 
     @GetMapping("/types")
-    @ApiOperation(value = "查询支持的指标类型")
+    @Operation(summary = "查询支持的指标类型")
     public RpcResult<List<Map<String, String>>> getMetricTypes() {
         return RpcResult.success(metricService.getMetricTypes());
     }
 
     @GetMapping("/platforms")
-    @ApiOperation(value = "查询支持的平台类型")
+    @Operation(summary = "查询支持的平台类型")
     public RpcResult<List<Map<String, String>>> getPlatforms() {
         return RpcResult.success(metricService.getPlatforms());
     }
 
     @GetMapping("/list")
-    @ApiOperation(value = "查询指标数据列表")
+    @Operation(summary = "查询指标数据列表")
     public RpcListLoadResult<Map<String, Object>> list(
             @RequestParam(required = false) String resourceId,
             @RequestParam(required = false) String platform,
@@ -57,7 +57,7 @@ public class MetricController {
     }
 
     @GetMapping("/latest/{resourceId}")
-    @ApiOperation(value = "查询资源最新指标数据")
+    @Operation(summary = "查询资源最新指标数据")
     public RpcResult<List<MetricData>> getLatestMetrics(@PathVariable String resourceId) {
         List<MetricData> metrics = metricService.getLatestMetrics(resourceId);
         if (metrics == null) {
@@ -67,7 +67,7 @@ public class MetricController {
     }
 
     @GetMapping("/trend/{resourceId}/{metricType}")
-    @ApiOperation(value = "查询指标趋势数据")
+    @Operation(summary = "查询指标趋势数据")
     public RpcResult<List<MetricData>> getMetricTrend(
             @PathVariable String resourceId,
             @PathVariable String metricType,
@@ -78,7 +78,7 @@ public class MetricController {
     }
 
     @PostMapping("/report")
-    @ApiOperation(value = "上报指标数据")
+    @Operation(summary = "上报指标数据")
     public RpcResult<Void> report(@RequestBody List<MetricData> metrics) {
         log.info("[MetricController] report metrics, count: {}", metrics.size());
         try {
@@ -91,7 +91,7 @@ public class MetricController {
     }
 
     @GetMapping("/summary/{resourceId}")
-    @ApiOperation(value = "获取资源指标汇总")
+    @Operation(summary = "获取资源指标汇总")
     public RpcResult<Map<String, Object>> getSummary(@PathVariable String resourceId) {
         Map<String, Object> summary = metricService.getMetricSummary(resourceId);
         if (summary == null) {

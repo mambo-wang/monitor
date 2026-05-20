@@ -1,8 +1,8 @@
 package com.virtual.cloud.om.sdk.dto.token;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel("与平台之间进行token认证的http请求交互的token信息")
+@Schema(description = "与平台之间进行token认证的http请求交互的token信息")
 public class ResourceHttpClientToken {
     private String mid;
     private String resource;

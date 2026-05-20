@@ -1,42 +1,41 @@
 package com.virtual.cloud.om.sdk.dto.operate;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
 @Data
-@ApiModel
+@Schema
 public class VmTaskLogDto {
-    @ApiModelProperty("地址")
+    @Schema(description = ("地址"))
     private String address;
-    @ApiModelProperty("类别")
+    @Schema(description = ("类别"))
     private String category;
-    @ApiModelProperty("描述")
+    @Schema(description = ("描述"))
     private String description;
-    @ApiModelProperty("事件")
+    @Schema(description = ("事件"))
     private String event;
-    @ApiModelProperty("失败原因")
+    @Schema(description = ("失败原因"))
     private String failureReason;
-    @ApiModelProperty("id")
+    @Schema(description = ("id"))
     private Integer id;
-    @ApiModelProperty("等级")
+    @Schema(description = ("等级"))
     private Integer level;
-    @ApiModelProperty("登陆名")
+    @Schema(description = ("登陆名"))
     private String loginName;
-    @ApiModelProperty("操作开始时间")
+    @Schema(description = ("操作开始时间"))
     private Long operStartTime;
-    @ApiModelProperty("操作时间")
+    @Schema(description = ("操作时间"))
     private Long operTime;
-    @ApiModelProperty("进展状态")
+    @Schema(description = ("进展状态"))
     private Integer progress;
-    @ApiModelProperty("执行结果,0：成功  1：部分成功 2：失败")
+    @Schema(description = ("执行结果,0：成功  1：部分成功 2：失败"))
     private Integer result;
-    @ApiModelProperty("目标名字")
+    @Schema(description = ("目标名字"))
     private String targetName;
-    @ApiModelProperty("用户名")
+    @Schema(description = ("用户名"))
     private String userName;
 
 

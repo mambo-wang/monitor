@@ -1,23 +1,31 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-
+/**
+ * @Author: w22798
+ * @Date: 2022/5/04 12:16
+ */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 //相当于数据库里的表名
-public class DataCenterAuthCount {
+public class FilebeatLog {
 
-    
-    private String id;
+    private String path;
 
-    @Schema(description = ("认证次数  网络不通20次自动断开 需要用户手动重连"))
-    private Integer count;
+    private String message;
+
+    private String time;
+
+    private String level;
+
+    private String tags;
+
+    private String resource;
 }

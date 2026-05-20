@@ -1,52 +1,51 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class TerminalBasicDTO {
-    @ApiModelProperty("设备id")
+    @Schema(description = ("设备id"))
     private String deviceId;
-    @ApiModelProperty("设备唯一标识（目前为MAC地址）")
+    @Schema(description = ("设备唯一标识（目前为MAC地址）"))
     private String deviceUuid;
-    @ApiModelProperty("设备显示名称")
+    @Schema(description = ("设备显示名称"))
     private String displayName;
-    @ApiModelProperty("IP地址")
+    @Schema(description = ("IP地址"))
     private String ipAddress;
-    @ApiModelProperty("IP地址")
+    @Schema(description = ("IP地址"))
     private String macAddress;
-    @ApiModelProperty("设备名称")
+    @Schema(description = ("设备名称"))
     private String deviceName;
-    @ApiModelProperty("黑名单用户")
+    @Schema(description = ("黑名单用户"))
     private Boolean isDenyList;
-    @ApiModelProperty("终端注册时间")
+    @Schema(description = ("终端注册时间"))
     private Long deviceRegisterTime;
-    @ApiModelProperty("操作系统类型")
+    @Schema(description = ("操作系统类型"))
     private Integer osType;
-    @ApiModelProperty("设备CPU架构")
+    @Schema(description = ("设备CPU架构"))
     private String cpuArch;
-    @ApiModelProperty("设备厂商")
+    @Schema(description = ("设备厂商"))
     private String vendor;
-    @ApiModelProperty("设备型号")
+    @Schema(description = ("设备型号"))
     private String model;
-    @ApiModelProperty("客户端版本号")
+    @Schema(description = ("客户端版本号"))
     private String clientVersion;
-    @ApiModelProperty("设备id")
+    @Schema(description = ("设备id"))
     private String spaceAgentVersion;
-    @ApiModelProperty("客户单所在操作系统版本")
+    @Schema(description = ("客户单所在操作系统版本"))
     private String osVersion;
-    @ApiModelProperty("客户端设备sn")
+    @Schema(description = ("客户端设备sn"))
     private String sn;
-    @ApiModelProperty("终端类型")
+    @Schema(description = ("终端类型"))
     private Integer deviceType;
-    @ApiModelProperty("登录类型")
+    @Schema(description = ("登录类型"))
     private Integer authType;
-    @ApiModelProperty("终端在线")
+    @Schema(description = ("终端在线"))
     private Integer status;
-    @ApiModelProperty("设备分组名字")
+    @Schema(description = ("设备分组名字"))
     private String deviceGroupName;
-    @ApiModelProperty("设备分组ID")
+    @Schema(description = ("设备分组ID"))
     private Long deviceGroupId;
 }

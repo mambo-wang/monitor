@@ -1,16 +1,15 @@
 package com.virtual.cloud.om.sdk.dto.dataReport;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class DataValueAndTagsDTO {
-    @ApiModelProperty(value = "data.value字段",required = true)
+    @Schema(description = "data.value字段",required = true)
     private Object value;
-    @ApiModelProperty(value = "data.tags字段",required = true)
+    @Schema(description = "data.tags字段",required = true)
     private String tags;
-    @ApiModelProperty(value = "data.timestamp字段",required = true)
+    @Schema(description = "data.timestamp字段",required = true)
     private Long timestamp;
 }

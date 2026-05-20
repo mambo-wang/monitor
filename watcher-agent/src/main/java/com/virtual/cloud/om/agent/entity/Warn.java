@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,19 +18,19 @@ import java.io.Serializable;
 public class Warn implements Serializable {
     private static final long serialVersionUID = -5081419830740368061L;
 
-    @ApiModelProperty(value="资源id")
+    @Schema(description="资源id")
     private String resourceId;
 
     /** 最新告警时间 */
-    @ApiModelProperty(value="最新告警时间")
+    @Schema(description="最新告警时间")
     private Long eventTime;
 
     /** 告警类型 */
-    @ApiModelProperty(value="告警类型")
+    @Schema(description="告警类型")
     private String type;
 
     /** 最新上报时间 */
-    @ApiModelProperty(value="最新上报时间")
+    @Schema(description="最新上报时间")
     private Long reportTime;
 
 }

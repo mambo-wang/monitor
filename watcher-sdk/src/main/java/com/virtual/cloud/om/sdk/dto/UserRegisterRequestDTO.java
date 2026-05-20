@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.sdk.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,38 +16,38 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "用户注册申请")
+@Schema(description = "用户注册申请")
 public class UserRegisterRequestDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "申请ID")
+    @Schema(description = "申请ID")
     private String id;
 
-    @ApiModelProperty(value = "申请用户名")
+    @Schema(description = "申请用户名")
     private String username;
 
-    @ApiModelProperty(value = "状态")
+    @Schema(description = "状态")
     private String status;
 
-    @ApiModelProperty(value = "状态描述")
+    @Schema(description = "状态描述")
     private String statusDesc;
 
-    @ApiModelProperty(value = "提交时间")
+    @Schema(description = "提交时间")
     private LocalDateTime submitTime;
 
-    @ApiModelProperty(value = "审批时间")
+    @Schema(description = "审批时间")
     private LocalDateTime approveTime;
 
-    @ApiModelProperty(value = "审批人")
+    @Schema(description = "审批人")
     private String approver;
 
-    @ApiModelProperty(value = "拒绝原因")
+    @Schema(description = "拒绝原因")
     private String rejectReason;
 
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     private String remark;
 
-    @ApiModelProperty(value = "累计被拒次数")
+    @Schema(description = "累计被拒次数")
     private Integer rejectCount = 0;
 }

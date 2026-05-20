@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.sdk.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;

@@ -1,12 +1,11 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 
 @Data
-@ApiModel("实时告警信息")
+@Schema(description = "实时告警信息")
 public class WarnInfoDTO {
     /**
      * id : 8
@@ -28,40 +27,40 @@ public class WarnInfoDTO {
      */
 
     //workspace warn id
-    @ApiModelProperty(value = "告警id")
+    @Schema(description = "告警id")
     private Long id;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Long warnId;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Long resourceId;
-    @ApiModelProperty(value = "确认状态")
+    @Schema(description = "确认状态")
     private Integer state;
-    @ApiModelProperty(value = "告警级别")
+    @Schema(description = "告警级别")
     private Integer eventLevel;
-    @ApiModelProperty(value = "告警类型")
+    @Schema(description = "告警类型")
     private Integer eventType;
-    @ApiModelProperty(value = "告警名称")
+    @Schema(description = "告警名称")
     private String eventName;
-    @ApiModelProperty(value = "告警来源")
+    @Schema(description = "告警来源")
     private String eventSrc;
-    @ApiModelProperty(value = "最新告警时间")
+    @Schema(description = "最新告警时间")
     private Long eventTime;
-    @ApiModelProperty(value = "首次告警时间")
+    @Schema(description = "首次告警时间")
     private Long firstEventTime;
-    @ApiModelProperty(value = "告警信息")
+    @Schema(description = "告警信息")
     private String eventDesc;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Long targetId;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private String uuid;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private String childTarget;
-    @ApiModelProperty(value = "告警次数")
+    @Schema(description = "告警次数")
     private Integer eventCount;
-    @ApiModelProperty(value = "告警确认时间")
+    @Schema(description = "告警确认时间")
     private Long confirmTime;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Integer category;
-    @ApiModelProperty(hidden = true)
+    @Schema(hidden = true)
     private Integer catalogId;
 }

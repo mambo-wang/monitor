@@ -1,17 +1,16 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class WarnEndFromAndEndToDTO {
-    @ApiModelProperty("开始时间")
+    @Schema(description = ("开始时间"))
     private Long endFrom;
-    @ApiModelProperty("结束时间")
+    @Schema(description = ("结束时间"))
     private Long endTo;
-    @ApiModelProperty("上报时间")
+    @Schema(description = ("上报时间"))
     private Long reportTime;
 
 }

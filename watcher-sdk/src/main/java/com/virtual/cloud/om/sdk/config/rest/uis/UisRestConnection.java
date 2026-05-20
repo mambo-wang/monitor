@@ -9,6 +9,8 @@ import com.virtual.cloud.om.sdk.exception.AppException;
 import com.virtual.cloud.om.sdk.exception.ErrorCodes;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -42,6 +44,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service("uisRestConnection")
 @ConditionalOnProperty(name = "rest-client.uis.enable", havingValue = "true", matchIfMissing = false)
 public class UisRestConnection {
+
+    private static final Logger log = LoggerFactory.getLogger(UisRestConnection.class);
     
     // 内存缓存替代 MongoDB
     private final Map<String, ResourceHttpClientToken> tokenCache = new ConcurrentHashMap<>();

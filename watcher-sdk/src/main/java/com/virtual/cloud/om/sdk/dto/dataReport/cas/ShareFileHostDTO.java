@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.cas;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -13,7 +13,7 @@ import java.io.Serializable;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ShareFileHostDTO implements Serializable {
 
-    @ApiModelProperty(value = "主机ID")
+    @Schema(description = "主机ID")
     private long id;
 
     private Boolean enableStorNode;

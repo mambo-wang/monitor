@@ -14,8 +14,8 @@ import com.virtual.cloud.om.sdk.utils.FuncUtil;
 import com.virtual.cloud.om.sdk.utils.IpUtil;
 import com.virtual.cloud.om.sdk.utils.StringManager;
 import com.virtual.cloud.om.agent.service.datacenter.DataCenterService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ import java.util.concurrent.*;
 @Slf4j
 @RestController
 @RequestMapping("/deploy")
-@Api(tags = "采集结点部署")
+@Tag(name = "采集结点部署")
 public class DeployController {
 
     @Autowired
@@ -43,7 +43,7 @@ public class DeployController {
 
     private StringManager sm_common = StringManager.getManager("Common");
 
-    @ApiOperation(value = "多节点部署")
+    @Operation(summary = "多节点部署")
     @PostMapping("/batch")
     public RpcResult<Void> batchDeploy(@RequestBody BatchDeployVO batchDeployVO){
         try {
@@ -60,7 +60,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "单节点部署")
+    @Operation(summary = "单节点部署")
     @PostMapping("/single")
     public RpcResult<Void> singleDeploy(@RequestBody DeployVO deployVO){
         try {
@@ -74,14 +74,14 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "获取节点状态")
+    @Operation(summary = "获取节点状态")
     @GetMapping
     public RpcListLoadResult<DeployQueryVO> queryDeployInfo(){
         List<DeployQueryVO> deployQueryVOS = deployApi.queryStatus();
         return RpcListLoadResult.success(deployQueryVOS);
     }
 
-    @ApiOperation(value = "组件服务管理")
+    @Operation(summary = "组件服务管理")
     @PutMapping("/manage")
     public RpcResult<Void> operateComponent(@RequestBody ComponentManage componentManage) {
 
@@ -89,7 +89,7 @@ public class DeployController {
         return RpcResult.success("success");
     }
 
-    @ApiOperation(value = "重启spring boot应用")
+    @Operation(summary = "重启spring boot应用")
     @GetMapping("/refresh")
     public RpcResult<Void> refreshApplication() {
         ExecutorService threadPool = new ThreadPoolExecutor(1,1,0, TimeUnit.SECONDS,new ArrayBlockingQueue<>( 1 ),new ThreadPoolExecutor.DiscardOldestPolicy ());
@@ -101,21 +101,21 @@ public class DeployController {
         return RpcResult.success("success refreshed!");
     }
 
-    @ApiOperation(value = "获取节点信息")
+    @Operation(summary = "获取节点信息")
     @GetMapping("/host")
     public String queryHost(){
         String deployQueryVOS = deployApi.queryHost();
         return deployQueryVOS;
     }
 
-    @ApiOperation(value = "获取节点信息")
+    @Operation(summary = "获取节点信息")
     @GetMapping("/localIps")
     public RpcListLoadResult<String> queryLocalIps(){
         Set<String> localIps = IpUtil.queryLocalIps();
         return RpcListLoadResult.success(new ArrayList<>(localIps));
     }
 
-    @ApiOperation(value = "keepalived notify")
+    @Operation(summary = "keepalived notify")
     @PutMapping("/keepalived/notify/{masterOrBackup}")
     public RpcResult notify(@PathVariable(value = "masterOrBackup")String masterOrBackup){
         if(StringUtils.equals(masterOrBackup, "master")){
@@ -129,20 +129,20 @@ public class DeployController {
         return RpcResult.success();
     }
 
-    @ApiOperation(value = "修改部署步骤")
+    @Operation(summary = "修改部署步骤")
     @PutMapping(value = "/step")
     public RpcResult updateStep(@RequestBody UpdateStepDTO query){
         this.dataCenterService.updateStep(query.getStep());
         return RpcResult.success();
     }
 
-    @ApiOperation(value = "获取本地网卡")
+    @Operation(summary = "获取本地网卡")
     @GetMapping(value = "/network")
     public RpcResult networks() {
         return RpcResult.success(this.deployApi.networkInfo());
     }
 
-    @ApiOperation(value = "配置本地网卡")
+    @Operation(summary = "配置本地网卡")
     @PostMapping(value = "/network")
     public RpcResult addNetworkInfo(@RequestBody NetworkInfoVO query) {
         try {
@@ -179,7 +179,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "配置外网网卡")
+    @Operation(summary = "配置外网网卡")
     @PutMapping(value = "/network")
     public RpcResult editNetworkInfo(@RequestBody NetworkInfoVO query) {
         try {
@@ -199,7 +199,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "校验节点是否为部署阶段之前的主节点")
+    @Operation(summary = "校验节点是否为部署阶段之前的主节点")
     @GetMapping(value = "/network/master")
     public RpcResult checkNodeIfMaster() {
         try {
@@ -214,7 +214,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "获取所有节点的网络配置")
+    @Operation(summary = "获取所有节点的网络配置")
     @GetMapping(value = "/network/config/nodes")
     public RpcResult getNodesNetworkConfig() {
         try {
@@ -224,7 +224,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "获取指定节点的网络配置信息")
+    @Operation(summary = "获取指定节点的网络配置信息")
     @GetMapping(value = "/network/config/node")
     public RpcResult networkInfoDetail(String nodeName) {
         try {
@@ -239,7 +239,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "获取wifi列表")
+    @Operation(summary = "获取wifi列表")
     @GetMapping(value = "/network/wifis")
     public RpcResult getWifis() {
         try {
@@ -258,28 +258,28 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "添加路由时测试ip是否通")
+    @Operation(summary = "添加路由时测试ip是否通")
     @PostMapping(value = "/route/add/check")
     public RpcResult routeAddCheckPing(@RequestBody RouteVo query) {
         this.deployApi.routeAddCheckPing(query);
         return RpcResult.success();
     }
 
-    @ApiOperation(value = "编辑路由时测试ip是否通")
+    @Operation(summary = "编辑路由时测试ip是否通")
     @PostMapping(value = "/route/edit/check")
     public RpcResult routeEditCheckPing(@RequestBody RouteVo query) {
         this.deployApi.routeEditCheckPing(query);
         return RpcResult.success();
     }
 
-    @ApiOperation(value = "路由管理测试ip是否通")
+    @Operation(summary = "路由管理测试ip是否通")
     @PostMapping(value = "/route/check")
     public RpcResult routeCheckPing(@RequestBody RouteCheckPingVo query) {
         this.deployApi.routeCheckPing(query);
         return RpcResult.success();
     }
 
-    @ApiOperation(value = "路由列表")
+    @Operation(summary = "路由列表")
     @GetMapping(value = "/route")
     public RpcResult routeList() {
         try{
@@ -289,7 +289,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "添加路由")
+    @Operation(summary = "添加路由")
     @PostMapping(value = "/route")
     public RpcResult addRoute(@RequestBody RouteVo query) {
         try{
@@ -300,7 +300,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "修改路由")
+    @Operation(summary = "修改路由")
     @PutMapping(value = "/route")
     public RpcResult editRoute(@RequestBody RouteVo query) {
         try{
@@ -311,7 +311,7 @@ public class DeployController {
         }
     }
 
-    @ApiOperation(value = "删除路由")
+    @Operation(summary = "删除路由")
     @DeleteMapping(value = "/route")
     public RpcResult deleteRoute(@RequestBody List<String> ids) {
         try{

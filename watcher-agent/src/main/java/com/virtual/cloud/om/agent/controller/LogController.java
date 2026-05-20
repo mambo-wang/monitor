@@ -4,7 +4,7 @@ import com.virtual.cloud.om.sdk.api.RealTimeLogApi;
 import com.virtual.cloud.om.sdk.dto.ExportLogReq;
 import com.virtual.cloud.om.sdk.dto.LogLine;
 import com.virtual.cloud.om.sdk.dto.RpcListLoadResult;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,7 +25,7 @@ public class LogController {
     private RealTimeLogApi realTimeLogApi;
 
     @RequestMapping(value = "/search",method = RequestMethod.POST)
-    @ApiOperation(value = "在线检索日志")
+    @Operation(summary = "在线检索日志")
     public RpcListLoadResult<LogLine> exportLog(@RequestBody ExportLogReq req) {
         List<LogLine> logLineReportDTOList = realTimeLogApi.searchAll(req.getPlatform(),req.getResourceId(),req.getType(),
                 req.getTargetId(),req.getPath(),req.getQuery(),req.getStartTime(),req.getEndTime(),req.getSortDir(),"timestamp",req.getLogNum(), req.getLevel());

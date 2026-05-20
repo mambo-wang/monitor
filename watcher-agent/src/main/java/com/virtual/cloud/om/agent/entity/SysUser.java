@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,10 +23,10 @@ public class SysUser implements Serializable {
     
     private String id;
 
-    @ApiModelProperty(value = "账号-不加密")
+    @Schema(description = "账号-不加密")
     private String username;
 
-    @ApiModelProperty(value = "密码-加密")
+    @Schema(description = "密码-加密")
     private String password;
 
     /** 最近一次登录时间。 */

@@ -1,18 +1,17 @@
 package com.virtual.cloud.om.sdk.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
 
-@ApiModel
+@Schema
 public class RpcListLoadResult<D> extends StateResult implements ListLoadResult<D> {
 
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("数据")
+    @Schema(description = ("数据"))
     private List<D> data = null;
 
     protected RpcListLoadResult() {

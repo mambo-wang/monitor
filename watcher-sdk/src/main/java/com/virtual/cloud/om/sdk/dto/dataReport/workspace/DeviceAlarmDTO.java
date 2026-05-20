@@ -1,13 +1,13 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-@ApiModel(value = "终端告警")
+@Schema(description = "终端告警")
 public class DeviceAlarmDTO implements Serializable {
 
     private static final long serialVersionUID = -3419638091974415652L;

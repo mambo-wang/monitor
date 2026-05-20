@@ -1,11 +1,11 @@
 package com.virtual.cloud.om.sdk.dto.dataReport;
 
 import com.virtual.cloud.om.sdk.constant.report.ReportErrorTypeEnum;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class ReportErrorDTO {
     private String watcherCode;
     private String comCode;

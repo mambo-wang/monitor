@@ -1,23 +1,22 @@
 package com.virtual.cloud.om.sdk.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.util.List;
 
-@ApiModel
+@Schema
 public class RpcPagingLoadResult<D> extends RpcListLoadResult<D> implements PagingLoadResult<D> {
 
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "请求的offset值", example = "20")
+    @Schema(description = "请求的offset值", example = "20")
     private long offset = 0;
 
-    @ApiModelProperty(value = "所有数据总长度", example = "563")
+    @Schema(description = "所有数据总长度", example = "563")
     private long totalLength = 0;
 
-    @ApiModelProperty(value = "总页数", example = "1")
+    @Schema(description = "总页数", example = "1")
     private int totalPages = 0;
 
     protected RpcPagingLoadResult() {

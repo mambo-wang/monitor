@@ -1,23 +1,22 @@
 package com.virtual.cloud.om.agent.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class ConmandLineTestSshDTO {
-    @ApiModelProperty("测试链接唯一")
+    @Schema(description = ("测试链接唯一"))
     private String uuid;
-    @ApiModelProperty("ssh username")
+    @Schema(description = ("ssh username"))
     private String username;
-    @ApiModelProperty("ssh pwd")
+    @Schema(description = ("ssh pwd"))
     private String password;
-    @ApiModelProperty("ssh 主机id")
+    @Schema(description = ("ssh 主机id"))
     private Integer hostId;
-    @ApiModelProperty("ssh 端口号")
+    @Schema(description = ("ssh 端口号"))
     private Integer port;
-    @ApiModelProperty("ssh 资源平台id")
+    @Schema(description = ("ssh 资源平台id"))
     private String resourceId;
     private String watcherIp;
     private String userId;

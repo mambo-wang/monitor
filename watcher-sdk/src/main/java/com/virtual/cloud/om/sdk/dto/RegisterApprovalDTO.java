@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.sdk.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,17 +15,17 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel(value = "审批请求")
+@Schema(description = "审批请求")
 public class RegisterApprovalDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "申请ID")
+    @Schema(description = "申请ID")
     private String id;
 
-    @ApiModelProperty(value = "拒绝原因")
+    @Schema(description = "拒绝原因")
     private String rejectReason;
 
-    @ApiModelProperty(value = "备注")
+    @Schema(description = "备注")
     private String remark;
 }

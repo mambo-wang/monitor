@@ -2,6 +2,8 @@ package com.virtual.cloud.om.sdk.concurrent;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -56,6 +58,8 @@ public class RadicalThreadPoolExecutor extends ThreadPoolExecutor {
      * 自定义拒绝策略
      */
     static class RadicalRejectedPolicy implements RejectedExecutionHandler {
+
+        private static final Logger log = LoggerFactory.getLogger(RadicalRejectedPolicy.class);
 
         @SneakyThrows
         @Override

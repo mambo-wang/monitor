@@ -1,10 +1,10 @@
 package com.virtual.cloud.om.sdk.dto.deploy;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class NetworkVO {
     private String name;
     private String ip;

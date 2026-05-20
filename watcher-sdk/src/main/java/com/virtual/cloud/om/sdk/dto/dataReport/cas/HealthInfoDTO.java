@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.cas;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.ToString;
 
@@ -15,34 +15,34 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class HealthInfoDTO {
     private static final long serialVersionUID = 7630696172783821368L;
     /** cpu健康度 */
-    @ApiModelProperty(value="cpuHealth")
+    @Schema(description="cpuHealth")
     private Long cpuHealth;
 
     /** 内存健康度*/
-    @ApiModelProperty(value="memHealth")
+    @Schema(description="memHealth")
     private Long memHealth;
 
     /** 存储健康度*/
-    @ApiModelProperty(value="storageHealth")
+    @Schema(description="storageHealth")
     private Long storageHealth;
 
     /** 网络健康度*/
-    @ApiModelProperty(value="netHealth")
+    @Schema(description="netHealth")
     private Long netHealth;
 
     /** cvk健康度*/
-    @ApiModelProperty(value="cvkHealth")
+    @Schema(description="cvkHealth")
     private Long cvkHealth;
 
     /** 主机id*/
-    @ApiModelProperty(value="hostId")
+    @Schema(description="hostId")
     private Long hostId;
 
     /** 主机名称*/
-    @ApiModelProperty(value="hostName")
+    @Schema(description="hostName")
     private String hostName;
 
     /** 管理平台健康度*/
-    @ApiModelProperty(value="cvmHealth")
+    @Schema(description="cvmHealth")
     private Long cvmHealth;
 }

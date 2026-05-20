@@ -1,17 +1,16 @@
 package com.virtual.cloud.om.sdk.dto.deploy;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
-@ApiModel
+@Schema
 public class NetworkInfoVO {
-    @ApiModelProperty("节点名称")
+    @Schema(description = ("节点名称"))
     private String nodeName;
-    @ApiModelProperty("内网网卡")
+    @Schema(description = ("内网网卡"))
     private NetworkInfo inner;
-    @ApiModelProperty("外网网卡")
+    @Schema(description = ("外网网卡"))
     private NetworkInfo outer;
-    @ApiModelProperty("是否主节点：0-否，1-是")
+    @Schema(description = ("是否主节点：0-否，1-是"))
     private Integer master;
 
     // Getters and Setters
@@ -24,25 +23,25 @@ public class NetworkInfoVO {
     public Integer getMaster() { return master; }
     public void setMaster(Integer master) { this.master = master; }
 
-    @ApiModel
+    @Schema
     public static class NetworkInfo {
-        @ApiModelProperty("网卡名")
+        @Schema(description = ("网卡名"))
         private String name;
-        @ApiModelProperty("ip")
+        @Schema(description = ("ip"))
         private String ip;
-        @ApiModelProperty("掩码")
+        @Schema(description = ("掩码"))
         private String mask;
-        @ApiModelProperty("网关")
+        @Schema(description = ("网关"))
         private String gateway;
-        @ApiModelProperty("分配方式")
+        @Schema(description = ("分配方式"))
         private AllocationTypeEnum allocation = AllocationTypeEnum.STATIC;
-        @ApiModelProperty("wifi名")
+        @Schema(description = ("wifi名"))
         private String wifi;
-        @ApiModelProperty("wifi密码")
+        @Schema(description = ("wifi密码"))
         private String wifiPwd;
-        @ApiModelProperty("dns1")
+        @Schema(description = ("dns1"))
         private String dns1;
-        @ApiModelProperty("dns2")
+        @Schema(description = ("dns2"))
         private String dns2;
 
         // Getters and Setters

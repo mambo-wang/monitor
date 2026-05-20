@@ -3,7 +3,7 @@ package com.virtual.cloud.om.sdk.dto;
 import com.virtual.cloud.om.sdk.dto.deploy.DeployQueryVO;
 import com.virtual.cloud.om.sdk.dto.deploy.DeployVO;
 import com.virtual.cloud.om.sdk.utils.sm4.SM4Utils;
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -11,7 +11,7 @@ import org.apache.commons.lang3.StringUtils;
  * Created by m15730 on 2018/2/6.
  * @author m15730
  */
-@ApiModel("SSH远程主机连接信息")
+@Schema(description = "SSH远程主机连接信息")
 public class SSHHost {
 
     /** 远程主机的IP地址 */

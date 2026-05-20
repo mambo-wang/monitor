@@ -1,31 +1,30 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.cas;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class ShareFileHostBasicDTO {
 
-    @ApiModelProperty(value = "主机ID")
+    @Schema(description = "主机ID")
     private long id;
 
-    @ApiModelProperty(value = "共享文件系统名称")
+    @Schema(description = "共享文件系统名称")
     private String fsName;
 
-    @ApiModelProperty(value = "标识符称")
+    @Schema(description = "标识符称")
     private String initiatorName;
 
-    @ApiModelProperty(value = "主机IP")
+    @Schema(description = "主机IP")
     private String hostIp;
 
-    @ApiModelProperty(value = "主机名称")
+    @Schema(description = "主机名称")
     private String hostName;
 
-    @ApiModelProperty(value = "主机状态")
+    @Schema(description = "主机状态")
     private Integer hostStatus;
 
-    @ApiModelProperty(value = "存储池状态")
+    @Schema(description = "存储池状态")
     private Integer poolstatus;
 }

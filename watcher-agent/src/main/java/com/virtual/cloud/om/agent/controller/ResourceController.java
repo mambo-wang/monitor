@@ -9,8 +9,8 @@ import com.virtual.cloud.om.sdk.dto.RpcResult;
 import com.virtual.cloud.om.sdk.entity.mysql.Resource;
 import com.virtual.cloud.om.sdk.mapper.ResourceMapper;
 import com.virtual.cloud.om.sdk.utils.sm4.SM4Utils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +23,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/resource")
-@Api(tags = "资源管理")
+@Tag(name = "资源管理")
 @Slf4j
 @CrossOrigin
 public class ResourceController {
@@ -32,7 +32,7 @@ public class ResourceController {
     private ResourceMapper resourceMapper;
 
     @GetMapping("/list")
-    @ApiOperation(value = "查询资源列表")
+    @Operation(summary = "查询资源列表")
     public RpcListLoadResult<Resource> list(
             @RequestParam(required = false) String platform,
             @RequestParam(required = false) String resourceName,
@@ -55,7 +55,7 @@ public class ResourceController {
     }
 
     @GetMapping("/detail/{id}")
-    @ApiOperation(value = "查询资源详情")
+    @Operation(summary = "查询资源详情")
     public RpcResult<Resource> detail(@PathVariable String id) {
         Resource resource = resourceMapper.selectById(id);
         if (resource == null) {
@@ -65,7 +65,7 @@ public class ResourceController {
     }
 
     @PostMapping("/create")
-    @ApiOperation(value = "创建资源")
+    @Operation(summary = "创建资源")
     public RpcResult<Void> create(@RequestBody ResourceDTO dto) {
         log.info("[ResourceController] create resource: {}", JSONUtil.toJsonStr(dto));
         try {
@@ -96,7 +96,7 @@ public class ResourceController {
     }
 
     @PostMapping("/batchCreate")
-    @ApiOperation(value = "批量创建资源")
+    @Operation(summary = "批量创建资源")
     public RpcResult<Void> batchCreate(@RequestBody List<ResourceDTO> dtos) {
         log.info("[ResourceController] batch create resources, count: {}", dtos.size());
         try {
@@ -135,7 +135,7 @@ public class ResourceController {
     }
 
     @PutMapping("/update")
-    @ApiOperation(value = "更新资源")
+    @Operation(summary = "更新资源")
     public RpcResult<Void> update(@RequestBody ResourceDTO dto) {
         log.info("[ResourceController] update resource: {}", dto.getId());
         try {
@@ -183,7 +183,7 @@ public class ResourceController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @ApiOperation(value = "删除资源")
+    @Operation(summary = "删除资源")
     public RpcResult<Void> delete(@PathVariable String id) {
         log.info("[ResourceController] delete resource: {}", id);
         try {
@@ -196,7 +196,7 @@ public class ResourceController {
     }
 
     @PutMapping("/usable/{id}")
-    @ApiOperation(value = "更新资源可用状态")
+    @Operation(summary = "更新资源可用状态")
     public RpcResult<Void> updateUsable(@PathVariable String id, @RequestParam Integer usable) {
         try {
             Resource resource = resourceMapper.selectById(id);
@@ -214,7 +214,7 @@ public class ResourceController {
     }
 
     @PutMapping("/remote/{id}")
-    @ApiOperation(value = "更新SSH权限")
+    @Operation(summary = "更新SSH权限")
     public RpcResult<Void> updateRemote(@PathVariable String id, @RequestParam Integer remote) {
         try {
             Resource resource = resourceMapper.selectById(id);

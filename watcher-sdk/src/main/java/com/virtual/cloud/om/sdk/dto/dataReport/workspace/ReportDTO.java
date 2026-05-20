@@ -2,23 +2,22 @@ package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
 import com.virtual.cloud.om.sdk.constant.report.ReportDataTypeEnum;
 import com.virtual.cloud.om.sdk.constant.report.ReportMetricEnum;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 @Data
-@ApiModel
+@Schema
 public class ReportDTO {
-    @ApiModelProperty("采集的指标类型")
+    @Schema(description = ("采集的指标类型"))
     private ReportMetricEnum metric;
-    @ApiModelProperty("指标的值类型")
+    @Schema(description = ("指标的值类型"))
     private ReportDataTypeEnum type;
-    @ApiModelProperty("标签，用于给各类资源打标")
+    @Schema(description = ("标签，用于给各类资源打标"))
     private String tags;
-    @ApiModelProperty("上传批次")
+    @Schema(description = ("上传批次"))
     private String batchNum;
-    @ApiModelProperty("根据type决定value的值类型")
+    @Schema(description = "根据type决定value的值类型")
     private Object value;
-    @ApiModelProperty("时间戳")
+    @Schema(description = ("时间戳"))
     private Long timestamp;
 }

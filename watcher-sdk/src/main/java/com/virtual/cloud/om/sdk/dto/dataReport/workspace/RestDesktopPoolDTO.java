@@ -1,13 +1,13 @@
 package com.virtual.cloud.om.sdk.dto.dataReport.workspace;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Data
-@ApiModel("桌面池信息")
+@Schema(description = "桌面池信息")
 public class RestDesktopPoolDTO implements Serializable {
     private static final long serialVersionUID = 5297068521319733641L;
     private Long id;

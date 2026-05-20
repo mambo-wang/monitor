@@ -1,7 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,35 +17,35 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 //相当于数据库里的表名
-@ApiModel
+@Schema
 public class ResourceEntity {
-    @ApiModelProperty("资源类型")
+    @Schema(description = ("资源类型"))
     private String platform;
-    @ApiModelProperty("资源ID")
+    @Schema(description = ("资源ID"))
     
     private String id;
-    @ApiModelProperty("IP地址")
+    @Schema(description = ("IP地址"))
     private String ipAddress;
-    @ApiModelProperty("端口")
+    @Schema(description = ("端口"))
     private Integer port;
-    @ApiModelProperty("rest认证用户名")
+    @Schema(description = ("rest认证用户名"))
     private String ac;
-    @ApiModelProperty("rest认证用户密码")
+    @Schema(description = ("rest认证用户密码"))
     private String ci;
-    @ApiModelProperty("访问协议HTTP/HTTPS")
+    @Schema(description = ("访问协议HTTP/HTTPS"))
     private String protocol;
-    @ApiModelProperty("认证类型，目前默认统一为Digest")
+    @Schema(description = ("认证类型，目前默认统一为Digest"))
     private String authType;
-    @ApiModelProperty("管理节点用户一般为root")
+    @Schema(description = ("管理节点用户一般为root"))
     private String serverUsername;
-    @ApiModelProperty("管理节点密码")
+    @Schema(description = ("管理节点密码"))
     private String serverPassword;
-    @ApiModelProperty("管理节点端口号")
+    @Schema(description = ("管理节点端口号"))
     private Integer serverPort;
-    @ApiModelProperty("是否激活状态：0-否，1-是")
+    @Schema(description = ("是否激活状态：0-否，1-是"))
     private Integer active;
-    @ApiModelProperty("创建时间")
+    @Schema(description = ("创建时间"))
     private String createTime;
-    @ApiModelProperty("更新时间")
+    @Schema(description = ("更新时间"))
     private String updateTime;
 }

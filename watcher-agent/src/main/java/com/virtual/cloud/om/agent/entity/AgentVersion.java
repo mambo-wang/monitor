@@ -1,6 +1,6 @@
 package com.virtual.cloud.om.agent.entity;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +16,18 @@ import lombok.experimental.Accessors;
 //相当于数据库里的表名
 public class AgentVersion {
     private String version;
-    @ApiModelProperty("升级记录id")
+    @Schema(description = ("升级记录id"))
     private Long recordId;
-    @ApiModelProperty("升级结果 0-失败，1-成功")
+    @Schema(description = ("升级结果 0-失败，1-成功"))
     private Integer status;
-    @ApiModelProperty("原因")
+    @Schema(description = ("原因"))
     private String desc;
-    @ApiModelProperty(value ="租户id")
+    @Schema(description ="租户id")
     private String watcherCode;
-    @ApiModelProperty(value = "升级包id")
+    @Schema(description = "升级包id")
     private Long packageId;
-    @ApiModelProperty(value = "uuid")
+    @Schema(description = "uuid")
     private String uuid;
-    @ApiModelProperty(value = "userId")
+    @Schema(description = "userId")
     private String userId;
 }
