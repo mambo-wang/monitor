@@ -96,7 +96,7 @@ start:
 
 start-java:
 	@echo "启动 Java 后端 (端口 8888)..."
-	@cd watcher-agent && java -jar target/agent.jar --spring.profiles.active=dev,local
+	@export JAVA_HOME=/Users/kirito/jdk-17/jdk-17.0.19+10/Contents/Home && cd watcher-agent && mvn spring-boot:run
 
 start-web:
 	@echo "启动前端 (端口 9090)..."
