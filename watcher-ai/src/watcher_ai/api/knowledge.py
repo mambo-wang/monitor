@@ -86,6 +86,8 @@ def build_kb(kb_id: str):
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         KBService.update_status(kb_id, "error")
         raise HTTPException(status_code=500, detail=str(e))
 

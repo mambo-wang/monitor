@@ -1,8 +1,8 @@
 import os
 from typing import Tuple, List
 
-CHUNK_SIZE = 500
-CHUNK_OVERLAP = 50
+CHUNK_SIZE = 300
+CHUNK_OVERLAP = 30
 
 class DocumentProcessor:
     SUPPORTED_EXTENSIONS = {".pdf", ".md", ".txt"}
@@ -19,21 +19,26 @@ class DocumentProcessor:
         ext = os.path.splitext(file_path)[1].lower()
         try:
             if ext == ".pdf":
-                with open(file_path, "rb") as f:
-                    content = f.read()
-                    try:
-                        text = content.decode("utf-8", errors="ignore")
-                    except:
-                        text = str(content)
+                import pdfplumber
+                pages = []
+                with pdfplumber.open(file_path) as pdf:
+                    for i, page in enumerate(pdf.pages):
+                        text = page.extract_text()
+                        if text:
+                            pages.append({"content": text, "page": i + 1})
+                if not pages:
+                    return [], "Failed to extract text from PDF"
+                return pages, None
             elif ext == ".md":
                 with open(file_path, "r", encoding="utf-8") as f:
                     text = f.read()
+                return [{"content": text, "page": 1}], None
             elif ext == ".txt":
                 with open(file_path, "r", encoding="utf-8") as f:
                     text = f.read()
+                return [{"content": text, "page": 1}], None
             else:
                 return [], f"Unsupported format: {ext}"
-            return [{"content": text, "page": 1}], None
         except Exception as e:
             return [], f"Load failed: {str(e)}"
 

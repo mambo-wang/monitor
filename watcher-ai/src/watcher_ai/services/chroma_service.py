@@ -2,6 +2,7 @@ import chromadb
 import os
 import requests
 from typing import List, Dict, Optional
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 CHROMA_DB_PATH = os.path.join(os.path.dirname(__file__), "../../chroma_db")
 OLLAMA_EMBED_URL = os.getenv("OLLAMA_EMBED_URL", "http://localhost:11434/api/embeddings")
@@ -16,10 +17,25 @@ class ChromaService:
         resp = requests.post(
             OLLAMA_EMBED_URL,
             json={"model": OLLAMA_EMBED_MODEL, "prompt": text},
-            timeout=30
+            timeout=120
         )
         resp.raise_for_status()
         return resp.json()["embedding"]
+
+    @staticmethod
+    def get_embeddings_batch(texts: List[str], max_workers: int = 5) -> List[List[float]]:
+        """并行获取多个文本的 embedding"""
+        embeddings = [None] * len(texts)
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            future_to_idx = {executor.submit(ChromaService.get_embedding, text): i for i, text in enumerate(texts)}
+            for future in as_completed(future_to_idx):
+                idx = future_to_idx[future]
+                try:
+                    embeddings[idx] = future.result()
+                except Exception as e:
+                    print(f"Embedding error at {idx}: {e}")
+                    embeddings[idx] = [0.0] * 1024  # fallback
+        return embeddings
 
     @staticmethod
     def get_or_create_collection(kb_id: str):
@@ -54,8 +70,11 @@ class ChromaService:
     def add_vectors(kb_id: str, ids: List[str], documents: List[str], metadatas: List[dict]):
         """添加向量到 collection"""
         collection = ChromaService.get_or_create_collection(kb_id)
-        embeddings = [ChromaService.get_embedding(doc) for doc in documents]
+        print(f"[ChromaService] Getting embeddings for {len(documents)} documents...")
+        embeddings = ChromaService.get_embeddings_batch(documents, max_workers=5)
+        print(f"[ChromaService] Got {len(embeddings)} embeddings, adding to collection...")
         collection.add(ids=ids, embeddings=embeddings, documents=documents, metadatas=metadatas)
+        print(f"[ChromaService] Done adding vectors")
 
     @staticmethod
     def search(kb_id: str, query: str, top_k: int = 3) -> Dict:
