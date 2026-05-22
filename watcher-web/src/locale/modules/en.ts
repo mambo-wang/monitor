@@ -6,6 +6,7 @@ import agent from './en/agent/index'
 import tenant from "./en/tenant/index"
 import initConfig from "./en/init-config/index"
 import dashboard from "./en/dashboard"
+import toolShare from "./en/toolShare"
 
 const lang = {
     el: enLocale.el, // element-plus i18 setting
@@ -17,7 +18,8 @@ const lang = {
         ...agent,
         ...tenant,
         ...initConfig,
-        ...dashboard
+        ...dashboard,
+        ...toolShare
     }
 }
 

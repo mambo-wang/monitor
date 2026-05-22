@@ -8,6 +8,7 @@ import initConfig from "./zh-cn/init-config/index"
 import resource from "./zh-cn/resource/index"
 import dashboard from "./zh-cn/dashboard"
 import user from "./zh-cn/user/index"
+import toolShare from "./zh-cn/toolShare"
 
 const lang = {
     el: zhLocale.el, // element内部国际化
@@ -21,7 +22,8 @@ const lang = {
         ...initConfig,
         ...resource,
         ...dashboard,
-        ...user
+        ...user,
+        ...toolShare
     }
 }
 

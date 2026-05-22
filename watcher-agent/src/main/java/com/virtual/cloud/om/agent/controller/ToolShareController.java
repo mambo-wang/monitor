@@ -3,10 +3,13 @@ package com.virtual.cloud.om.agent.controller;
 import com.virtual.cloud.om.agent.entity.ToolShareFolder;
 import com.virtual.cloud.om.agent.entity.ToolShareFile;
 import com.virtual.cloud.om.agent.service.ToolShareService;
+import com.virtual.cloud.om.sdk.utils.JwtTokenUtil;
+import com.virtual.cloud.om.sdk.dto.SysUserDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +32,24 @@ public class ToolShareController {
     }
 
     @PostMapping("/folder")
-    public Map<String, Object> createFolder(@RequestBody ToolShareFolder folder) {
+    public Map<String, Object> createFolder(@RequestBody ToolShareFolder folder, HttpServletRequest request) {
+        // 从 token 中获取用户 ID
+        String token = request.getHeader("token");
+        if (token != null && !token.isEmpty()) {
+            try {
+                String subject = JwtTokenUtil.getClaimsFromToken(token).getSubject();
+                SysUserDTO userDTO = JwtTokenUtil.convertTokenToUser(subject);
+                if (userDTO != null && userDTO.getUsername() != null) {
+                    // TODO: 根据用户名查询实际用户ID，这里暂时设为 1
+                    folder.setCreateUserId(1L);
+                }
+            } catch (Exception e) {
+                // 解析失败，使用默认值
+                folder.setCreateUserId(1L);
+            }
+        } else {
+            folder.setCreateUserId(1L);
+        }
         toolShareService.createFolder(folder);
         Map<String, Object> result = new HashMap<>();
         result.put("success", true);

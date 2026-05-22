@@ -160,7 +160,11 @@ const createFolder = async () => {
     return
   }
   try {
-    await createFolderApi({ name: newFolderName.value.trim(), parentId: currentFolderId.value })
+    const data: any = { name: newFolderName.value.trim() }
+    if (currentFolderId.value !== null) {
+      data.parentId = currentFolderId.value
+    }
+    await createFolderApi(data)
     ElMessage.success({
       message: '创建文件夹成功',
       type: 'success'

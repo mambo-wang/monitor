@@ -36,6 +36,20 @@ public class ToolShareServiceImpl implements ToolShareService {
     @Value("${toolshare.upload.path:/data/toolshare/files}")
     private String uploadPath;
 
+    // 获取实际可用的上传目录
+    private String getRealUploadPath() {
+        File dir = new File(uploadPath);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        // 如果目录创建失败，使用系统临时目录
+        if (!dir.exists()) {
+            dir = new File(System.getProperty("java.io.tmpdir"), "toolshare");
+            dir.mkdirs();
+        }
+        return dir.getAbsolutePath();
+    }
+
     @Override
     public List<ToolShareFolder> getFolders(Long parentId) {
         LambdaQueryWrapper<ToolShareFolder> wrapper = new LambdaQueryWrapper<>();
@@ -50,6 +64,10 @@ public class ToolShareServiceImpl implements ToolShareService {
     @Override
     public void createFolder(ToolShareFolder folder) {
         folder.setCreateTime(LocalDateTime.now());
+        // createUserId 由 Controller 从 token 中获取并设置
+        if (folder.getCreateUserId() == null) {
+            folder.setCreateUserId(1L); // 默认值
+        }
         folderMapper.insert(folder);
     }
 
@@ -66,8 +84,9 @@ public class ToolShareServiceImpl implements ToolShareService {
 
     @Override
     public ToolShareFile uploadFile(MultipartFile file, String toolName, String toolDesc, Long folderId) {
-        // 创建上传目录
-        File uploadDir = new File(uploadPath);
+        // 使用实际可用的上传目录
+        String realPath = getRealUploadPath();
+        File uploadDir = new File(realPath);
         if (!uploadDir.exists()) {
             uploadDir.mkdirs();
         }
@@ -79,7 +98,7 @@ public class ToolShareServiceImpl implements ToolShareService {
             extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
         String newFileName = UUID.randomUUID().toString() + extension;
-        String filePath = uploadPath + File.separator + newFileName;
+        String filePath = realPath + File.separator + newFileName;
 
         // 保存文件
         try {

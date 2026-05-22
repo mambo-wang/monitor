@@ -7,6 +7,19 @@ describe('菜单配置测试', () => {
     expect(toolShareMenu).toBeDefined()
   })
 
+  it('所有菜单项都应该有 meta.icon', () => {
+    const checkMenuItem = (menu: any, path: string = '') => {
+      if (!menu.hideMenu && menu.meta) {
+        expect(menu.meta.icon).toBeDefined()
+        expect(typeof menu.meta.icon).toBe('string')
+      }
+      if (menu.children) {
+        menu.children.forEach((child: any) => checkMenuItem(child, menu.path))
+      }
+    }
+    menuList.forEach(checkMenuItem)
+  })
+
   it('工具分享菜单应该有正确的 meta 配置', () => {
     const toolShareMenu = menuList.find(item => item.path === '/tool-share')
     expect(toolShareMenu?.meta.title).toBe('message.menu.toolShare.name')
