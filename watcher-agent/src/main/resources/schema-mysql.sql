@@ -19,7 +19,7 @@ CREATE TABLE sys_user (
     update_time DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='系统用户表';
 
--- 初始化默认管理员用户 (用户名: admin, 密码: Admin@123 - SM4加密)
+-- 初始化默认管理员用户 (用户名: admin, 密码: iesB4yJHVdE1R3mP4yT6LA==)
 INSERT INTO sys_user (id, username, password, status) VALUES
 ('1', 'admin', 'iesB4yJHVdE1R3mP4yT6LA==', 'active');
 

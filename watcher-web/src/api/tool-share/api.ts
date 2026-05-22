@@ -19,3 +19,11 @@ export const uploadFileApi = (formData: FormData) => {
 export const getDownloadUrl = (id: number) => {
   return `/api/tool-share/download/${id}`
 }
+
+export const deleteFolderApi = (id: number) => {
+  return request({ url: `/api/tool-share/folder/${id}`, method: 'delete' })
+}
+
+export const deleteFileApi = (id: number) => {
+  return request({ url: `/api/tool-share/file/${id}`, method: 'delete' })
+}

@@ -12,6 +12,7 @@ export default {
     downloadCount: 'Download Count',
     actions: 'Actions',
     download: 'Download',
+    delete: 'Delete',
     folderName: 'Folder Name',
     folderNamePlaceholder: 'Please enter folder name',
     selectFile: 'Select File',

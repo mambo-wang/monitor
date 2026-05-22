@@ -1,23 +1,18 @@
 <template>
   <div class="tool-share-container">
-    <div class="toolbar">
-      <el-button type="primary" @click="showCreateFolderDialog">
-        <el-icon><folder-add /></el-icon>
-        {{ $t('message.toolShare.createFolder') }}
-      </el-button>
-      <el-button type="success" @click="showUploadDialog">
-        <el-icon><upload /></el-icon>
-        {{ $t('message.toolShare.uploadFile') }}
-      </el-button>
-      <el-button v-if="currentFolderId !== null" @click="goBack">
-        <el-icon><back /></el-icon>
-        {{ $t('message.toolShare.backToParent') }}
-      </el-button>
-    </div>
-
     <div class="content">
       <div class="folder-panel">
-        <h3>{{ $t('message.toolShare.folders') }}</h3>
+        <div class="panel-header">
+          <h3>{{ $t('message.toolShare.folders') }}</h3>
+          <div class="header-actions">
+            <el-button size="small" type="danger" text @click="showDeleteFolderDialog">
+              <el-icon><delete /></el-icon>
+            </el-button>
+            <el-button size="small" type="primary" @click="showCreateFolderDialog">
+              <el-icon><folder-add /></el-icon>
+            </el-button>
+          </div>
+        </div>
         <div v-if="folders.length === 0" class="empty-tip">
           {{ $t('message.toolShare.noFolders') }}
         </div>
@@ -25,6 +20,7 @@
           v-for="folder in folders"
           :key="folder.id"
           class="folder-item"
+          :class="{ active: selectedFolderId === folder.id }"
           @click="enterFolder(folder)"
         >
           <el-icon><folder /></el-icon>
@@ -33,7 +29,13 @@
       </div>
 
       <div class="file-panel">
-        <h3>{{ $t('message.toolShare.files') }}</h3>
+        <div class="panel-header">
+          <h3>{{ $t('message.toolShare.files') }}</h3>
+          <el-button size="small" type="success" @click="showUploadDialog">
+            <el-icon><upload /></el-icon>
+            {{ $t('message.toolShare.uploadFile') }}
+          </el-button>
+        </div>
         <el-table :data="files" style="width: 100%">
           <el-table-column prop="toolName" :label="$t('message.toolShare.toolName')" />
           <el-table-column prop="toolDesc" :label="$t('message.toolShare.toolDesc')" />
@@ -42,6 +44,9 @@
             <template #default="{ row }">
               <el-button size="small" type="primary" @click="downloadFile(row)">
                 {{ $t('message.toolShare.download') }}
+              </el-button>
+              <el-button size="small" type="danger" @click="handleDeleteFile(row)">
+                <el-icon><delete /></el-icon>
               </el-button>
             </template>
           </el-table-column>
@@ -62,6 +67,26 @@
       <template #footer>
         <el-button @click="createFolderDialogVisible = false">{{ $t('message.common.cancel') }}</el-button>
         <el-button type="primary" @click="createFolder">{{ $t('message.common.confirm') }}</el-button>
+      </template>
+    </el-dialog>
+
+    <!-- 删除文件夹对话框 -->
+    <el-dialog v-model="deleteFolderDialogVisible" title="删除文件夹" width="400px">
+      <el-form>
+        <el-form-item label="选择文件夹">
+          <el-select v-model="folderToDeleteId" placeholder="请选择要删除的文件夹">
+            <el-option
+              v-for="folder in folders"
+              :key="folder.id"
+              :label="folder.name"
+              :value="folder.id"
+            />
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="deleteFolderDialogVisible = false">{{ $t('message.common.cancel') }}</el-button>
+        <el-button type="danger" @click="confirmDeleteFolder">{{ $t('message.common.confirm') }}</el-button>
       </template>
     </el-dialog>
 
@@ -97,15 +122,20 @@
 <script lang="ts" setup>
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
-import { getFoldersApi, createFolderApi, getFilesApi, uploadFileApi, getDownloadUrl } from '@/api/tool-share/api'
+import { getFoldersApi, createFolderApi, getFilesApi, uploadFileApi, getDownloadUrl, deleteFolderApi, deleteFileApi } from '@/api/tool-share/api'
 
 const folders = ref<any[]>([])
 const files = ref<any[]>([])
 const currentFolderId = ref<number | null>(null)
+const selectedFolderId = ref<number | null>(null)
 
 // 新建文件夹
 const createFolderDialogVisible = ref(false)
 const newFolderName = ref('')
+
+// 删除文件夹
+const deleteFolderDialogVisible = ref(false)
+const folderToDeleteId = ref<number | null>(null)
 
 // 上传文件
 const uploadDialogVisible = ref(false)
@@ -128,7 +158,7 @@ const loadData = async () => {
 
 const loadFolders = async () => {
   try {
-    const res = await getFoldersApi(currentFolderId.value)
+    const res = await getFoldersApi(null)
     folders.value = res.data || []
   } catch (error) {
     console.error('加载文件夹失败', error)
@@ -160,11 +190,7 @@ const createFolder = async () => {
     return
   }
   try {
-    const data: any = { name: newFolderName.value.trim() }
-    if (currentFolderId.value !== null) {
-      data.parentId = currentFolderId.value
-    }
-    await createFolderApi(data)
+    await createFolderApi({ name: newFolderName.value.trim() })
     ElMessage.success({
       message: '创建文件夹成功',
       type: 'success'
@@ -177,13 +203,47 @@ const createFolder = async () => {
 }
 
 const enterFolder = (folder: any) => {
+  selectedFolderId.value = folder.id
   currentFolderId.value = folder.id
-  loadData()
+  loadFiles()
 }
 
-const goBack = async () => {
-  currentFolderId.value = null
-  await loadData()
+const showDeleteFolderDialog = () => {
+  folderToDeleteId.value = null
+  deleteFolderDialogVisible.value = true
+}
+
+const confirmDeleteFolder = async () => {
+  if (!folderToDeleteId.value) {
+    ElMessage.warning({ message: '请选择要删除的文件夹', type: 'warning' })
+    return
+  }
+  try {
+    const res = await deleteFolderApi(folderToDeleteId.value)
+    if (res.success) {
+      ElMessage.success({ message: '删除成功', type: 'success' })
+      deleteFolderDialogVisible.value = false
+      if (selectedFolderId.value === folderToDeleteId.value) {
+        selectedFolderId.value = null
+        currentFolderId.value = null
+      }
+      await loadFolders()
+    } else {
+      ElMessage.error({ message: res.message || '删除失败', type: 'error' })
+    }
+  } catch (error) {
+    console.error('删除文件夹失败', error)
+  }
+}
+
+const handleDeleteFile = async (row: any) => {
+  try {
+    await deleteFileApi(row.id)
+    ElMessage.success({ message: '删除成功', type: 'success' })
+    await loadFiles()
+  } catch (error) {
+    console.error('删除文件失败', error)
+  }
 }
 
 const showUploadDialog = () => {
@@ -244,54 +304,81 @@ const uploadFile = async () => {
 <style lang="scss" scoped>
 .tool-share-container {
   padding: 20px;
-
-  .toolbar {
-    margin-bottom: 20px;
-    display: flex;
-    gap: 10px;
-  }
+  height: 100%;
 
   .content {
     display: flex;
     gap: 20px;
+    height: calc(100% - 0px);
+  }
 
-    .folder-panel {
-      width: 300px;
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
+  .folder-panel {
+    width: 300px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
 
       h3 {
-        margin-top: 0;
-        margin-bottom: 16px;
+        margin: 0;
       }
 
-      .folder-item {
+      .header-actions {
         display: flex;
-        align-items: center;
-        padding: 10px;
-        cursor: pointer;
-        border-radius: 4px;
-
-        &:hover {
-          background: #f5f7fa;
-        }
-
-        .folder-name {
-          margin-left: 8px;
-        }
+        gap: 8px;
       }
     }
 
-    .file-panel {
-      flex: 1;
-      background: #fff;
-      border-radius: 8px;
-      padding: 20px;
+    .folder-item {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 4px;
+      margin-bottom: 4px;
+
+      &:hover {
+        background: #f5f7fa;
+      }
+
+      &.active {
+        background: #409eff;
+        color: #fff;
+
+        &:hover {
+          background: #409eff;
+        }
+      }
+
+      .folder-name {
+        margin-left: 8px;
+      }
+    }
+  }
+
+  .file-panel {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
 
       h3 {
-        margin-top: 0;
-        margin-bottom: 16px;
+        margin: 0;
       }
     }
   }

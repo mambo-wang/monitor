@@ -12,4 +12,6 @@ public interface ToolShareService {
     List<ToolShareFile> getFiles(Long folderId);
     ToolShareFile uploadFile(MultipartFile file, String toolName, String toolDesc, Long folderId);
     void downloadFile(Long id, HttpServletResponse response);
+    void deleteFolder(Long folderId);
+    void deleteFile(Long fileId);
 }

@@ -81,4 +81,34 @@ public class ToolShareController {
     public void downloadFile(@PathVariable Long id, HttpServletResponse response) {
         toolShareService.downloadFile(id, response);
     }
+
+    @DeleteMapping("/folder/{id}")
+    public Map<String, Object> deleteFolder(@PathVariable Long id) {
+        try {
+            toolShareService.deleteFolder(id);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            return result;
+        } catch (RuntimeException e) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            return result;
+        }
+    }
+
+    @DeleteMapping("/file/{id}")
+    public Map<String, Object> deleteFile(@PathVariable Long id) {
+        try {
+            toolShareService.deleteFile(id);
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", true);
+            return result;
+        } catch (RuntimeException e) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("success", false);
+            result.put("message", e.getMessage());
+            return result;
+        }
+    }
 }

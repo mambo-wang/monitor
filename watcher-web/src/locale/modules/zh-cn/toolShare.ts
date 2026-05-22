@@ -12,6 +12,7 @@ export default {
     downloadCount: '下载次数',
     actions: '操作',
     download: '下载',
+    delete: '删除',
     folderName: '文件夹名称',
     folderNamePlaceholder: '请输入文件夹名称',
     selectFile: '选择文件',

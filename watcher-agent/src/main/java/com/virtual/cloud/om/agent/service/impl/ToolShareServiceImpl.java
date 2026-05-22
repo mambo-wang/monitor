@@ -79,6 +79,7 @@ public class ToolShareServiceImpl implements ToolShareService {
         } else {
             wrapper.eq(ToolShareFile::getFolderId, folderId);
         }
+        wrapper.orderByDesc(ToolShareFile::getDownloadCount);
         return fileMapper.selectList(wrapper);
     }
 
@@ -153,5 +154,33 @@ public class ToolShareServiceImpl implements ToolShareService {
         } catch (IOException e) {
             throw new RuntimeException("文件下载失败", e);
         }
+    }
+
+    @Override
+    public void deleteFolder(Long folderId) {
+        // 检查文件夹内是否有文件
+        LambdaQueryWrapper<ToolShareFile> fileWrapper = new LambdaQueryWrapper<>();
+        fileWrapper.eq(ToolShareFile::getFolderId, folderId);
+        List<ToolShareFile> files = fileMapper.selectList(fileWrapper);
+        if (files != null && !files.isEmpty()) {
+            throw new RuntimeException("请先删除文件夹内的文件");
+        }
+        // 删除文件夹
+        folderMapper.deleteById(folderId);
+    }
+
+    @Override
+    public void deleteFile(Long fileId) {
+        ToolShareFile file = fileMapper.selectById(fileId);
+        if (file == null) {
+            throw new RuntimeException("文件不存在");
+        }
+        // 删除物理文件
+        File f = new File(file.getFilePath());
+        if (f.exists()) {
+            f.delete();
+        }
+        // 删除文件记录
+        fileMapper.deleteById(fileId);
     }
 }
