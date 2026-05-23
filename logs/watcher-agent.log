@@ -1,281 +1,68 @@
-2026-05-16 12:20:47.240[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=1m3s575ms).
-2026-05-16 12:23:14.978[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m27s749ms).
-2026-05-16 14:01:37.174[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=51s370ms).
-2026-05-16 16:09:22.090[INFO ][http-nio-8888-exec-6][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-05-16 16:09:22.094[INFO ][http-nio-8888-exec-6][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [525] - Initializing Servlet 'dispatcherServlet'
-2026-05-16 16:09:22.280[INFO ][http-nio-8888-exec-6][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [547] - Completed initialization in 184 ms
-2026-05-16 16:09:22.892[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/user/logout, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg2ODE4MDV9.C9wUZDTT0hiEsRNHzDpuD0_Yy5aYE07pmi4fh-7dirQzxz1y2ENa1XERFQPmEqiwZClG4JFIaOVYJ_tqJQzb0Q
-2026-05-16 16:09:23.268[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
-2026-05-16 16:09:23.736[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/error, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg2ODE4MDV9.C9wUZDTT0hiEsRNHzDpuD0_Yy5aYE07pmi4fh-7dirQzxz1y2ENa1XERFQPmEqiwZClG4JFIaOVYJ_tqJQzb0Q
-2026-05-16 16:09:23.740[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
-2026-05-16 16:09:31.503[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
-2026-05-16 16:09:31.630[WARN ][http-nio-8888-exec-7][][]com.baomidou.mybatisplus.core.toolkit.support.ReflectLambdaMeta.<clinit> [41] - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @4dfa3a9d
-2026-05-16 16:09:31.850[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
-2026-05-16 17:07:25.823[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:26.245[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:26.576[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:26.604[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:27.477[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:27.505[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:29.816[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/resource/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:29.883[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:32.703[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:32.737[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:32.805[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:32.828[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:41.100[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/user/logout, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MjYxNzF9.MeHkGd0sim1P8bXJ7Xr6VsdYbd3cRM8g-z9IKmhSavLAXaZiYIG5Yjzp2S_rH9Spodf5YxDf1opOzgdLnXw_qw
-2026-05-16 17:07:41.128[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:07:41.129[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.controller.LoginController.logout [63] - [Logout] logout start
-2026-05-16 17:07:41.138[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.controller.LoginController.logout [67] - [Login] login success
-2026-05-16 17:07:49.456[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
-2026-05-16 17:07:49.494[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
-2026-05-16 17:22:08.394[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/user/logout, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5Mjk2Njl9._JLo-RsSAROVI-N2fOQ_aStSzp2JrCwPGR9flYzRGi0GmfZlVFGhydfXf5CBFSU8j8GWjITfcdrGJIv_C9M7Cg
-2026-05-16 17:22:08.496[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:22:08.505[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.controller.LoginController.logout [63] - [Logout] logout start
-2026-05-16 17:22:08.518[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.controller.LoginController.logout [67] - [Login] login success
-2026-05-16 17:22:30.130[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
-2026-05-16 17:22:30.170[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
-2026-05-16 17:22:41.605[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.service.UserService.approveRegisterRequest [121] - [UserService] 审批通过用户 wb 的注册申请
-2026-05-16 17:22:52.183[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/user/logout, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NTB9.ehQnfNMGn5G24DoXd45lgr2rlRcMxN6hbCINQssOAGKKksxLEIfcgKlYs5rSRIRe3gpYj8IG6qCfRvkRg2P2yw
-2026-05-16 17:22:52.207[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:22:52.211[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.controller.LoginController.logout [63] - [Logout] logout start
-2026-05-16 17:22:52.213[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.controller.LoginController.logout [67] - [Login] login success
-2026-05-16 17:22:54.960[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
-2026-05-16 17:22:55.054[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
-2026-05-16 17:22:57.101[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/resource/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 17:22:57.155[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:22:58.316[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 17:22:58.360[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 17:22:58.535[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 17:22:58.590[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:01:31.978[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-16 18:01:32.025[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 25.0.2 on KiritodeMacBook-Pro.local with PID 8887 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-16 18:01:32.026[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
-2026-05-16 18:01:35.435[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-16 18:01:35.459[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:01:35.460[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-16 18:01:35.461[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-16 18:01:35.601[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-16 18:01:35.601[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 3472 ms
-2026-05-16 18:01:36.520[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-16 18:01:36.681[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-16 18:01:37.070[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
-2026-05-16 18:01:37.863[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
-2026-05-16 18:01:38.463[INFO ][main][][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
-2026-05-16 18:01:38.740[INFO ][main][][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2026-05-16 18:01:39.432[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Starting ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:01:39.459[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start [220] - Tomcat started on port(s): 8888 (http) with context path '/watcher'
-2026-05-16 18:01:39.460[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [160] - Context refreshed
-2026-05-16 18:01:39.493[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [163] - Found 1 custom documentation plugin(s)
-2026-05-16 18:01:39.556[INFO ][main][][]springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan [41] - Scanning for api listing references
-2026-05-16 18:01:39.798[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: batchDeployUsingPOST_1
-2026-05-16 18:01:40.087[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: listUsingGET_1
-2026-05-16 18:01:40.176[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarted [61] - Started WatcherAgentApplication in 8.935 seconds (JVM running for 10.127)
-2026-05-16 18:01:40.460[INFO ][main][][]com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl.run [316] - =====策略定时任务========== com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl@736ac09a
-2026-05-16 18:02:36.139[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-16 18:02:36.197[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 25.0.2 on KiritodeMacBook-Pro.local with PID 9493 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-16 18:02:36.198[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
-2026-05-16 18:02:38.752[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-16 18:02:38.763[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:02:38.764[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-16 18:02:38.764[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-16 18:02:38.840[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-16 18:02:38.840[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 2544 ms
-2026-05-16 18:02:39.491[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-16 18:02:39.613[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-16 18:02:39.988[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
-2026-05-16 18:02:40.851[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
-2026-05-16 18:02:41.373[INFO ][main][][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
-2026-05-16 18:02:41.594[INFO ][main][][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2026-05-16 18:02:42.263[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Starting ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:02:42.268[WARN ][main][][]org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext.refresh [591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8888 is already in use
-2026-05-16 18:02:42.286[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
-2026-05-16 18:02:42.292[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.
-2026-05-16 18:02:42.300[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Pausing ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:02:42.300[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Stopping service [Tomcat]
-2026-05-16 18:02:42.305[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Stopping ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:02:42.306[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Destroying ProtocolHandler ["http-nio-8888"]
-2026-05-16 18:02:42.320[INFO ][main][][]org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener.logMessage [136] - 
-
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2026-05-16 18:02:42.348[ERROR][main][][]org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.report [40] - 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-Web server failed to start. Port 8888 was already in use.
-
-Action:
-
-Identify and stop the process that's listening on port 8888 or configure this application to listen on another port.
-
-2026-05-16 18:17:46.487[INFO ][http-nio-8888-exec-1][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-05-16 18:17:46.495[INFO ][http-nio-8888-exec-1][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [525] - Initializing Servlet 'dispatcherServlet'
-2026-05-16 18:17:46.511[INFO ][http-nio-8888-exec-1][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [547] - Completed initialization in 15 ms
-2026-05-16 18:17:46.604[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:17:46.877[WARN ][http-nio-8888-exec-1][][]com.baomidou.mybatisplus.core.toolkit.support.ReflectLambdaMeta.<clinit> [41] - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @4dfa3a9d
-2026-05-16 18:17:46.922[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:17:47.142[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:17:47.153[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:17:50.943[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/resource/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:17:50.954[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:34:53.867[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/resource/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:34:54.200[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:45:04.663[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:45:04.829[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-16 18:45:05.026[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/platform/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwid2JcIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzg5MzA1NzR9.ZA-hvTkbH43D_CFVbaYihf0X26oItI--yMDLR7xGyeuhgplU_gxt3vwvxyJzmyJrbdUvfMw_XALMEMVwAtpqlA
-2026-05-16 18:45:05.054[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
-2026-05-20 11:07:54.700[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-20 11:07:54.720[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 17.0.19 on KiritodeMacBook-Pro.local with PID 24607 (/Users/kirito/repos/ShowTime/watcher-agent/target/classes started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-20 11:07:54.721[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
-2026-05-20 11:07:55.998[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-20 11:07:56.005[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:07:56.006[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-20 11:07:56.006[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-20 11:07:56.097[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-20 11:07:56.098[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 1339 ms
-2026-05-20 11:07:56.536[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-20 11:07:56.643[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-20 11:07:56.851[WARN ][main][][]org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext.refresh [591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'collectController' defined in file [/Users/kirito/repos/ShowTime/watcher-agent/target/classes/com/virtual/cloud/om/agent/controller/CollectController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.virtual.cloud.om.agent.controller.CollectController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
-	The annotation @Tag must define the attribute name
-	The attribute tags is undefined for the annotation type Tag
-	The attribute value is undefined for the annotation type Operation
-
-2026-05-20 11:07:56.851[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
-2026-05-20 11:07:56.861[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.
-2026-05-20 11:07:56.865[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Stopping service [Tomcat]
-2026-05-20 11:07:56.878[INFO ][main][][]org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener.logMessage [136] - 
-
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2026-05-20 11:07:56.889[ERROR][main][][]org.springframework.boot.SpringApplication.reportFailure [865] - Application run failed
-org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'collectController' defined in file [/Users/kirito/repos/ShowTime/watcher-agent/target/classes/com/virtual/cloud/om/agent/controller/CollectController.class]: Instantiation of bean failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.virtual.cloud.om.agent.controller.CollectController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
-	The annotation @Tag must define the attribute name
-	The attribute tags is undefined for the annotation type Tag
-	The attribute value is undefined for the annotation type Operation
-
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1334)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1232)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:582)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:542)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:335)
-	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:333)
-	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:208)
-	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:953)
-	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:918)
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:583)
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:145)
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:775)
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:448)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:339)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1365)
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
-	at com.virtual.cloud.om.agent.WatcherAgentApplication.main(WatcherAgentApplication.java:26)
-Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.virtual.cloud.om.agent.controller.CollectController]: Constructor threw exception; nested exception is java.lang.Error: Unresolved compilation problems: 
-	The annotation @Tag must define the attribute name
-	The attribute tags is undefined for the annotation type Tag
-	The attribute value is undefined for the annotation type Operation
-
-	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:224)
-	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:87)
-	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateBean(AbstractAutowireCapableBeanFactory.java:1326)
-	... 17 common frames omitted
-Caused by: java.lang.Error: Unresolved compilation problems: 
-	The annotation @Tag must define the attribute name
-	The attribute tags is undefined for the annotation type Tag
-	The attribute value is undefined for the annotation type Operation
-
-	at com.virtual.cloud.om.agent.controller.CollectController.<init>(CollectController.java:28)
-	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
-	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
-	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
-	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
-	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:211)
-	... 19 common frames omitted
-2026-05-20 11:09:54.205[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-20 11:09:54.220[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 17.0.19 on KiritodeMacBook-Pro.local with PID 25803 (/Users/kirito/repos/ShowTime/watcher-agent/target/classes started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-20 11:09:54.221[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 1 profile is active: "local"
-2026-05-20 11:09:55.564[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-20 11:09:55.571[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:09:55.571[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-20 11:09:55.571[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-20 11:09:55.660[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-20 11:09:55.660[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 1401 ms
-2026-05-20 11:09:56.078[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-20 11:09:56.170[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-20 11:09:56.403[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
-2026-05-20 11:09:56.544[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
-2026-05-20 11:09:56.747[INFO ][main][][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
-2026-05-20 11:09:56.834[INFO ][main][][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2026-05-20 11:09:57.059[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Starting ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:09:57.065[WARN ][main][][]org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext.refresh [591] - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.context.ApplicationContextException: Failed to start bean 'webServerStartStop'; nested exception is org.springframework.boot.web.server.PortInUseException: Port 8888 is already in use
-2026-05-20 11:09:57.071[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [350] - HikariPool-1 - Shutdown initiated...
-2026-05-20 11:09:57.074[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.close [352] - HikariPool-1 - Shutdown completed.
-2026-05-20 11:09:57.079[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Pausing ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:09:57.079[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Stopping service [Tomcat]
-2026-05-20 11:09:57.083[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Stopping ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:09:57.083[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Destroying ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:09:57.094[INFO ][main][][]org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener.logMessage [136] - 
-
-Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
-2026-05-20 11:09:57.103[ERROR][main][][]org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.report [40] - 
-
-***************************
-APPLICATION FAILED TO START
-***************************
-
-Description:
-
-Web server failed to start. Port 8888 was already in use.
-
-Action:
-
-Identify and stop the process that's listening on port 8888 or configure this application to listen on another port.
-
-2026-05-20 11:11:16.894[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-20 11:11:16.939[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 17.0.19 on KiritodeMacBook-Pro.local with PID 26634 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-20 11:11:16.940[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 2 profiles are active: "dev", "local"
-2026-05-20 11:11:19.004[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-20 11:11:19.020[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:11:19.021[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-20 11:11:19.021[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-20 11:11:19.111[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-20 11:11:19.112[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 2108 ms
-2026-05-20 11:11:19.824[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-20 11:11:19.927[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-20 11:11:20.281[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
-2026-05-20 11:11:20.542[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
-2026-05-20 11:15:45.593[INFO ][background-preinit][][]org.hibernate.validator.internal.util.Version.<clinit> [21] - HV000001: Hibernate Validator 6.2.3.Final
-2026-05-20 11:15:45.629[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarting [55] - Starting WatcherAgentApplication using Java 25.0.2 on KiritodeMacBook-Pro.local with PID 29837 (/Users/kirito/repos/ShowTime/watcher-agent/target/agent.jar started by kirito in /Users/kirito/repos/ShowTime/watcher-agent)
-2026-05-20 11:15:45.631[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStartupProfileInfo [681] - The following 2 profiles are active: "dev", "local"
-2026-05-20 11:15:47.702[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.initialize [108] - Tomcat initialized with port(s): 8888 (http)
-2026-05-20 11:15:47.715[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Initializing ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:15:47.716[INFO ][main][][]org.apache.catalina.core.StandardService.log [173] - Starting service [Tomcat]
-2026-05-20 11:15:47.716[INFO ][main][][]org.apache.catalina.core.StandardEngine.log [173] - Starting Servlet engine: [Apache Tomcat/9.0.60]
-2026-05-20 11:15:47.809[INFO ][main][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring embedded WebApplicationContext
-2026-05-20 11:15:47.810[INFO ][main][][]org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.prepareWebApplicationContext [290] - Root WebApplicationContext: initialization completed in 2095 ms
-2026-05-20 11:15:48.622[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [80] - HikariPool-1 - Starting...
-2026-05-20 11:15:48.698[INFO ][main][][]com.zaxxer.hikari.HikariDataSource.<init> [82] - HikariPool-1 - Start completed.
-2026-05-20 11:15:49.017[INFO ][main][][]com.virtual.cloud.om.agent.service.task.TaskMgrApiImpl.initTaskScheduler [37] - initTaskScheduler disabled in MySQL standalone mode
-2026-05-20 11:15:49.238[WARN ][main][][]com.virtual.cloud.om.agent.service.warn.WarnReportService.init [39] - [WarnReportService] 告警上报服务已简化，MongoDB版本已禁用
-2026-05-20 11:15:49.605[INFO ][main][][]org.springframework.boot.actuate.endpoint.web.EndpointLinksResolver.<init> [58] - Exposing 13 endpoint(s) beneath base path '/actuator'
-2026-05-20 11:15:49.754[INFO ][main][][]springfox.documentation.spring.web.PropertySourcedRequestMappingHandlerMapping.initHandlerMethods [69] - Mapped URL path [/v2/api-docs] onto method [springfox.documentation.swagger2.web.Swagger2Controller#getDocumentation(String, HttpServletRequest)]
-2026-05-20 11:15:50.176[INFO ][main][][]org.apache.coyote.http11.Http11NioProtocol.log [173] - Starting ProtocolHandler ["http-nio-8888"]
-2026-05-20 11:15:50.190[INFO ][main][][]org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start [220] - Tomcat started on port(s): 8888 (http) with context path '/watcher'
-2026-05-20 11:15:50.191[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [160] - Context refreshed
-2026-05-20 11:15:50.212[INFO ][main][][]springfox.documentation.spring.web.plugins.DocumentationPluginsBootstrapper.start [163] - Found 1 custom documentation plugin(s)
-2026-05-20 11:15:50.253[INFO ][main][][]springfox.documentation.spring.web.scanners.ApiListingReferenceScanner.scan [41] - Scanning for api listing references
-2026-05-20 11:15:50.382[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: batchDeployUsingPOST_1
-2026-05-20 11:15:50.502[INFO ][main][][]springfox.documentation.spring.web.readers.operation.CachingOperationNameGenerator.startingWith [40] - Generating unique operation named: listUsingGET_1
-2026-05-20 11:15:50.555[INFO ][main][][]com.virtual.cloud.om.agent.WatcherAgentApplication.logStarted [61] - Started WatcherAgentApplication in 5.435 seconds (JVM running for 6.219)
-2026-05-20 11:15:50.725[INFO ][main][][]com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl.run [316] - =====策略定时任务========== com.virtual.cloud.om.agent.service.strategy.StrategyServiceImpl@5c41d037
-2026-05-20 11:15:56.267[INFO ][http-nio-8888-exec-1][][]org.apache.catalina.core.ContainerBase.[Tomcat].[localhost].[/watcher].log [173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
-2026-05-20 11:15:56.268[INFO ][http-nio-8888-exec-1][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [525] - Initializing Servlet 'dispatcherServlet'
-2026-05-20 11:15:56.275[INFO ][http-nio-8888-exec-1][][]org.springframework.web.servlet.DispatcherServlet.initServletBean [547] - Completed initialization in 5 ms
-2026-05-20 11:15:56.329[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/resource/list, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3NzkyNDcwMjd9.8puEWjW89yeqPLBKESAuMVMreqbyYPgkMjY-hUrhReA_UNItLhNdILpOZSuXzBfOEpc1ezzGzxhVyVC3s6-67g
-2026-05-20 11:15:56.538[WARN ][http-nio-8888-exec-1][][]com.baomidou.mybatisplus.core.toolkit.support.ReflectLambdaMeta.<clinit> [41] - Unable to make field private final java.lang.Class java.lang.invoke.SerializedLambda.capturingClass accessible: module java.base does not "opens java.lang.invoke" to unnamed module @4dfa3a9d
-2026-05-20 11:15:56.548[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:33.703[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0MzUyNTB9.Y4ypjAxeouWCi8PUyjyr-2fHzoEw0rxLCvBNYAU1MOG0F8AhpbFGUfOXYA0c3KlX66r8UDFAO28BVVw_H-003g
+2026-05-23 07:25:33.742[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 07:25:33.750[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/error, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0MzUyNTB9.Y4ypjAxeouWCi8PUyjyr-2fHzoEw0rxLCvBNYAU1MOG0F8AhpbFGUfOXYA0c3KlX66r8UDFAO28BVVw_H-003g
+2026-05-23 07:25:33.752[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 07:25:33.783[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0MzUyNTB9.Y4ypjAxeouWCi8PUyjyr-2fHzoEw0rxLCvBNYAU1MOG0F8AhpbFGUfOXYA0c3KlX66r8UDFAO28BVVw_H-003g
+2026-05-23 07:25:33.785[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 07:25:33.787[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/error, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0MzUyNTB9.Y4ypjAxeouWCi8PUyjyr-2fHzoEw0rxLCvBNYAU1MOG0F8AhpbFGUfOXYA0c3KlX66r8UDFAO28BVVw_H-003g
+2026-05-23 07:25:33.790[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 07:25:36.108[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
+2026-05-23 07:25:36.162[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
+2026-05-23 07:25:42.291[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:42.303[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:42.318[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:42.321[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:45.931[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:45.935[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:45.965[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:45.968[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:49.451[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:49.454[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:49.465[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:49.468[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:50.953[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:50.956[INFO ][http-nio-8888-exec-5][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:51.970[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:51.972[INFO ][http-nio-8888-exec-6][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:25:53.723[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:25:53.725[INFO ][http-nio-8888-exec-7][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:10.675[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:10.678[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:11.664[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:11.666[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:12.400[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:12.403[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:13.089[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:13.104[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:13.855[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:13.857[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:16.524[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:16.554[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:16.568[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:16.570[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:26.042[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:26.064[INFO ][http-nio-8888-exec-8][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 07:26:26.092[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 07:26:26.104[INFO ][http-nio-8888-exec-9][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 10:10:50.502[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 10:10:50.555[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 10:10:50.588[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/error, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 10:10:50.590[INFO ][http-nio-8888-exec-10][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 10:10:50.638[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 10:10:50.641[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 10:10:50.758[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/error, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk0OTk1MzZ9.-FSm5MRRU4MbqB1yMVJv9e1FUY5ZKz-RHdudOqXF0WAKbgiFYKIcfkyBwk_9fvxmR9aLUeXnheRwJKMioY-a6g
+2026-05-23 10:10:50.764[INFO ][http-nio-8888-exec-1][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: false
+2026-05-23 10:10:54.643[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.controller.LoginController.login [27] - [Login] login start
+2026-05-23 10:10:54.686[INFO ][http-nio-8888-exec-2][][]com.virtual.cloud.om.agent.controller.LoginController.login [31] - [Login] login success
+2026-05-23 10:10:57.469[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/folders, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk1MDk0NTR9.78ZDoCRrAUprkItZ069DNAWP-D8vr259mAPpjhvIzo9Xe3SYSHdzx9dk3jMsTZcXI-vhwJvK84Nxdj-QBR9WLw
+2026-05-23 10:10:57.478[INFO ][http-nio-8888-exec-3][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 10:10:57.502[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [40] - [LoginInterceptor] path: /watcher/api/tool-share/files, token from header: eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ7XCJ1c2VybmFtZVwiOlwiYWRtaW5cIixcInBhc3N3b3JkXCI6XCJpZXNCNHlKSFZkRTFSM21QNHlUNkxBXFx1MDAzZFxcdTAwM2RcIn0iLCJleHAiOjE3Nzk1MDk0NTR9.78ZDoCRrAUprkItZ069DNAWP-D8vr259mAPpjhvIzo9Xe3SYSHdzx9dk3jMsTZcXI-vhwJvK84Nxdj-QBR9WLw
+2026-05-23 10:10:57.505[INFO ][http-nio-8888-exec-4][][]com.virtual.cloud.om.agent.config.LoginInterceptor.preHandle [64] - [LoginInterceptor] verify result: true
+2026-05-23 12:45:52.476[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m24s178ms).
+2026-05-23 13:00:31.408[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=14m39s8ms).
+2026-05-23 13:16:28.270[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=15m26s846ms).
+2026-05-23 13:34:14.631[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=17m16s375ms).
+2026-05-23 14:02:55.680[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=28m11s35ms).
+2026-05-23 14:30:06.811[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=27m11s131ms).
+2026-05-23 14:35:49.302[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=5m12s480ms).
+2026-05-23 14:39:21.357[WARN ][HikariPool-1 housekeeper][][]com.zaxxer.hikari.pool.HikariPool.run [788] - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m2s43ms).
