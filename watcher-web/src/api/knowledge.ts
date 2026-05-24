@@ -108,6 +108,11 @@ export async function deleteKnowledgeBase(id: string): Promise<void> {
   await request.delete(`/api/knowledge/kbs/${id}`)
 }
 
+export async function updateKnowledgeBase(id: string, data: { name?: string; description?: string }): Promise<KnowledgeBase> {
+  const res = await request.patch<KnowledgeBase>(`/api/knowledge/kbs/${id}`, data)
+  return res.data
+}
+
 export async function buildKnowledgeBase(id: string): Promise<void> {
   await request.post(`/api/knowledge/kbs/${id}/build`)
 }

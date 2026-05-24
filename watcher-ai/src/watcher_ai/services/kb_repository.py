@@ -90,6 +90,34 @@ class KBRepository:
         sql = f"SELECT 1 FROM {KBRepository.TABLE_NAME} WHERE id = %s"
         result = KBRepository._get_client().query_one(sql, (kb_id,))
         return result is not None
+
+    @staticmethod
+    def update(kb_id: str, name: str = None, description: str = None) -> bool:
+        """更新知识库的名称和描述"""
+        if not KBRepository.exists(kb_id):
+            return False
+
+        now = datetime.now()
+        updates = []
+        params = []
+
+        if name is not None:
+            updates.append("name = %s")
+            params.append(name)
+        if description is not None:
+            updates.append("description = %s")
+            params.append(description)
+
+        if not updates:
+            return True
+
+        updates.append("updated_at = %s")
+        params.append(now)
+        params.append(kb_id)
+
+        sql = f"UPDATE {KBRepository.TABLE_NAME} SET {', '.join(updates)} WHERE id = %s"
+        KBRepository._get_client().execute(sql, tuple(params))
+        return True
     
     @staticmethod
     def save(kb_data: Dict[str, Any]) -> bool:

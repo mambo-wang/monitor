@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, UploadFile, File
 from pydantic import BaseModel
 from typing import List, Optional, Any
-from watcher_ai.models.schemas import KnowledgeBaseCreate, KnowledgeBaseResponse
+from watcher_ai.models.schemas import KnowledgeBaseCreate, KnowledgeBaseUpdate, KnowledgeBaseResponse
 from watcher_ai.services.kb_service import KBService
 from watcher_ai.services.document_store import DocumentStore
 from watcher_ai.services.chroma_service import ChromaService
@@ -49,6 +49,13 @@ def delete_kb(kb_id: str):
         raise HTTPException(status_code=404, detail="Knowledge base not found")
     return ok_response({"message": "deleted"})
 
+@router.patch("/kbs/{kb_id}")
+def update_kb(kb_id: str, req: KnowledgeBaseUpdate):
+    if not KBService.get_by_id(kb_id):
+        raise HTTPException(status_code=404, detail="Knowledge base not found")
+    KBService.update(kb_id, req.name, req.description)
+    return ok_response(KBService.get_by_id(kb_id))
+
 # 文档管理
 @router.post("/kbs/{kb_id}/documents", status_code=201)
 async def upload_document(kb_id: str, file: UploadFile = File(...)):
@@ -67,11 +74,11 @@ def list_documents(kb_id: str):
         raise HTTPException(status_code=404, detail="Knowledge base not found")
     return ok_response(DocumentStore.list_by_kb(kb_id))
 
-@router.delete("/kbs/{kb_id}/documents/{doc_id}")
-def delete_document(kb_id: str, doc_id: str):
+@router.delete("/kbs/{kb_id}/documents/{file_name}")
+def delete_document(kb_id: str, file_name: str):
     if not KBService.get_by_id(kb_id):
         raise HTTPException(status_code=404, detail="Knowledge base not found")
-    if not DocumentStore.delete(doc_id):
+    if not DocumentStore.delete_by_filename(kb_id, file_name):
         raise HTTPException(status_code=404, detail="Document not found")
     return ok_response({"message": "deleted"})
 

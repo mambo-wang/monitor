@@ -4,6 +4,8 @@ import uuid
 import os
 import shutil
 
+from watcher_ai.services.chroma_service import ChromaService
+
 UPLOAD_DIR = os.path.join(os.path.dirname(__file__), "../../uploads")
 
 class DocumentStore:
@@ -41,8 +43,28 @@ class DocumentStore:
 
     @staticmethod
     def list_by_kb(kb_id: str) -> List[dict]:
-        doc_ids = DocumentStore._kb_docs.get(kb_id, [])
-        return [DocumentStore._doc_store[did] for did in doc_ids if did in DocumentStore._doc_store]
+        """扫描 uploads/{kb_id} 目录获取文档列表，chunk_count 从 ChromaDB 查询"""
+        kb_id_safe = kb_id.replace("-", "_")
+        kb_dir = os.path.join(UPLOAD_DIR, kb_id_safe)
+        if not os.path.exists(kb_dir):
+            return []
+
+        docs = []
+        for filename in os.listdir(kb_dir):
+            file_path = os.path.join(kb_dir, filename)
+            if os.path.isfile(file_path):
+                chunk_count = ChromaService.count_by_file(kb_id, filename)
+                docs.append({
+                    "id": filename,  # 用 filename 作为 id，便于删除
+                    "kb_id": kb_id,
+                    "file_name": filename,
+                    "file_path": file_path,
+                    "file_size": os.path.getsize(file_path),
+                    "status": "parsed" if chunk_count > 0 else "pending",
+                    "chunk_count": chunk_count,
+                    "created_at": datetime.fromtimestamp(os.path.getctime(file_path))
+                })
+        return docs
 
     @staticmethod
     def get_by_id(doc_id: str) -> Optional[dict]:
@@ -68,3 +90,13 @@ class DocumentStore:
         if doc_id in DocumentStore._doc_store:
             DocumentStore._doc_store[doc_id]["chunk_count"] = chunk_count
             DocumentStore._doc_store[doc_id]["status"] = "parsed"
+
+    @staticmethod
+    def delete_by_filename(kb_id: str, filename: str) -> bool:
+        """根据文件名删除文档"""
+        kb_id_safe = kb_id.replace("-", "_")
+        file_path = os.path.join(UPLOAD_DIR, kb_id_safe, filename)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+            return True
+        return False

@@ -24,11 +24,12 @@
               {{ formatDate(row.updated_at) }}
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="280" fixed="right">
+          <el-table-column label="操作" width="320" fixed="right">
             <template #default="{ row }">
               <el-button size="small" type="primary" @click="enterKB(row)">进入</el-button>
               <el-button size="small" @click="goToDocs(row)">文档</el-button>
               <el-button size="small" type="warning" @click="buildKB(row)" :loading="row.status === 'building'">构建</el-button>
+              <el-button size="small" @click="openEditDialog(row)">编辑</el-button>
               <el-button size="small" type="danger" @click="handleDelete(row)">删除</el-button>
             </template>
           </el-table-column>
@@ -89,6 +90,22 @@
       </template>
     </el-dialog>
 
+    <!-- 编辑知识库对话框 -->
+    <el-dialog v-model="showEditDialog" title="编辑知识库" width="400">
+      <el-form :model="editForm" label-width="80">
+        <el-form-item label="名称" required>
+          <el-input v-model="editForm.name" placeholder="请输入知识库名称"></el-input>
+        </el-form-item>
+        <el-form-item label="描述">
+          <el-input v-model="editForm.description" type="textarea" placeholder="可选"></el-input>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <el-button @click="showEditDialog = false">取消</el-button>
+        <el-button type="primary" @click="handleEdit">保存</el-button>
+      </template>
+    </el-dialog>
+
     <!-- 历史会话详情对话框 -->
     <el-dialog v-model="showHistoryDialog" title="对话详情" width="700">
       <div class="session-messages">
@@ -104,7 +121,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import { listKnowledgeBases, createKnowledgeBase, deleteKnowledgeBase, buildKnowledgeBase, listChatHistory, getSessionDetail, deleteSession, type KnowledgeBase, type ChatSession, type ChatHistoryItem } from '@/api/knowledge'
+import { listKnowledgeBases, createKnowledgeBase, deleteKnowledgeBase, buildKnowledgeBase, listChatHistory, getSessionDetail, deleteSession, updateKnowledgeBase, type KnowledgeBase, type ChatSession, type ChatHistoryItem } from '@/api/knowledge'
 
 const emit = defineEmits<{
   (e: 'enter', kb: KnowledgeBase): void
@@ -126,6 +143,11 @@ const historyTotal = ref(0)
 const showHistoryDialog = ref(false)
 const sessionMessages = ref<ChatHistoryItem[]>([])
 const currentUserId = 'default_user' // TODO: 从用户系统获取
+
+// 编辑相关
+const showEditDialog = ref(false)
+const editingKB = ref<KnowledgeBase | null>(null)
+const editForm = reactive({ name: '', description: '' })
 
 onMounted(() => loadKBs())
 
@@ -196,6 +218,28 @@ function enterKB(kb: KnowledgeBase) {
 
 function goToDocs(kb: KnowledgeBase) {
   emit('manage-docs', kb)
+}
+
+function openEditDialog(kb: KnowledgeBase) {
+  editingKB.value = kb
+  editForm.name = kb.name
+  editForm.description = kb.description
+  showEditDialog.value = true
+}
+
+async function handleEdit() {
+  if (!editingKB.value || !editForm.name.trim()) {
+    ElMessage.warning('请输入名称')
+    return
+  }
+  try {
+    await updateKnowledgeBase(editingKB.value.id, editForm)
+    ElMessage.success('更新成功')
+    showEditDialog.value = false
+    loadKBs()
+  } catch (e) {
+    ElMessage.error('更新失败')
+  }
 }
 
 function statusType(status: string) {

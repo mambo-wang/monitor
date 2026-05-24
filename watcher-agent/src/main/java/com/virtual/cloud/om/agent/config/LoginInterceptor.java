@@ -35,8 +35,12 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 优先从请求头获取token，其次从Cookie获取
-        String token = request.getHeader("token");
+        // 优先从 Authorization Bearer header 获取 token，其次从 Cookie 获取
+        String authHeader = request.getHeader("Authorization");
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);
+        }
         log.info("[LoginInterceptor] path: {}, token from header: {}", request.getRequestURI(), token);
         if (StringUtils.isEmpty(token)) {
             Cookie cookie = CookieUtil.readCookie(request, Constant.TOKEN_NAME);

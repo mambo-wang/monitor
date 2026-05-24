@@ -96,3 +96,20 @@ class ChromaService:
             return collection.count()
         except:
             return 0
+
+    @staticmethod
+    def count_by_file(kb_id: str, file_name: str) -> int:
+        """查询指定文件在 ChromaDB 中的块数量"""
+        collection_name = f"kb_{kb_id}"
+        try:
+            collection = chroma_client.get_collection(collection_name)
+            results = collection.get(include=["metadatas"])
+            if not results or not results.get("metadatas"):
+                return 0
+            count = 0
+            for meta in results["metadatas"]:
+                if meta and meta.get("file_name") == file_name:
+                    count += 1
+            return count
+        except:
+            return 0

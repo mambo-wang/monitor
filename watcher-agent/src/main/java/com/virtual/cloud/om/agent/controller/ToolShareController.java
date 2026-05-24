@@ -33,8 +33,12 @@ public class ToolShareController {
 
     @PostMapping("/folder")
     public Map<String, Object> createFolder(@RequestBody ToolShareFolder folder, HttpServletRequest request) {
-        // 从 token 中获取用户 ID
-        String token = request.getHeader("token");
+        // 从 Authorization Bearer header 中获取 token
+        String authHeader = request.getHeader("Authorization");
+        String token = null;
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            token = authHeader.substring(7);
+        }
         if (token != null && !token.isEmpty()) {
             try {
                 String subject = JwtTokenUtil.getClaimsFromToken(token).getSubject();

@@ -115,3 +115,43 @@ class TestKBService:
         # 5. 删除
         KBService.delete(kb_id)
         assert KBService.get_by_id(kb_id) is None
+
+    def test_update_name_only(self):
+        """验证 KBService.update() 只更新名称"""
+        from watcher_ai.services.kb_service import KBService
+        
+        kb = KBService.create("旧名称", "旧描述")
+        KBService.update(kb['id'], name="新名称")
+        
+        result = KBService.get_by_id(kb['id'])
+        assert result['name'] == "新名称"
+        assert result['description'] == "旧描述"
+    
+    def test_update_description_only(self):
+        """验证 KBService.update() 只更新描述"""
+        from watcher_ai.services.kb_service import KBService
+        
+        kb = KBService.create("名称", "旧描述")
+        KBService.update(kb['id'], description="新描述")
+        
+        result = KBService.get_by_id(kb['id'])
+        assert result['name'] == "名称"
+        assert result['description'] == "新描述"
+    
+    def test_update_both(self):
+        """验证 KBService.update() 同时更新名称和描述"""
+        from watcher_ai.services.kb_service import KBService
+        
+        kb = KBService.create("旧名称", "旧描述")
+        KBService.update(kb['id'], name="新名称", description="新描述")
+        
+        result = KBService.get_by_id(kb['id'])
+        assert result['name'] == "新名称"
+        assert result['description'] == "新描述"
+    
+    def test_update_nonexistent(self):
+        """验证 KBService.update() 更新不存在的 KB"""
+        from watcher_ai.services.kb_service import KBService
+        
+        result = KBService.update("nonexistent-id", name="新名称")
+        assert result is False

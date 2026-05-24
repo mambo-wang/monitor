@@ -93,3 +93,8 @@ class KBService:
     def update_counts(kb_id: str, doc_count: int, chunk_count: int):
         """更新文档和块计数"""
         KBRepository.update_counts(kb_id, doc_count, chunk_count)
+
+    @staticmethod
+    def update(kb_id: str, name: str = None, description: str = None) -> bool:
+        """更新知识库"""
+        return KBRepository.update(kb_id, name, description)
